@@ -4,7 +4,7 @@ model: ["Claude Haiku 4.5 (copilot)", "Gemini 3 Flash (Preview) (copilot)"]
 description: "Deferred issue tracker. Catalogs non-blocking issues from validation/review for follow-up."
 user-invokable: false
 argument-hint: "the {task-slug} directory."
-tools: [vscode, read, edit, search, azure-mcp/search, github/add_issue_comment, github/issue_read, github/issue_write, github/list_issues, github/search_issues, github/search_pull_requests, github/sub_issue_write, github/update_pull_request]
+tools: [vscode, read, edit, search, github/add_issue_comment, github/issue_read, github/issue_write, github/list_issues, github/search_issues, github/search_pull_requests, github/sub_issue_write, github/update_pull_request]
 ---
 
 # Instructions

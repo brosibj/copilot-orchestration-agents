@@ -2,7 +2,7 @@
 name: "P3 - Document"
 description: "Phase 3 Orchestrator: Documentation updates, deferred issue tracking, and PR readme generation."
 argument-hint: "the {task-slug} directory from @implement (e.g., 'plans/my-feature')"
-tools: [vscode, read, agent, edit, search, todo, azure-mcp/search, github/add_issue_comment, github/issue_read, github/issue_write, github/list_issues, github/search_issues, github/search_pull_requests, github/sub_issue_write, github/update_pull_request]
+tools: [vscode, read, agent, edit, search, todo, github/add_issue_comment, github/issue_read, github/issue_write, github/list_issues, github/search_issues, github/search_pull_requests, github/sub_issue_write, github/update_pull_request]
 agents:
   - documenter
   - deferred-tracker

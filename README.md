@@ -45,7 +45,6 @@ The agent definitions statically reference the following packages and tools. Pro
 | `radzen.mcp/*` | `@implementer-ui`, `@researcher`, `@validator`, `@reviewer` |
 | `microsoftdocs/mcp/*` | `@researcher`, `@implementer`, `@implementer-ui`, `@implementer-service`, all debuggers |
 | `github/*` | `@document`, `@deferred-tracker` |
-| `azure-mcp/search` | `@document`, `@deferred-tracker` |
 
 ---
 
