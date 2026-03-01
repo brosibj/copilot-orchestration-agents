@@ -76,6 +76,15 @@ Follow dispatch rules in `.github/agents/shared/dispatch-rules.md`.
 - Instruct them to invoke `@document` with the `{task-slug}` for documentation and finalization.
 - Include a one-line summary of what was implemented and the test results.
 
+## Orchestrator Direct Actions
+The following may be performed by this orchestrator **without dispatching a subagent** (see `.github/agents/shared/dispatch-rules.md`):
+- Read `plan.md` and `research.md` to determine migration need, execution order (`[S]`/`[P]`), and scope routing.
+- Verify artifact existence (`report.md`) after validation completes.
+- Ask the user questions and surface errors, retry decisions, and phase summaries via `vscode/askQuestions`.
+- Deliver the handoff message to the user.
+
+All other work (implementation, migration, validation, review, debugging) MUST be delegated to the appropriate subagent.
+
 ## Constraints
 - You MUST NOT create or modify requirements, research, or plan artifacts.
 - You MUST NOT invoke `@research`-phase agents (requirements-builder, researcher, planner, triage).

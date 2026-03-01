@@ -117,6 +117,42 @@ When a service method hits one of these, document it in `plan.md` under `## Know
 
 ---
 
+## Coverage (Coverlet)
+
+**Package:** `coverlet.collector` — add to each test project:
+
+```powershell
+dotnet add <ProjectName>.UnitTests package coverlet.collector
+dotnet add <ProjectName>.IntegrationTests package coverlet.collector
+```
+
+Do **not** specify a version. Do **not** modify `.csproj` manually.
+
+### Collection
+
+Coverage is collected via the `XPlat Code Coverage` data collector (built on Coverlet). Results are written to `TestResults/` as `coverage.cobertura.xml`.
+
+```powershell
+dotnet test --collect:"XPlat Code Coverage"
+```
+
+### Report Generation
+
+Install the global `reportgenerator` tool (once per machine) and generate an HTML report:
+
+```powershell
+dotnet tool install -g dotnet-reportgenerator-globaltool
+reportgenerator -reports:"**/TestResults/**/coverage.cobertura.xml" -targetdir:"coveragereport" -reporttypes:Html
+```
+
+### Thresholds
+
+No hard threshold is enforced by CI at this time, but all **new service classes** must have:
+- Happy path, edge case, and failure path covered (see Coverage under Patterns above).
+- Line coverage ≥ 80% for service files is the target.
+
+---
+
 ## Commands
 
 ```powershell
@@ -124,5 +160,5 @@ dotnet test                                                          # All tests
 dotnet test <ProjectName>.UnitTests                                  # Unit only
 dotnet test <ProjectName>.IntegrationTests                           # Integration only
 dotnet test --filter "FullyQualifiedName~MyService"                  # Filtered
-dotnet test --collect:"XPlat Code Coverage"                          # With coverage
+dotnet test --collect:"XPlat Code Coverage"                          # With coverage (Coverlet)
 ```

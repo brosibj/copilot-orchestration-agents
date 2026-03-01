@@ -23,7 +23,8 @@
 # UI & Assets (Blazor/Radzen)
 - **Style:** Modern/Mobile-friendly. Prioritize Radzen components over custom HTML/CSS. See `.github/addendums/styleguide.md` for details.
 - **Assets:** NO CSS/JS in `.razor` files. CSS: Codebehind css file for custom components, or `app.css` for global styles that apply to elements we don't own (`div`, `RadzenCard`, etc). JS: Use `wwwroot/`. Minimal JS & CSS only when mandatory.
-- **Packages:** Always latest version, using `dotnet add package <PackageName>` only, do not modify the `.csproj` file directly for this. Get confirmation before adding new NuGet packages.
+- **Project Files:** Never create or modify `.csproj` files manually. Use `dotnet` CLI commands for all project operations (add/remove packages, add references, etc.). Manual `.csproj` edits are only permitted when no `dotnet` command exists for the required operation.
+- **Packages:** Do not specify a version when adding packages — omitting the version pulls the latest (`dotnet add package <PackageName>`). Only pin a specific version when there is an explicit compatibility reason. Get confirmation before adding new NuGet packages.
 
 # Testing
 See `.github/addendums/testing.md` for patterns, builders, anti-patterns, exclusions, and commands.

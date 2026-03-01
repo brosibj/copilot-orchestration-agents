@@ -1,6 +1,8 @@
 # Agent Dispatch Rules
 
-Shared rules governing how orchestrators dispatch sub-agents.
+Shared rules governing how orchestrators dispatch sub-agents. Each agent's permitted actions and constraints are defined in its own agent definition file — this file governs only the universal rules that apply to all agents.
+
+**Default:** When in doubt, delegate. Orchestrators synthesize and coordinate; subagents execute. Each agent is the authoritative source for what it may do directly vs. what it must delegate.
 
 ## Model Constraints
 
@@ -33,5 +35,5 @@ All agents enforce:
 
 ## User Interaction
 
-- Use `vscode/askQuestions` for clarification. Iterate until confident.
-- Summarize outcomes after every phase gate.
+- Any agent (orchestrator or subagent) may use `vscode/askQuestions` to clarify ambiguities before proceeding.
+- Orchestrators summarize outcomes after every phase gate.

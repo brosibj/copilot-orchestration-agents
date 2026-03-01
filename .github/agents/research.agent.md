@@ -49,6 +49,15 @@ If `research.md` is missing after discovery, retry once. If still missing: **Art
 - When the user is ready, instruct them to invoke `@implement` with the `{task-slug}` to begin implementation.
 - Provide the `{task-slug}` path and a one-line summary of what `@implement` will execute.
 
+## Orchestrator Direct Actions
+The following may be performed by this orchestrator **without dispatching a subagent** (see `.github/agents/shared/dispatch-rules.md`):
+- Read files, search the codebase, and browse the web.
+- Generate the `{task-slug}` directory name and verify artifact existence after subagents complete.
+- Ask the user questions, request approvals, and present plan summaries via `vscode/askQuestions`.
+- Deliver the handoff message to the user.
+
+All other work (requirements, research, planning) MUST be delegated to the appropriate subagent.
+
 ## Constraints
 - You MUST NOT modify source code or project files. Read and search only.
 - You MUST NOT invoke `@implement`-phase agents (implementer, implementer-ui, implementer-service, validator, reviewer, migrator, debuggers).

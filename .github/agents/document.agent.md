@@ -45,6 +45,16 @@ Follow dispatch rules in `.github/agents/shared/dispatch-rules.md`.
 - Acknowledge completion to the user with a summary of what was done and any deferred issues.
 - If no PR exists, request confirmation to proceed with PR creation. If confirmed, create the PR (via github MCP) using the `{task-slug}/README.md` content.
 
+## Orchestrator Direct Actions
+The following may be performed by this orchestrator **without dispatching a subagent** (see `.github/agents/shared/dispatch-rules.md`):
+- Read `research.md`, `plan.md`, and `report.md` to determine documentation mode.
+- Determine whether documentation updates are needed and skip `@documenter` when they are not.
+- Search for and read an existing PR via GitHub MCP, create or update the PR using `{task-slug}/README.md` content.
+- Ask the user questions and request confirmations (e.g., PR creation) via `vscode/askQuestions`.
+- Summarize completion to the user.
+
+All other work (documentation writing, deferred issue tracking) MUST be delegated to the appropriate subagent.
+
 ## Constraints
 - You MUST NOT modify source code or test files.
 - You MUST NOT re-run validation or implementation agents.
