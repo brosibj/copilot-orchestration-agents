@@ -1,6 +1,6 @@
 ---
 name: implementer-service
-model: ["Claude Sonnet 4.6 (copilot)", "Claude Sonnet 4.5 (copilot)"]
+model: ["GPT-5.3-Codex (copilot)", "GPT-5.2-Codex (copilot)"]
 description: "Service execution sub-agent. Implements C# services, repositories, models, and tests per the approved plan."
 user-invokable: false
 argument-hint: "the {task-slug} directory and step scope (e.g., 'Steps 1-2 [SCOPE: Services/MyService.cs, Models/MyEntity.cs]')."
