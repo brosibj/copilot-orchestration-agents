@@ -2,7 +2,7 @@
 name: "P2 - Implement"
 description: "Phase 2 Orchestrator: Implementation, migration, testing, validation, and review."
 argument-hint: "the {task-slug} directory from @research (e.g., 'plans/my-feature')"
-tools: [vscode, execute, read, agent, edit, search, 'radzen.mcp/*', 'microsoftdocs/mcp/*', 'github/*', todo]
+tools: [vscode, execute, read, agent, edit, search, web, 'radzen.mcp/*', 'microsoftdocs/mcp/*', todo]
 agents:
   - implementer
   - implementer-ui
@@ -63,7 +63,8 @@ Follow dispatch rules in `.github/agents/shared/dispatch-rules.md`.
 
 ### 4. Validation (parallel)
 - Run `@validator` and `@reviewer` in parallel.
-- Combined output → `{task-slug}/report.md` (template: `.github/agents/templates/report.md`).
+- Each sub-agent writes its respective sections to `{task-slug}/report.md` (template: `.github/agents/templates/report.md`).
+- Verify `{task-slug}/report.md` exists and contains both verdicts after both complete.
 - If `report.md` verdict is **Fail**:
   - Read the Restart Recommendation from the report.
   - If restart targets `@research` phase: inform user to re-run `@research`.

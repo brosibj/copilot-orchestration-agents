@@ -2,7 +2,7 @@
 name: "P1 - Research & Planning"
 description: "Phase 1 Orchestrator: Discovery, requirements, technical research, and planning for features and bugs."
 argument-hint: "a description of the feature or bug to research and plan"
-tools: [vscode, read, agent, search, web, 'radzen.mcp/*', 'microsoftdocs/mcp/*', 'github/*', todo]
+tools: [vscode, read, agent, search, web, 'radzen.mcp/*', edit, 'github/issue_read', 'github/list_issues', 'github/search_issues', 'microsoftdocs/mcp/*', todo]
 agents:
   - requirements-builder
   - researcher
@@ -30,12 +30,13 @@ Follow dispatch rules in `.github/agents/shared/dispatch-rules.md`.
 
 **Feature path:**
 - `@requirements-builder` + `@researcher` — dispatch in parallel.
-- Combined output → `{task-slug}/research.md` (template: `.github/agents/templates/research.md`).
+- Each sub-agent writes its respective sections of `{task-slug}/research.md` (template: `.github/agents/templates/research.md`).
+- Verify `{task-slug}/research.md` exists after both complete.
 
 **Bug path:**
 - `@triage` classifies the bug tier (Medic/Detective/Specialist/Forensic).
-- `@researcher` investigates root cause and affected components.
-- Combined output → `{task-slug}/research.md` including the **Bug Triage** section.
+- `@researcher` investigates root cause and affected components; writes the **Bug Triage** section into `{task-slug}/research.md`.
+- Verify `{task-slug}/research.md` exists and includes the Bug Triage section after both complete.
 
 If `research.md` is missing after discovery, retry once. If still missing: **Artifact Missing**.
 

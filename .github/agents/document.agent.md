@@ -2,7 +2,7 @@
 name: "P3 - Document"
 description: "Phase 3 Orchestrator: Documentation updates, deferred issue tracking, and PR readme generation."
 argument-hint: "the {task-slug} directory from @implement (e.g., 'plans/my-feature')"
-tools: [vscode, read, agent, edit, search, todo, github/add_issue_comment, github/issue_read, github/issue_write, github/list_issues, github/search_issues, github/search_pull_requests, github/sub_issue_write, github/update_pull_request]
+tools: [vscode, read, agent, edit, search, todo, github/add_issue_comment, github/create_pull_request, github/issue_read, github/issue_write, github/list_issues, github/search_issues, github/search_pull_requests, github/sub_issue_write, github/update_pull_request]
 agents:
   - documenter
   - deferred-tracker
@@ -31,20 +31,19 @@ Follow dispatch rules in `.github/agents/shared/dispatch-rules.md`.
 - The documenter updates project docs (`README.md`, `docs/` files) per its instructions.
 - If no documentation updates are needed (pure bug-fix, internal refactor), skip and note why.
 
-### 3. Deferred Issue Tracking
+### 3. Deferred Issue Tracking & PR README
 - Invoke `@deferred-tracker` with the `{task-slug}`.
-- The tracker reads `report.md` for the **Deferred Issues** section and any minor/non-blocking findings.
-- Output is incorporated into the final `{task-slug}/README.md`.
+- The tracker reads `research.md`, `report.md`, and `plan.md`; creates GitHub issues for deferred items; and writes `{task-slug}/README.md` from template `.github/agents/templates/readme.md`.
+- If `{task-slug}/README.md` is not present after the tracker completes: **Artifact Missing**.
 
-### 4. PR README
-- Identify if a PR already exists (use github MCP to identify based on `{task-slug}` and/or working branch).
-- Create `{task-slug}/README.md` from template `.github/agents/templates/readme.md`. Include PR link if it exists.
-- If PR already exists, update the PR itself with the new README.md content.
-- Incorporate: summary from `research.md`, files changed from `report.md`, deferred items from tracker.
+### 4. PR Handling
+- Read `{task-slug}/README.md` to verify it was created.
+- Search for an existing PR via github MCP (by branch or `{task-slug}`).
+- If a PR already exists, update the PR description with the `{task-slug}/README.md` content.
 
 ### 5. Completion
 - Acknowledge completion to the user with a summary of what was done and any deferred issues.
-- If PR does not already exist, request confirmation to proceed with PR creation. If confirmed, create the PR (via github MCP) with the updated README.md content.
+- If no PR exists, request confirmation to proceed with PR creation. If confirmed, create the PR (via github MCP) using the `{task-slug}/README.md` content.
 
 ## Constraints
 - You MUST NOT modify source code or test files.

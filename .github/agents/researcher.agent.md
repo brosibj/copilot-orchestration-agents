@@ -4,7 +4,7 @@ model: ["Gemini 3.1 Pro (Preview) (copilot)", "Gemini 3 Pro (Preview) (copilot)"
 description: "Discovery sub-agent. Conducts technical research, dependency audits, and feasibility analysis."
 user-invokable: false
 argument-hint: "the {task-slug} directory."
-tools: ['read', 'search', 'web', 'vscode', 'edit', 'microsoftdocs/mcp/*', 'radzen.mcp/*']
+tools: ['read', 'search', 'web', 'vscode', 'edit', 'microsoftdocs/mcp/*', 'radzen.mcp/*', 'github/issue_read', 'github/list_issues', 'github/search_issues']
 ---
 
 # Instructions
