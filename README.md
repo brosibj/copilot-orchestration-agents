@@ -12,10 +12,9 @@ This repository provides a complete set of GitHub Copilot Chat agent definitions
 @research  →  @implement  →  @document
 ```
 
-Each phase is an orchestrator that fans work out to focused sub-agents, enforces quality gates, and hands off structured artifacts to the next phase. Agents are model-assigned by task complexity, and validation is built into the loop rather than bolted on at the end.
+Each phase is an orchestrator that fans work out to focused sub-agents, enforces quality gates, and hands off structured artifacts to the next phase. Agents are model-assigned by task complexity, and validation is built into the loop rather than bolted on at the end. Orchestration agents invoke sub-agents for specific tasks to manage complexity and context window and ensure quality. When one orchestrator completes, it prompts for handoff to the next orchestrator with a structured artifact set.
 
-**Primary focus:** Blazor/C# (.NET) development with Radzen UI.  
-**Stack-agnostic:** Orchestration patterns, commit conventions, and workflow structure are framework-independent.
+Only the three orchestrator agents (`@research`, `@implement`, `@document`) are user-invokable with a chosen model but it is recommended to use a model based on the scope and size of the requested changes. When in doubt, use a 1x model. All sub-agents are intended to be invoked by the orchestrators and are not user-invokable.
 
 ### Assumptions
 
@@ -95,31 +94,34 @@ Orchestrates finalization:
 
 ---
 
-## Agent Model Assignments
+## Subagent Model Assignments
 
 | Agent | Model | Rationale |
 |:---|:---|:---|
 | `requirements-builder` | Claude Opus | Ambiguity resolution, structured requirements |
-| `planner` | Claude Opus | Architecture decisions, plan correctness |
-| `reviewer` | Claude Opus | Deep code quality judgment |
-| `debugger-forensic` | Claude Opus | Architectural root-cause analysis |
 | `researcher` | Gemini Pro | Broad codebase exploration, dep audits |
-| `debugger-detective` | Gemini Pro | Blazor lifecycle/state reasoning |
+| `triage` | Haiku / Flash | Initial identification of issues and classification |
+| `planner` | Claude Opus | Architecture decisions, plan correctness |
+| `migrator` | GPT Codex | Precise migration generation |
 | `implementer` | Claude Sonnet | Code generation |
 | `implementer-ui` | Claude Sonnet | UI/component generation |
-| `implementer-service` | Claude Sonnet | Service/backend generation |
-| `validator` | Claude Sonnet | Build, test, coverage verification |
-| `migrator` | GPT Codex | Precise migration generation |
+| `implementer-service` | GPT Codex | Service/backend generation |
+| `debugger-medic` | Haiku / Flash | Quick issue identification and resolution |
+| `debugger-detective` | Gemini Pro | Blazor lifecycle/state reasoning |
 | `debugger-specialist` | GPT Codex | EF Core/SQL/API diagnosis |
-| `triage` / `deferred-tracker` / `debugger-medic` | Haiku / Flash | Low-cost classification and tracking |
+| `debugger-forensic` | Claude Opus | Architectural root-cause analysis |
+| `validator` | Claude Sonnet | Build, test, coverage verification |
+| `deferred-tracker` | Haiku / Flash | Low-cost classification and tracking |
+| `documenter` | Claude Opus | Documentation updates, PR readme generation |
+| `reviewer` | Claude Opus | Deep code quality judgment |
 
-> Model names track the naming convention used by GitHub Copilot. Update fallback models in each agent file as new versions become available.
+> Models chosen for each role is based on strengths of the model. Agents are updated with fallback models in each agent file as new versions become available and in the case of rate-limiting.
 
 ---
 
 ## Artifact Protocol
 
-All artifacts live under `plans/{task-slug}/`:
+All artifacts live under `plans/{task-slug}/`. Only `README.md` in each `task-slug` directory is comitted to avoid excessive noise in the repo. All other artifacts are treated as ephemeral and are not committed. Agents reference prior artifacts rather than restating their content.
 
 | File | Produced by | Consumed by |
 |:---|:---|:---|
