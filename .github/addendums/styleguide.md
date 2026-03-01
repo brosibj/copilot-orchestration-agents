@@ -1,7 +1,7 @@
-﻿# MediaLens UI Style Guide
+﻿# UI Style Guide (Blazor/Radzen)
 
 ## Overview
-This style guide defines the UI styling approach for MediaLens, prioritizing Radzen components and utilities while maintaining clean, maintainable code.
+This style guide defines the UI styling approach for Blazor/Radzen projects, prioritizing Radzen components and utilities while maintaining clean, maintainable code.
 
 ---
 
@@ -94,7 +94,7 @@ Create custom CSS classes in `wwwroot/css/` ONLY when:
 - Cannot be accomplished with Radzen components or utilities
 - Need theme-aware styling (dark/light mode support)
 
-**Location:** `MediaLens/wwwroot/app.css`
+**Location:** `{ProjectName}/wwwroot/app.css`
 
 **Current Custom Classes:**
 ```css
@@ -308,11 +308,10 @@ Ensure all custom styles work in both light and dark themes.
 
 ### CSS File Structure
 ```
-MediaLens/
+{ProjectName}/
   wwwroot/
     css/
-      media-viewer.css        # Component-specific styles
-      media-gallery.css       # Component-specific styles
+      feature-name.css        # Component-specific styles
     app.css                   # Global custom utilities
 ```
 
@@ -322,7 +321,7 @@ Create a separate CSS file for a component when:
 2. Styles are **unique to that component**
 3. The file would be **50+ lines** of CSS
 
-**Example:** `media-viewer.css` for the MediaViewerDialog component
+**Example:** `feature-dialog.css` for a dialog component
 
 ---
 

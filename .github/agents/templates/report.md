@@ -33,7 +33,7 @@
 - **Info:** Nice to have (style nits, comment improvements).
 
 ## Test Quality
-> Verify per `.github/testing.md`. Omit if no test changes.
+> Verify per `.github/addendums/testing.md`. Omit if no test changes.
 
 | Check | Status |
 |:---|:---|

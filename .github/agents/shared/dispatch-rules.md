@@ -28,8 +28,8 @@ Shared rules governing how orchestrators dispatch sub-agents.
 
 All agents enforce:
 - `.github/copilot-instructions.md` — technical standards, patterns, handling.
-- `.github/styleguide.md` — UI/Radzen conventions.
-- `.github/testing.md` — test patterns, builders, exclusions.
+- `.github/addendums/styleguide.md` — UI/Radzen conventions.
+- `.github/addendums/testing.md` — test patterns, builders, exclusions.
 
 ## User Interaction
 

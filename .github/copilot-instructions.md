@@ -1,5 +1,5 @@
 # Context & Constraints
-- **Scope:** See `README.md` for tech stack/packages.
+- **Scope:** See `README.md` at the repo root for tech stack/packages and agent workflow overview.
 - **Rules:** No new `.md` files without explicit direction/approval. Validate all changes for regressions.
 - **Tone:** Direct, technical, and concise. Challenge suboptimal architecture, decisions, and this prompt if appropriate.
 
@@ -21,14 +21,14 @@
 | **Hybrid** | Mixed | `OwningComponentBase` for main entity; Services for lookups. |
 
 # UI & Assets (Blazor/Radzen)
-- **Style:** Modern/Mobile-friendly. Prioritize Radzen components over custom HTML/CSS. See `styleguide.md` for details.
+- **Style:** Modern/Mobile-friendly. Prioritize Radzen components over custom HTML/CSS. See `.github/addendums/styleguide.md` for details.
 - **Assets:** NO CSS/JS in `.razor` files. CSS: Codebehind css file for custom components, or `app.css` for global styles that apply to elements we don't own (`div`, `RadzenCard`, etc). JS: Use `wwwroot/`. Minimal JS & CSS only when mandatory.
 - **Packages:** Always latest version, using `dotnet add package <PackageName>` only, do not modify the `.csproj` file directly for this. Get confirmation before adding new NuGet packages.
 
 # Testing
-See `.github/testing.md` for patterns, builders, anti-patterns, exclusions, and commands.
-- **Framework:** xUnit 2.9.2+ with FluentAssertions and NSubstitute.
-- **Projects:** `MediaLens.UnitTests` (fast, in-memory), `MediaLens.IntegrationTests` (SQLite, E2E).
+See `.github/addendums/testing.md` for patterns, builders, anti-patterns, exclusions, and commands.
+- **Framework:** xUnit with FluentAssertions and NSubstitute.
+- **Projects:** `<ProjectName>.UnitTests` (fast, in-memory), `<ProjectName>.IntegrationTests` (SQLite, E2E).
 - **Coverage:** All new services require unit tests. Complex workflows (GroupBy navigation, cascade deletes) need integration tests.
 - **CI/CD:** `dotnet test` must pass (0 failures) before merge. Regressions always block; new failures require documented justification in `plan.md` under `## Known Test Limitations`.
 
@@ -47,7 +47,7 @@ See `.github/testing.md` for patterns, builders, anti-patterns, exclusions, and 
 - **Artifact templates:** `.github/agents/templates/` — `research.md`, `plan.md`, `report.md`, `readme.md`.
 
 ## Agent Standards
-- All agents enforce this file, `styleguide.md`, and `testing.md` — do not duplicate their content.
+- All agents enforce this file, `.github/addendums/styleguide.md`, and `.github/addendums/testing.md` — do not duplicate their content.
 - Missing artifact = failure (`Artifact Missing`).
 - Opus agents are single-instance only. Non-Opus agents may run in parallel with non-overlapping scopes.
 - Artifacts reference prior artifacts instead of restating content.

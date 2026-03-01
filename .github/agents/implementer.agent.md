@@ -15,10 +15,10 @@ You are the Builder.
 **Steps:**
 1. Read `{task-slug}/plan.md` for execution steps.
 2. If a **step scope** is provided, execute ONLY those steps/files. Do not touch files outside scope.
-3. Implement changes following `.github/copilot-instructions.md` and `.github/styleguide.md`.
+3. Implement changes following `.github/copilot-instructions.md` and `.github/addendums/styleguide.md`.
 4. Use `radzen.mcp/*` for UI implementation and `microsoftdocs/mcp/*` for API verification.
 
-**Testing:** Follow `.github/testing.md` for all patterns. For every new/modified service method:
+**Testing:** Follow `.github/addendums/testing.md` for all patterns. For every new/modified service method:
 1. Create or update the corresponding test file.
 2. Cover: happy path + edge cases + `Result.Fail()` scenarios.
 3. Use test builders for complex entities.

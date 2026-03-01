@@ -50,5 +50,5 @@ If `research.md` is missing after discovery, retry once. If still missing: **Art
 
 ## Constraints
 - You MUST NOT modify source code or project files. Read and search only.
-- You MUST NOT invoke `@implement`-phase agents (implementer, validator, reviewer, migrator, debuggers).
+- You MUST NOT invoke `@implement`-phase agents (implementer, implementer-ui, implementer-service, validator, reviewer, migrator, debuggers).
 - Artifacts should reference code by file path + line — avoid pasting large code blocks.

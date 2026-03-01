@@ -1,7 +1,7 @@
 # Testing Guide
 
-**Framework:** xUnit 2.9.2+ · FluentAssertions · NSubstitute  
-**Projects:** `MediaLens.UnitTests` (in-memory, fast) · `MediaLens.IntegrationTests` (SQLite, E2E)  
+**Framework:** xUnit · FluentAssertions · NSubstitute  
+**Projects:** `<ProjectName>.UnitTests` (in-memory, fast) · `<ProjectName>.IntegrationTests` (SQLite, E2E)  
 **Gate:** `dotnet build --no-incremental` must return 0 errors and 0 warnings for all code that was modified or affected by changes. `dotnet test` must pass (0 failures) before merge. Regressions always block. New failures require justification in `plan.md` under `## Known Test Limitations`.
 
 > **Razor/UI testing** is deferred — not yet implemented. Do not create tests for components, layouts, or rendering behavior until a testing approach is formally adopted.
@@ -12,8 +12,8 @@
 
 | Code Type | Test Project | Test Type |
 | :--- | :--- | :--- |
-| **Service / business logic** | `MediaLens.UnitTests/Services/` | Unit — mocked dependencies |
-| **Repository / complex LINQ** | `MediaLens.IntegrationTests/` | Integration — SQLite in-memory |
+| **Service / business logic** | `<ProjectName>.UnitTests/Services/` | Unit — mocked dependencies |
+| **Repository / complex LINQ** | `<ProjectName>.IntegrationTests/` | Integration — SQLite in-memory |
 | **Razor page / component / layout** | Deferred | — |
 
 ---
@@ -23,9 +23,9 @@
 `{MethodName}_{Scenario}_{ExpectedBehavior}`
 
 **Examples:**
-- `GetMediaItemsAsync_WithNoFilters_ReturnsAllMediaItems`
-- `AddTagToMediaAsync_WithInvalidMediaId_ReturnsFailure`
-- `DeleteMediaItemAsync_WithValidId_DeletesSuccessfully`
+- `GetItemsAsync_WithNoFilters_ReturnsAllItems`
+- `AddTagAsync_WithInvalidId_ReturnsFailure`
+- `DeleteItemAsync_WithValidId_DeletesSuccessfully`
 
 ---
 
@@ -47,7 +47,7 @@ _context = TestDbContextFactory.CreateInMemoryContext();
 NSubstitute interfaces only. Never mock concrete classes.
 
 ```csharp
-_logger = Substitute.For<ILogger<MediaService>>();
+_logger = Substitute.For<ILogger<MyService>>();
 _jobClient = Substitute.For<IBackgroundJobClient>();
 ```
 
@@ -56,16 +56,14 @@ Use fluent builders for complex entities — never construct entities inline wit
 
 | Builder | Use For |
 | :--- | :--- |
-| `MediaItemBuilder` | Images and videos |
-| `AlbumBuilder` | Static and dynamic albums |
-| `TagBuilder` | Tags with inheritance |
-| `WatchFolderBuilder` | Watch folder configuration |
+| `EntityBuilder` | Primary domain entities |
+| `ChildEntityBuilder` | Nested/related entities |
+| `ConfigBuilder` | Configuration/settings entities |
 
 ```csharp
-var video = new MediaItemBuilder()
-    .AsVideo()
-    .WithDuration(120)
-    .WithTags(tag)
+var entity = new EntityBuilder()
+    .WithProperty(value)
+    .WithRelated(related)
     .Build();
 ```
 
@@ -109,7 +107,7 @@ Each service method needs:
 
 ## Known Provider Limitations (EF In-Memory)
 
-These patterns fail with the EF Core In-Memory provider and must be tested in `MediaLens.IntegrationTests` with SQLite:
+These patterns fail with the EF Core In-Memory provider and must be tested in `<ProjectName>.IntegrationTests` with SQLite:
 
 - `GroupBy` on navigation properties
 - Cascade deletes
@@ -122,9 +120,9 @@ When a service method hits one of these, document it in `plan.md` under `## Know
 ## Commands
 
 ```powershell
-dotnet test                                           # All tests
-dotnet test MediaLens.UnitTests                       # Unit only
-dotnet test MediaLens.IntegrationTests                # Integration only
-dotnet test --filter "FullyQualifiedName~MediaService" # Filtered
-dotnet test --collect:"XPlat Code Coverage"           # With coverage
+dotnet test                                                          # All tests
+dotnet test <ProjectName>.UnitTests                                  # Unit only
+dotnet test <ProjectName>.IntegrationTests                           # Integration only
+dotnet test --filter "FullyQualifiedName~MyService"                  # Filtered
+dotnet test --collect:"XPlat Code Coverage"                          # With coverage
 ```

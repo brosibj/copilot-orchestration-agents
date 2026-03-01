@@ -5,6 +5,8 @@ argument-hint: "the {task-slug} directory from @research (e.g., 'plans/my-featur
 tools: [vscode, execute, read, agent, edit, search, 'radzen.mcp/*', 'microsoftdocs/mcp/*', 'github/*', todo]
 agents:
   - implementer
+  - implementer-ui
+  - implementer-service
   - migrator
   - validator
   - reviewer
@@ -42,8 +44,11 @@ Follow dispatch rules in `.github/agents/shared/dispatch-rules.md`.
 ### 3. Execution
 
 **Feature path:**
-- Invoke `@implementer` per the execution steps in `plan.md`.
-- Fan-out `[P]` steps to parallel `@implementer` instances with non-overlapping `[SCOPE]` tags.
+- For each execution step in `plan.md`, route based on `[SCOPE]` file types:
+  - Steps scoped to `.razor`, `.razor.css`, or layout/component files → dispatch `@implementer-ui`.
+  - Steps scoped to `.cs` service, repository, model, or test files → dispatch `@implementer-service`.
+  - Steps spanning both UI and service files → dispatch `@implementer`.
+- Fan-out `[P]` steps to parallel instances with non-overlapping `[SCOPE]` tags.
 - Run `[S]` steps sequentially.
 
 **Bug path:**
