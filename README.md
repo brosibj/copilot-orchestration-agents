@@ -155,18 +155,18 @@ Triage (`@triage`) selects the lowest-cost appropriate tier. If a tier exceeds i
 | File | What to customize |
 |:---|:---|
 | `.github/copilot-instructions.md` | Tech stack, .NET version, framework-specific patterns |
-| `.github/addendums/styleguide.md` | UI library, component conventions, CSS approach |
-| `.github/addendums/testing.md` | Test project names (`<ProjectName>.UnitTests`), builders, exclusions |
+| `.github/docs/styleguide.md` | UI library, component conventions, CSS approach |
+| `.github/docs/testing.md` | Test project names (`<ProjectName>.UnitTests`), builders, exclusions |
 
 Replace `<ProjectName>` placeholders throughout templates with the actual project name once a project uses this template.
 
 ### Adding new addendums
 
-Place additional reference files in `.github/addendums/` and reference them from the relevant agent files by full path (e.g., `.github/addendums/my-guide.md`).
+Place additional reference files in `.github/docs/` and reference them from the relevant agent files by full path (e.g., `.github/docs/my-guide.md`).
 
 ### Non-Blazor projects
 
-- Remove or replace `.github/addendums/blazor-js-interop-disposal.md` and `styleguide.md`.
+- Remove or replace `.github/docs/blazor-js-interop-disposal.md` and `styleguide.md`.
 - Update `implementer-ui.agent.md` tool list and rules for the target UI framework.
 - Update debugger-detective scope if not using Blazor.
 
@@ -175,7 +175,7 @@ Place additional reference files in `.github/addendums/` and reference them from
 ## Standards Enforced by All Agents
 
 - `.github/copilot-instructions.md` — technical standards, patterns, error handling.
-- `.github/addendums/styleguide.md` — UI/Radzen conventions.
-- `.github/addendums/testing.md` — test patterns, builders, anti-patterns.
+- `.github/docs/styleguide.md` — UI/Radzen conventions.
+- `.github/docs/testing.md` — test patterns, builders, anti-patterns.
 - `dotnet build --no-incremental` — 0 errors, 0 warnings before any handoff.
 - `dotnet test` — 0 failures before merge. Regressions always block.

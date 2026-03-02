@@ -8,7 +8,7 @@ All debugger tiers follow this workflow. Tier-specific instructions are in each 
 2. **Diagnose:** Identify the **root cause** (not just the symptom). Trace execution path from entry point to failure.
 3. **Fix:** Apply the minimal, targeted fix that resolves the root cause.
 4. **Build:** Run `dotnet build --no-incremental` via `execute` — 0 errors, 0 warnings required.
-5. **Test:** Run `dotnet test` — regressions (previously passing tests now failing) must be resolved. See `.github/addendums/testing.md` for patterns.
+5. **Test:** Run `dotnet test` — regressions (previously passing tests now failing) must be resolved. See `.github/docs/testing.md` for patterns.
 6. **Document:** Write `{task-slug}/diagnosis.md` containing:
    - **Root Cause:** What went wrong and why (2-3 sentences).
    - **Fix:** Files modified with one-line description per file.
@@ -21,6 +21,6 @@ All debugger tiers follow this workflow. Tier-specific instructions are in each 
 
 ## Constraints
 
-- Enforce `.github/copilot-instructions.md` and `.github/addendums/styleguide.md`.
+- Enforce `.github/copilot-instructions.md` and all `.github/docs/` files for project standards, patterns, and anti-patterns.
 - If the fix requires schema changes, flag this so the orchestrator can invoke `@migrator`.
 - If `diagnosis.md` is not created, return failure status: **Artifact Missing**.

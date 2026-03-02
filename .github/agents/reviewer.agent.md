@@ -19,7 +19,7 @@ You are the Code Reviewer. Opus agent — single-instance only.
    - Naming conventions and code clarity.
    - Error handling (`FluentResults.Result` for logic flow, exceptions for technical failures).
    - Resiliency and null-guarding.
-2. Review test code per `.github/addendums/testing.md` — Reference code by file path + line, not by pasting blocks.
+2. Review test code per `.github/docs/testing.md` — Reference code by file path + line, not by pasting blocks.
 3. Spot-check framework/API usage with `microsoftdocs/mcp/*` and `radzen.mcp/*` when findings involve them.
 
 **Output:** Add review findings to `{task-slug}/report.md` in the **Findings** table. Each finding: severity, file, description, recommendation.

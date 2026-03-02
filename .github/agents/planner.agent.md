@@ -22,7 +22,7 @@ You are the Architect. Opus agent — single-instance only.
 - Reference `research.md` for context — do NOT restate requirements or analysis.
 - Avoid large code snippets. Describe changes and reference existing patterns.
 - List every file that will be modified, including test files.
-- For each new/modified service, include a `[TEST]` step (see `.github/addendums/testing.md`).
+- For each new/modified service, include a `[TEST]` step (see `.github/docs/testing.md`).
 - If complex LINQ (GroupBy + navigation) or cascade deletes are involved, add integration test step and document in **Known Test Limitations**.
 - Mark each step `[P]` (parallel-ok) or `[S]` (sequential) with `[SCOPE: files]` tags.
 

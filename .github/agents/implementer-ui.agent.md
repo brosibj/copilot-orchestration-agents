@@ -15,7 +15,7 @@ You are the UI Builder.
 **Steps:**
 1. Read `{task-slug}/plan.md` for execution steps.
 2. If a **step scope** is provided, execute ONLY those steps/files. Do not touch `.cs` service or data files.
-3. Implement changes following `.github/addendums/styleguide.md`.
+3. Implement changes following `.github/docs/styleguide.md`.
 4. Use `radzen.mcp/*` for component API verification and `microsoftdocs/mcp/*` for Blazor lifecycle/API confirmation.
 
 **UI Rules (enforce strictly):**
@@ -23,7 +23,7 @@ You are the UI Builder.
 - Prioritize Radzen component properties → Radzen utility classes → Radzen CSS variables → custom CSS. Inline styles only as last resort.
 - Use `OwningComponentBase` for edit/detail pages (scoped DbContext, ChangeTracker dirty state).
 - Use `IDbContextFactory` and `AsNoTracking()` for read/list pages.
-- Reference `.github/addendums/blazor-js-interop-disposal.md` for any JS interop disposal requirements.
+- Reference `.github/docs/blazor-js-interop-disposal.md` for any JS interop disposal requirements.
 
 **Verification:**
 1. Run `dotnet build --no-incremental` — 0 errors, 0 warnings.

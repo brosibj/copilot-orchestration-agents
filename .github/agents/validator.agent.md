@@ -18,13 +18,13 @@ You are the Auditor.
    - **Correctness:** Logic errors, edge cases, adherence to requirements.
    - **Security:** Injection points, hardcoded secrets, unsafe data handling.
    - **Performance:** Inefficient loops, blocking async, heavy memory usage.
-   - **UI/Radzen:** Component correctness per `.github/addendums/styleguide.md`.
+   - **UI/Radzen:** Component correctness per `.github/docs/styleguide.md`.
 
 2. **Build & Test:**
    - `dotnet build --no-incremental` — 0-warning policy.
    - `dotnet test` — regressions always block. New failures block unless documented in `plan.md` → **Known Test Limitations**.
 
-3. **Test Quality** — per `.github/addendums/testing.md`:
+3. **Test Quality** — per `.github/docs/testing.md`:
    - Test files exist for new services.
    - Naming follows `{Method}_{Scenario}_{Expected}`.
    - `IDisposable` + `EnsureDeleted()` cleanup.

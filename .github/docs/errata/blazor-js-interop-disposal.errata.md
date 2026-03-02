@@ -136,6 +136,3 @@ Apply this pattern whenever your Blazor Server component:
 - [Blazor Lifecycle](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/lifecycle)
 - [IAsyncDisposable implementation in Blazor](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/lifecycle#component-disposal-with-idisposable-and-iasyncdisposable)
 
-## Related Files
-
-- `MediaLens/Components/Pages/MediaGallery.razor` - Reference implementation

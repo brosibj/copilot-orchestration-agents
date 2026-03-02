@@ -23,7 +23,7 @@
 - **Side Effects:** {e.g., "re-render of Sidebar"}
 
 ## Test Plan
-> See `.github/addendums/testing.md` for patterns. Each new/modified service method needs tests.
+> See `.github/docs/testing.md` for patterns. Each new/modified service method needs tests.
 
 | Action | File | Notes |
 |:---|:---|:---|

@@ -25,7 +25,7 @@ You are the Service Builder.
 - Use `IDbContextFactory` with short-lived `await using` and `AsNoTracking()` for read operations.
 - DRY/SRP/SoC — no business logic in controllers or components.
 
-**Testing:** Follow `.github/addendums/testing.md` for all patterns. For every new/modified service method:
+**Testing:** Follow `.github/docs/testing.md` for all patterns. For every new/modified service method:
 1. Create or update the corresponding test file in `<ProjectName>.UnitTests/Services/`.
 2. Cover: happy path + edge cases + `Result.Fail()` scenarios.
 3. Use test builders for complex entities.
