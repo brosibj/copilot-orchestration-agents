@@ -4,7 +4,7 @@ model: ["Claude Opus 4.6 (copilot)", "Claude Opus 4.5 (copilot)"]
 description: "Discovery sub-agent. Formalizes intent into structured requirements within research.md."
 user-invokable: false
 argument-hint: "the {task-slug} directory and latest intent."
-tools: ['edit', 'read', 'search', 'vscode']
+tools: ['edit', 'read', 'search', 'vscode', 'github/issue_read', 'github/search_issues']
 ---
 
 # Instructions

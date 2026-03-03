@@ -6,7 +6,6 @@ tools: [vscode, read, agent, search, web, 'radzen.mcp/*', edit, 'github/issue_re
 agents:
   - requirements-builder
   - researcher
-  - research-worker
   - planner
   - triage
 handoffs:
@@ -44,7 +43,7 @@ Follow `.github/agents/shared/dispatch-rules.md` — especially **Confidence & I
 **Feature (sequential):**
 1. `@requirements-builder` → Requirements + Acceptance Criteria in `{task-slug}/research.md`.
 2. `@researcher` → Technical Analysis, Findings, Risks in `{task-slug}/research.md`.
-   - Dispatch `@research-worker` instances in parallel with `[SCOPE]` tags for distinct topics alongside `@researcher`.
+   - Researcher manages `@research-worker` dispatch internally for parallel fact-finding across distinct topics.
 3. Verify `research.md` has both Requirements and Technical Analysis.
 
 **Bug (sequential):**

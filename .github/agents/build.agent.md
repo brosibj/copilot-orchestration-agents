@@ -53,7 +53,8 @@ If Migration Required = Yes → `@migrator`. Failure → surface error before pr
 - Auto-escalation on escalation signal. Schema changes flagged → `@migrator` before validation.
 
 ### 4. Validation (parallel)
-- `@validator` + `@reviewer` in parallel — each writes its sections to `{task-slug}/report.md` (template: `.github/agents/templates/report.md`).
+- `@validator` + `@reviewer` in parallel — each returns its findings to the orchestrator (neither writes `report.md` directly).
+- Orchestrator merges both sets of findings into `{task-slug}/report.md` (template: `.github/agents/templates/report.md`).
 - Verify report contains both verdicts.
 - **Fail:** read Restart Recommendation. If targets `@discover` → inform user. If targets `@build` → re-invoke agent + re-validate (max 2 retries).
 

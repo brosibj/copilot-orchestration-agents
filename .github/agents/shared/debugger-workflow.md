@@ -6,10 +6,11 @@ All debugger tiers follow this workflow. Tier-specific instructions are in each 
 
 1. **Reproduce & Trace:** Read `{task-slug}/research.md` for bug description, expected vs actual behavior, and triage classification.
 2. **Diagnose:** Identify the **root cause** (not just the symptom). Trace execution path from entry point to failure.
-3. **Fix:** Apply the minimal, targeted fix that resolves the root cause.
-4. **Build:** Run `dotnet build --no-incremental` via `execute` — 0 errors, 0 warnings required.
-5. **Test:** Run `dotnet test` — regressions (previously passing tests now failing) must be resolved. See `.github/docs/testing.md` for patterns.
-6. **Document:** Write `{task-slug}/diagnosis.md` containing:
+3. **Regression Test:** Write a failing test that reproduces the bug. The fix (next step) must make it pass. See `.github/docs/testing.md` for patterns.
+4. **Fix:** Apply the minimal, targeted fix that resolves the root cause. Verify the regression test now passes.
+5. **Build:** Run `dotnet build --no-incremental` via `execute` — 0 errors, 0 warnings required.
+6. **Test:** Run `dotnet test` — regressions (previously passing tests now failing) must be resolved.
+7. **Document:** Write `{task-slug}/diagnosis.md` containing:
    - **Root Cause:** What went wrong and why (2-3 sentences).
    - **Fix:** Files modified with one-line description per file.
    - **Risk:** Areas that could be affected by this fix.

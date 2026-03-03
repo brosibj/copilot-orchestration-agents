@@ -44,7 +44,7 @@ The agent definitions statically reference the following packages and tools. Pro
 |:---|:---|
 | `radzen.mcp/*` | `@implementer-ui`, `@researcher`, `@research-worker`, `@validator`, `@reviewer` |
 | `microsoftdocs/mcp/*` | `@researcher`, `@research-worker`, `@implementer`, `@implementer-ui`, `@implementer-service`, all debuggers |
-| `github/*` | `@finalize`, `@quick`, `@deferred-tracker` |
+| `github/*` | `@finalize`, `@quick`, `@deferred-tracker`, `@researcher`, `@requirements-builder` |
 
 ---
 
@@ -68,7 +68,7 @@ Orchestrates discovery and planning:
 
 1. **Complexity gate** — classifies the task as Simple or Standard. Simple tasks are directed to `@quick` after discovery.
 2. **Requirements** — `@requirements-builder` formalizes intent and acceptance criteria.
-3. **Investigation** — `@researcher` maps affected files, audits dependencies, and flags risks. `@research-worker` instances may be dispatched in parallel for targeted fact-finding across distinct topics.
+3. **Investigation** — `@researcher` maps affected files, audits dependencies, and flags risks. Researcher dispatches `@research-worker` instances in parallel for targeted fact-finding across distinct topics.
 4. **Bug triage** — `@triage` classifies bugs to the correct debugger tier (if applicable).
 5. **Planning** (Standard only) — `@planner` produces a step-by-step plan with scope, sequencing, and test requirements.
 
@@ -88,7 +88,7 @@ Orchestrates execution and validation:
    - `.cs` service/repository/test files → `@implementer-service`
    - Mixed scope → `@implementer`
 3. **Bug path** — dispatches the appropriate debugger tier per triage classification; auto-escalates if needed.
-4. **Validation** — `@validator` (build, tests, requirements coverage) and `@reviewer` (code quality) run in parallel.
+4. **Validation** — `@validator` (build, tests, requirements coverage) and `@reviewer` (code quality) run in parallel, each returning findings to the orchestrator. The orchestrator merges results and writes `report.md`.
 
 **Output:** `plans/{task-slug}/report.md`. Loops on failures before surfacing to user (max 2 retries).
 
@@ -157,7 +157,7 @@ A missing expected artifact is a hard failure (`Artifact Missing`). Agents refer
 | 3 | `@debugger-specialist` | EF Core/SQL/API routing | 3 passes |
 | 4 | `@debugger-forensic` | DI/architecture/memory-leak | 5 passes |
 
-Triage (`@triage`) selects the lowest-cost appropriate tier. If a tier exceeds its iteration budget without progress, it returns an escalation signal to the orchestrator.
+Triage (`@triage`) selects the lowest-cost appropriate tier. If a tier exceeds its iteration budget without progress, it returns an escalation signal to the orchestrator. All debugger tiers write a regression test before applying the fix.
 
 ---
 

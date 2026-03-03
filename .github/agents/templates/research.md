@@ -49,3 +49,9 @@
 - **Confidence:** High | Medium | Low
 - **Rationale:** {why this tier}
 - **Escalation triggers:** {when to escalate}
+
+## Build Baseline
+> Captured before implementation begins. Lets validators distinguish new issues from pre-existing ones.
+
+- **Warnings:** {count} pre-existing (`dotnet build --no-incremental`)
+- **Failing tests:** {count} pre-existing (`dotnet test`)

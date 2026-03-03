@@ -34,7 +34,9 @@ Applies to orchestrators and judgment-heavy subagents (researcher, requirements-
 
 ## Standards
 
-All agents enforce: `.github/copilot-instructions.md`, `.github/docs/styleguide.md`, `.github/docs/testing.md`.
+All agents enforce: `.github/copilot-instructions.md`, `.github/docs/styleguide.md`, `.github/docs/testing.md`, `.github/docs/errata/*.errata.md`.
+
+Implementers and debuggers: scan `.github/docs/errata/` at init for applicable patterns/anti-patterns before writing code.
 
 When creating or modifying files in `.github/` (agent definitions, errata, shared docs), follow existing formatting: compressed reference style, no verbose prose.
 
@@ -42,3 +44,15 @@ When creating or modifying files in `.github/` (agent definitions, errata, share
 
 - Any agent may use `vscode/askQuestions` to clarify ambiguities.
 - Orchestrators summarize outcomes after every phase gate.
+
+## Progress Tracking
+
+Orchestrators use the `todo` tool to track subagent dispatch, phase gates, and overall progress. Update status as each step completes.
+
+## Failure Protocol
+
+On failure, agents return a structured block to the orchestrator:
+- **What failed:** Step or action.
+- **Why:** Root cause or error message.
+- **What was tried:** Recovery attempts.
+- **Suggested recovery:** Next steps or escalation path.
