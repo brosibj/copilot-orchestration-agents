@@ -4,6 +4,11 @@ on:
   push:
     tags:
       - "v*"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Tag to release (e.g. v1.0.0)"
+        required: true
 
 permissions:
   contents: write
@@ -13,11 +18,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.tag || github.ref }}
+
+      - name: Resolve version
+        id: version
+        run: echo "tag=${{ github.event.inputs.tag || github.ref_name }}" >> "$GITHUB_OUTPUT"
 
       - name: Build bundle
         run: |
           mkdir -p dist
-          zip -r dist/copilot-agents-${{ github.ref_name }}.zip \
+          zip -r dist/copilot-agents-${{ steps.version.outputs.tag }}.zip \
             .github/agents \
             .github/docs \
             .github/copilot-instructions.md \
@@ -26,7 +37,7 @@ jobs:
       - name: Extract changelog section
         id: changelog
         run: |
-          VERSION="${{ github.ref_name }}"
+          VERSION="${{ steps.version.outputs.tag }}"
           # Extract the block between this version header and the next
           NOTES=$(awk "/^## \[?${VERSION#v}\]?/{found=1; next} found && /^## /{exit} found{print}" CHANGELOG.md)
           {
@@ -38,5 +49,6 @@ jobs:
       - name: Create release
         uses: softprops/action-gh-release@v2
         with:
-          files: dist/copilot-agents-${{ github.ref_name }}.zip
+          tag_name: ${{ steps.version.outputs.tag }}
+          files: dist/copilot-agents-${{ steps.version.outputs.tag }}.zip
           body: ${{ steps.changelog.outputs.notes }}
