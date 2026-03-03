@@ -1,0 +1,40 @@
+name: Tag Release
+
+# Fires when a PR labeled "release" is merged into main.
+# Reads the target version from the PR title (e.g. "Release v1.0.0" or just "v1.0.0").
+on:
+  pull_request:
+    types: [closed]
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  tag:
+    if: >
+      github.event.pull_request.merged == true &&
+      contains(github.event.pull_request.labels.*.name, 'release')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Extract version from PR title
+        id: version
+        run: |
+          TITLE="${{ github.event.pull_request.title }}"
+          TAG=$(echo "$TITLE" | grep -oP 'v\d+\.\d+\.\d+')
+          if [ -z "$TAG" ]; then
+            echo "No version tag found in PR title (expected e.g. 'v1.0.0')"
+            exit 1
+          fi
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Create and push tag
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag ${{ steps.version.outputs.tag }}
+          git push origin ${{ steps.version.outputs.tag }}
