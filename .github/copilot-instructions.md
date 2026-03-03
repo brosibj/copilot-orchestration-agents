@@ -32,9 +32,10 @@ All agents enforce this file and all `.github/docs/` files for project standards
 ## Orchestrators (user-invokable)
 | Phase | Agent | Purpose | Hands off to |
 |:---|:---|:---|:---|
-| 1 | `@research` | Discovery, requirements, technical research, planning | `@implement` |
-| 2 | `@implement` | Implementation, migration, testing, validation, review | `@document` |
-| 3 | `@document` | Documentation, deferred issue tracking, PR readme | — |
+| — | `@quick` | Single-pass for simple tasks (≤ 3 files, no migrations, no new deps) | — |
+| 1 | `@discover` | Discovery, requirements, technical research, planning | `@build` or `@quick` |
+| 2 | `@build` | Implementation, migration, testing, validation, review | `@finalize` |
+| 3 | `@finalize` | Documentation, deferred issue tracking, PR readme | — |
 
 ## Shared References
 - **Dispatch rules:** `.github/agents/shared/dispatch-rules.md` — constraints, parallel rules, artifact protocol.

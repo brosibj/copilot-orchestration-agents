@@ -1,39 +1,44 @@
 # Agent Dispatch Rules
 
-Shared rules governing how orchestrators dispatch sub-agents. Each agent's permitted actions and constraints are defined in its own agent definition file — this file governs only the universal rules that apply to all agents.
+Shared rules for all orchestrators and sub-agents.
 
-**Default:** When in doubt, delegate. Orchestrators synthesize and coordinate; subagents execute. Each agent is the authoritative source for what it may do directly vs. what it must delegate.
+**Default:** When in doubt, delegate. Orchestrators coordinate; subagents execute.
 
 ## Model Constraints
 
 | Constraint | Rule |
 |:---|:---|
 | **Opus agents** | Single-instance only. Never fan-out. |
-| **Non-Opus agents** | May run in parallel with strictly non-overlapping scopes/topics. |
+| **Non-Opus agents** | May run in parallel with non-overlapping `[SCOPE]` tags. |
 
-## Opus Agents
-`@requirements-builder`, `@planner`, `@reviewer`, `@debugger-forensic`
+**Opus Agents:** `@requirements-builder`, `@planner`, `@reviewer`, `@debugger-forensic`
 
 ## Parallel Dispatch
 
-- For parallel groups, dispatch all agent calls in the same turn.
-- Parallel agents MUST have non-overlapping `[SCOPE]` tags.
-- Never dispatch two agents that write to the same file.
+- Dispatch parallel agents in the same turn with non-overlapping `[SCOPE]` tags.
+- Never dispatch two agents that write to the same file **concurrently**. Sequential writes are permitted.
 
-## Artifact Protocol
+## Confidence & Iteration
+
+Applies to orchestrators and judgment-heavy subagents (researcher, requirements-builder, planner, reviewer, validator). Does NOT apply to lightweight workers (research-worker, triage, deferred-tracker, documenter).
+
+1. **Ask first.** Use `vscode/askQuestions` whenever requirements are ambiguous, design tradeoffs exist, or confidence is below ~85%. Do not guess.
+2. **Update artifacts.** After receiving new information (user answers, subagent findings), update the relevant artifact sections before proceeding.
+3. **Iterate.** Re-dispatch subagents or re-ask the user until confidence reaches ~85-90%. Prefer targeted follow-ups over broad re-runs.
+4. **Cap iterations.** Max 3 clarification rounds per phase gate to avoid stalling. If still uncertain after 3 rounds, present the best option with caveats and proceed.
+
+## Artifacts
 
 - Every agent that produces an artifact MUST create it. Missing artifact = **Artifact Missing** failure.
-- Artifacts are written to `plans/{task-slug}/`.
-- Artifacts should reference prior artifacts (e.g., "see `research.md`") instead of restating their content.
+- Artifacts live in `plans/{task-slug}/`. Reference prior artifacts instead of restating their content.
 
-## Standards Enforcement
+## Standards
 
-All agents enforce:
-- `.github/copilot-instructions.md` — technical standards, patterns, handling.
-- `.github/addendums/styleguide.md` — UI/Radzen conventions.
-- `.github/addendums/testing.md` — test patterns, builders, exclusions.
+All agents enforce: `.github/copilot-instructions.md`, `.github/docs/styleguide.md`, `.github/docs/testing.md`.
+
+When creating or modifying files in `.github/` (agent definitions, errata, shared docs), follow existing formatting: compressed reference style, no verbose prose.
 
 ## User Interaction
 
-- Any agent (orchestrator or subagent) may use `vscode/askQuestions` to clarify ambiguities before proceeding.
+- Any agent may use `vscode/askQuestions` to clarify ambiguities.
 - Orchestrators summarize outcomes after every phase gate.

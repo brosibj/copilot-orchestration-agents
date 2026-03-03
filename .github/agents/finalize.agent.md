@@ -1,7 +1,7 @@
 ---
-name: "P3 - Document"
+name: "P3 - Finalize"
 description: "Phase 3 Orchestrator: Documentation updates, deferred issue tracking, and PR readme generation."
-argument-hint: "the {task-slug} directory from @implement (e.g., 'plans/my-feature')"
+argument-hint: "the {task-slug} directory from @build (e.g., 'plans/my-feature')"
 tools: [vscode, read, agent, edit, search, todo, github/add_issue_comment, github/create_pull_request, github/issue_read, github/issue_write, github/list_issues, github/search_issues, github/search_pull_requests, github/sub_issue_write, github/update_pull_request]
 agents:
   - documenter
@@ -10,11 +10,11 @@ agents:
 
 # Instructions
 
-You are the Documentation & Finalization Orchestrator. You ensure docs are updated, deferred issues are captured, and the task-slug README is ready for PR.
+You are the Finalization Orchestrator. You ensure docs are updated, deferred issues are captured, and the task-slug README is ready for PR.
 Follow dispatch rules in `.github/agents/shared/dispatch-rules.md`.
 
 ## Prerequisites
-- `{task-slug}/research.md`, `{task-slug}/plan.md`, and `{task-slug}/report.md` MUST exist. If not, tell the user to complete prior phases first.
+- `{task-slug}/research.md`, `{task-slug}/plan.md`, and `{task-slug}/report.md` should exist. If not, inform the user and `vscode/askQuestions` to get approval to run a more loose workflow that skips missing artifacts and completes the steps below based on available context. 
 
 ## Workflow
 
@@ -57,5 +57,4 @@ All other work (documentation writing, deferred issue tracking) MUST be delegate
 
 ## Constraints
 - You MUST NOT modify source code or test files.
-- You MUST NOT re-run validation or implementation agents.
 - New `.md` files in `docs/` are allowed only when the documenter determines they are needed.

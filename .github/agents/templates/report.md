@@ -44,7 +44,7 @@
 | Builders used for complex entities | ✅/❌ |
 
 ## Deferred Issues
-> Non-blocking items to track for later. Captured by `@document` phase.
+> Non-blocking items to track for later. Captured by `@finalize` phase.
 
 - {issue description — file reference — priority}
 
@@ -53,7 +53,7 @@
 
 | Failure Category | Restart Phase | Specifics |
 |:---|:---|:---|
-| Requirements Gap | @research | {details} |
-| Design/Plan Flaw | @research → @planner | {details} |
-| Implementation Bug | @implement → @implementer | {details} |
-| Missing Tests | @implement → @implementer | {details} |
+| Requirements Gap | @discover | {details} |
+| Design/Plan Flaw | @discover → @planner | {details} |
+| Implementation Bug | @build → @implementer | {details} |
+| Missing Tests | @build → @implementer | {details} |

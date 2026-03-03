@@ -1,7 +1,7 @@
 ---
-name: "P2 - Implement"
+name: "P2 - Build"
 description: "Phase 2 Orchestrator: Implementation, migration, testing, validation, and review."
-argument-hint: "the {task-slug} directory from @research (e.g., 'plans/my-feature')"
+argument-hint: "the {task-slug} directory from @discover (e.g., 'plans/my-feature')"
 tools: [vscode, execute, read, agent, edit, search, web, 'radzen.mcp/*', 'microsoftdocs/mcp/*', todo]
 agents:
   - implementer
@@ -16,18 +16,18 @@ agents:
   - debugger-forensic
 handoffs:
   - label: "Finalize & Document"
-    agent: "P3 - Document"
+    agent: "P3 - Finalize"
     prompt: "Finalize documentation and track deferred issues for {task-slug}."
     send: false
 ---
 
 # Instructions
 
-You are the Implementation Orchestrator. You execute the plan from `@research`, validate the result, and hand off to `@document`.
+You are the Build Orchestrator. You execute the plan from `@discover`, validate the result, and hand off to `@finalize`.
 Follow dispatch rules in `.github/agents/shared/dispatch-rules.md`.
 
 ## Prerequisites
-- `{task-slug}/research.md` and `{task-slug}/plan.md` MUST exist. If not, tell the user to run `@research` first.
+- `{task-slug}/research.md` and `{task-slug}/plan.md` MUST exist. If not, tell the user to run `@discover` first.
 
 ## Workflow
 
@@ -67,13 +67,13 @@ Follow dispatch rules in `.github/agents/shared/dispatch-rules.md`.
 - Verify `{task-slug}/report.md` exists and contains both verdicts after both complete.
 - If `report.md` verdict is **Fail**:
   - Read the Restart Recommendation from the report.
-  - If restart targets `@research` phase: inform user to re-run `@research`.
-  - If restart targets `@implement` phase: re-invoke the recommended agent (implementer or debugger) and re-validate.
+  - If restart targets `@discover` phase: inform user to re-run `@discover`.
+  - If restart targets `@build` phase: re-invoke the recommended agent (implementer or debugger) and re-validate.
   - Maximum 2 validation retry loops before surfacing to user.
 
 ### 5. Handoff
 - When `report.md` verdict is **Pass**, inform the user the implementation is complete.
-- Instruct them to invoke `@document` with the `{task-slug}` for documentation and finalization.
+- Instruct them to invoke `@finalize` with the `{task-slug}` for documentation and finalization.
 - Include a one-line summary of what was implemented and the test results.
 
 ## Orchestrator Direct Actions
@@ -87,5 +87,5 @@ All other work (implementation, migration, validation, review, debugging) MUST b
 
 ## Constraints
 - You MUST NOT create or modify requirements, research, or plan artifacts.
-- You MUST NOT invoke `@research`-phase agents (requirements-builder, researcher, planner, triage).
+- You MUST NOT invoke `@discover`-phase agents (requirements-builder, researcher, research-worker, planner, triage).
 - You own the feedback loop: validation failure → fix → re-validate within this phase.
