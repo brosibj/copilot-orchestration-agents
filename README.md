@@ -17,34 +17,57 @@ Each phase is an orchestrator that fans work out to focused sub-agents, enforces
 
 Four orchestrators are user-invokable: `@quick` for simple tasks, and the `@discover` → `@build` → `@finalize` pipeline for standard tasks. Orchestrators do not specify a model — the user chooses based on the scope and size of the requested changes. All sub-agents are model-assigned and invoked by the orchestrators.
 
+---
+
+## Features
+
+### What it helps with:
+- **Consistent, repeatable development** — the same planning, implementation, validation, and documentation steps are enforced on every task, regardless of who invokes them.
+- **Right-sized model usage** — expensive reasoning models handle architecture and ambiguity; cheap, fast models handle narrow, well-scoped tasks like triage and classification.
+- **Parallel execution** — independent sub-agents (research workers, validator + reviewer) run concurrently, reducing total wall-clock time per task.
+- **Structured artifact trail** — every task produces `research.md`, `plan.md`, `report.md`, and a PR `README.md`, making decisions traceable.
+- **Standards enforcement** — all agents read the same shared reference files, so code style, test patterns, error handling, and UI conventions are applied uniformly.
+
+### What it helps prevent:
+- **Context window overload** — orchestrators fan work out to focused sub-agents rather than loading everything into one long session.
+- **Skipped steps** — validation, testing, and code review are wired into the loop; they cannot be bypassed without the orchestrator failing its output check.
+- **Regressions** — all debuggers are required to write a failing regression test before applying a fix.
+- **Deferred work going untracked** — `@deferred-tracker` catalogs non-blocking issues as GitHub issues before the task closes.
+- **Scope creep** — the complexity gate routes simple tasks to `@quick`, preventing heavyweight phases from being invoked unnecessarily.
+
+### Adapt for your project:
+- Non-Blazor projects should replace `styleguide.md`, the `implementer-ui` tool list, and the `debugger-detective` scope.
+- Projects using different ORMs, test frameworks, or job schedulers should update the relevant docs and agent files rather than leaving mismatched references.
+
+
 ### Assumptions
 
-The agent definitions statically reference the following packages and tools. Projects consuming this template should have these in place, or update the relevant agent/addendum files accordingly.
+In order to adequately enforce the agent definitions, the following packages and tools are statically referenced. Projects consuming this template should have these in place, or update the relevant agent/addendum files accordingly.
 
 **Runtime & Framework**
-| Package | Purpose |
-|:---|:---|
-| C# 14 / .NET 10.0 | Target language and runtime |
-| ASP.NET Core Blazor | UI framework (Server or WebAssembly) |
-| Radzen.Blazor | Component library — enforced by `styleguide.md` and `implementer-ui` |
-| Microsoft.EntityFrameworkCore | ORM — migrations managed by `@migrator` |
-| Microsoft.EntityFrameworkCore.Sqlite | Integration test database provider |
-| FluentResults | `Result<T>` pattern for service logic flow |
-| Hangfire (via `IBackgroundJobClient`) | Background job scheduling — referenced in test anti-patterns |
+| Package | Purpose | Referenced in |
+|:---|:---|:---|
+| C# 14 / .NET 10.0 | Target language and runtime | `copilot-instructions.md` |
+| ASP.NET Core Blazor | UI framework (Server or WebAssembly) | `triage.agent.md`, `debugger-detective.agent.md`, `errata/blazor-js-interop-disposal.errata.md` |
+| Radzen.Blazor | Component library — enforced by `styleguide.md` and `implementer-ui` | `copilot-instructions.md`, `styleguide.md`, `research-worker.agent.md`, `validator.agent.md` |
+| Microsoft.EntityFrameworkCore | ORM — migrations managed by `@migrator` | `copilot-instructions.md`, `migrator.agent.md`, `research-worker.agent.md`, `implementer-service.agent.md`, `debugger-specialist.agent.md`, `triage.agent.md` |
+| Microsoft.EntityFrameworkCore.Sqlite | Integration test database provider | `testing.md`, `templates/plan.md` |
+| FluentResults | `Result<T>` pattern for service logic flow | `copilot-instructions.md`, `reviewer.agent.md`, `implementer-service.agent.md`, `quick.agent.md` |
+| Hangfire (via `IBackgroundJobClient`) | Background job scheduling — referenced in test anti-patterns | `testing.md`, `validator.agent.md` |
 
 **Testing**
-| Package | Purpose |
-|:---|:---|
-| xUnit | Test framework |
-| FluentAssertions | Assertion library (replaces `xUnit Assert.*`) |
-| NSubstitute | Mocking library (interfaces only) |
+| Package | Purpose | Referenced in |
+|:---|:---|:---|
+| xUnit | Test framework | `testing.md`, `templates/report.md` |
+| FluentAssertions | Assertion library (replaces `xUnit Assert.*`) | `testing.md`, `templates/report.md` |
+| NSubstitute | Mocking library (interfaces only) | `testing.md` |
 
 **MCP Tool Extensions (GitHub Copilot)**
-| Tool | Used by |
-|:---|:---|
-| `radzen.mcp/*` | `@implementer-ui`, `@researcher`, `@research-worker`, `@validator`, `@reviewer` |
-| `microsoftdocs/mcp/*` | `@researcher`, `@research-worker`, `@implementer`, `@implementer-ui`, `@implementer-service`, all debuggers |
-| `github/*` | `@finalize`, `@quick`, `@deferred-tracker`, `@researcher`, `@requirements-builder` |
+| Tool | Used by | Referenced in |
+|:---|:---|:---|
+| `radzen.mcp/*` | `@implementer`, `@implementer-ui`, `@researcher`, `@research-worker`, `@validator`, `@reviewer` | `implementer.agent.md`, `implementer-ui.agent.md`, `researcher.agent.md`, `research-worker.agent.md`, `validator.agent.md`, `reviewer.agent.md` |
+| `microsoftdocs/mcp/*` | `@researcher`, `@research-worker`, `@implementer`, `@implementer-ui`, `@implementer-service`, `@validator`, `@reviewer`, all debuggers | `researcher.agent.md`, `research-worker.agent.md`, `implementer.agent.md`, `implementer-ui.agent.md`, `implementer-service.agent.md`, `validator.agent.md`, `reviewer.agent.md`, `debugger-*.agent.md` |
+| `github/*` | `@finalize`, `@quick`, `@deferred-tracker`, `@researcher`, `@requirements-builder` | `P3-finalize.agent.md`, `quick.agent.md`, `deferred-tracker.agent.md`, `researcher.agent.md`, `requirements-builder.agent.md` |
 
 ---
 
@@ -134,7 +157,7 @@ Orchestrates finalization:
 
 ## Artifact Protocol
 
-All artifacts live under `plans/{task-slug}/`. Only `README.md` in each `task-slug` directory is committed to avoid excessive noise in the repo. All other artifacts are treated as ephemeral and are not committed. Agents reference prior artifacts rather than restating their content.
+All artifacts live under `plans/{task-slug}/`. It is recommended that only `README.md` in each `task-slug` directory is committed to avoid excessive noise in the repo (see this repo's `.gitignore`). All other artifacts are treated as ephemeral and are not committed. Agents reference prior artifacts rather than restating their content, to enforce full context, and allow for idempotent restarts.
 
 | File | Produced by | Consumed by |
 |:---|:---|:---|
@@ -144,7 +167,7 @@ All artifacts live under `plans/{task-slug}/`. Only `README.md` in each `task-sl
 | `diagnosis.md` | debuggers | `@build` |
 | `README.md` | `@finalize` (or `@quick`) | Pull request |
 
-A missing expected artifact is a hard failure (`Artifact Missing`). Agents reference prior artifacts rather than restating their content.
+A missing expected artifact is considered a hard failure. Orchestrators will retry once before surfacing the failure to the user.
 
 ---
 
@@ -171,7 +194,7 @@ Triage (`@triage`) selects the lowest-cost appropriate tier. If a tier exceeds i
 | `.github/docs/styleguide.md` | UI library, component conventions, CSS approach |
 | `.github/docs/testing.md` | Test project names (`<ProjectName>.UnitTests`), builders, exclusions |
 
-Replace `<ProjectName>` placeholders throughout templates with the actual project name once a project uses this template.
+> `<ProjectName>` placeholders can be left alone, agents will infer the project name from context.
 
 ### Adding new addendums
 
