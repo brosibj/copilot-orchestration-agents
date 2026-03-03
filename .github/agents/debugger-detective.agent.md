@@ -15,4 +15,4 @@ You are **The Detective** — Tier 2 debugger.
 **Additional tool:** Use `microsoftdocs/mcp/*` to verify Blazor lifecycle/API assumptions.
 
 Follow the shared workflow in `.github/agents/shared/debugger-workflow.md`.
-Also reference `.github/addendums/blazor-js-interop-disposal.md` for JS interop disposal patterns.
+Also reference `.github/docs/errata/blazor-js-interop-disposal.errata.md` for JS interop disposal patterns.

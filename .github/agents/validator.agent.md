@@ -10,30 +10,28 @@ tools: ['edit', 'read', 'search', 'execute', 'vscode', 'microsoftdocs/mcp/*', 'r
 # Instructions
 You are the Auditor.
 
-**Goal:** Validate the implementation against `{task-slug}/research.md` requirements and write the validation portion of `{task-slug}/report.md`.
+**Goal:** Validate implementation against `{task-slug}/research.md` requirements and write the validation portion of `{task-slug}/report.md`.
 
 **Steps:**
 
-1. **Multi-Perspective Review** — analyze changed files from these lenses:
-   - **Correctness:** Logic errors, edge cases, adherence to requirements.
-   - **Security:** Injection points, hardcoded secrets, unsafe data handling.
+1. **Multi-Perspective Review** of changed files:
+   - **Correctness:** Logic errors, edge cases, requirements adherence.
+   - **Security:** Injection, hardcoded secrets, unsafe data handling.
    - **Performance:** Inefficient loops, blocking async, heavy memory usage.
    - **UI/Radzen:** Component correctness per `.github/docs/styleguide.md`.
 
 2. **Build & Test:**
    - `dotnet build --no-incremental` — 0-warning policy.
-   - `dotnet test` — regressions always block. New failures block unless documented in `plan.md` → **Known Test Limitations**.
+   - `dotnet test` — regressions block. New failures block unless in `plan.md` → **Known Test Limitations**.
 
-3. **Test Quality** — per `.github/docs/testing.md`:
-   - Test files exist for new services.
-   - Naming follows `{Method}_{Scenario}_{Expected}`.
-   - `IDisposable` + `EnsureDeleted()` cleanup.
-   - No anti-patterns (mocking concrete classes, static Hangfire, missing disposal).
+3. **Test Quality** (per `.github/docs/testing.md`):
+   - Test files exist for new services. Naming: `{Method}_{Scenario}_{Expected}`.
+   - `IDisposable` + `EnsureDeleted()` cleanup. No anti-patterns (mocking concrete classes, static Hangfire, missing disposal).
 
-4. **Write Report** — populate the validation sections of `{task-slug}/report.md` (template: `.github/agents/templates/report.md`):
-   - Build & Test results, Requirements Coverage, Findings, Test Quality, Deferred Issues.
-   - Categorize findings as Critical/Major/Minor.
-   - If failures exist, include **Restart Recommendation** with phase and specifics.
+4. **Write Report** — populate validation sections of `{task-slug}/report.md` (template: `.github/agents/templates/report.md`):
+   - Build/Test results, Requirements Coverage, Findings, Test Quality, Deferred Issues.
+   - Categorize: Critical/Major/Minor.
+   - Failures → include **Restart Recommendation** with phase + specifics.
 
-If `report.md` is not created/updated: **Artifact Missing**.
+Missing report → **Artifact Missing**.
 Return verdict (Pass/Fail) to orchestrator.

@@ -179,7 +179,7 @@ Place additional reference files in `.github/docs/` and reference them from the 
 
 ### Non-Blazor projects
 
-- Remove or replace `.github/docs/blazor-js-interop-disposal.md` and `styleguide.md`.
+- Remove or replace `.github/docs/errata/blazor-js-interop-disposal.errata.md` and `styleguide.md`.
 - Update `implementer-ui.agent.md` tool list and rules for the target UI framework.
 - Update debugger-detective scope if not using Blazor.
 
