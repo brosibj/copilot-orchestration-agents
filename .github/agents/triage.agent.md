@@ -20,7 +20,7 @@ You are the Bug Triage Analyst.
 | Tier | Scope |
 |:---|:---|
 | **Medic** | Compiler/syntax/simple null-check issues |
-| **Detective** | Blazor state/lifecycle/race/circuit issues |
+| **Detective** | UI state/lifecycle/race/circuit issues |
 | **Specialist** | Backend/data/EF Core/SQL/API routing issues |
 | **Forensic** | Architectural/DI circular dependency/memory-leak issues |
 

@@ -27,7 +27,7 @@ You are the Auditor.
 
 3. **Test Quality** (per `.github/docs/testing.md`):
    - Test files exist for new services. Naming: `{Method}_{Scenario}_{Expected}`.
-   - `IDisposable` + `EnsureDeleted()` cleanup. No anti-patterns (mocking concrete classes, static Hangfire, missing disposal).
+   - `IDisposable` + `EnsureDeleted()` cleanup. No anti-patterns (mocking concrete classes, missing disposal, etc.).
 
 4. **Return findings** to the orchestrator in the structure of `{task-slug}/report.md` (template: `.github/agents/templates/report.md`):
    - Build/Test results, Requirements Coverage, Findings, Test Quality, Deferred Issues.

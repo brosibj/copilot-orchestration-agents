@@ -2,9 +2,9 @@
 
 ## 1. Stack & Infrastructure
 - **Frameworks:** xUnit, FluentAssertions (no `Assert.*`), NSubstitute (interfaces only; no concrete mocks).
-- **Projects:** `<ProjectName>.UnitTests` (Fast/In-memory); `<ProjectName>.IntegrationTests` (SQLite/E2E).
+- **Projects:** `<ProjectName>.UnitTests`, `<ProjectName>.IntegrationTests`, `<ProjectName>.E2ETests`, `<ProjectName>.ComponentTests`.
 - **Hard Gate:** `dotnet test` must return 0 failures. Regressions block merges. Justify new failures in `plan.md` under `## Known Test Limitations`.
-- **Exclusions:** Deferred Razor/UI testing. No testing of Radzen components, Hangfire static APIs, or ASP.NET Identity flows.
+- **Exclusions:** None at this time.
 
 ## 2. Test Strategy & Location
 | Code Type | Project | Strategy |
@@ -33,4 +33,3 @@
 - **Static APIs:** Inject `IBackgroundJobClient` instead of using `BackgroundJob.Enqueue`.
 - **Concrete Mocks:** Extract interface and mock the interface to avoid partial execution.
 - **Context Leaks:** Prevent by implementing `IDisposable` in test classes.
-- **Provider Mismatch:** Move tests involving navigation property grouping from In-Memory to SQLite.
