@@ -16,6 +16,8 @@ jobs:
       github.event.pull_request.merged == true &&
       contains(github.event.pull_request.labels.*.name, 'release')
     runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.version.outputs.tag }}
     steps:
       - name: Extract version from PR title
         id: version
@@ -38,3 +40,39 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git tag ${{ steps.version.outputs.tag }}
           git push origin ${{ steps.version.outputs.tag }}
+
+  release:
+    needs: tag
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.tag.outputs.tag }}
+
+      - name: Build bundle
+        run: |
+          mkdir -p dist
+          zip -r dist/copilot-agents-${{ needs.tag.outputs.tag }}.zip \
+            .github/agents \
+            .github/docs \
+            .github/copilot-instructions.md \
+            README.md \
+            CHANGELOG.md
+
+      - name: Extract changelog section
+        id: changelog
+        run: |
+          VERSION="${{ needs.tag.outputs.tag }}"
+          NOTES=$(awk "/^## \[?${VERSION#v}\]?/{found=1; next} found && /^## /{exit} found{print}" CHANGELOG.md)
+          {
+            echo "notes<<EOF"
+            echo "$NOTES"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ needs.tag.outputs.tag }}
+          files: dist/copilot-agents-${{ needs.tag.outputs.tag }}.zip
+          body: ${{ steps.changelog.outputs.notes }}
