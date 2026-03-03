@@ -22,9 +22,9 @@ You are the Technical Investigator.
 5. Reference code by file path + line — no large blocks.
 
 **Dependency Audit:**
-1. First try existing libraries (Radzen, FluentResults, EF Core).
+1. First try pre-existing libraries (`dotnet list package`).
 2. If insufficient, evaluate in-house implementation vs. new NuGet package.
-3. New package required → verify name, latest version, .NET 10 compat. Add Dependencies entry: *"⚠️ Not yet approved. Orchestrator must seek user confirmation."*
+3. New package required → verify name, latest version, framework compatibility. Add Dependencies entry: *"⚠️ Not yet approved. Orchestrator must seek user confirmation."*
 
 **Bug Tasks:** Write or update the **Bug Triage** section.
 

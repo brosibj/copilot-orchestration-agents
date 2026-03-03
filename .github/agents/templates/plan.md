@@ -32,8 +32,8 @@
 | Create | `<ProjectName>.UnitTests/Builders/{Entity}Builder.cs` | If new complex entity |
 
 ### Known Test Limitations
-> EF In-Memory unsupported patterns → must use `<ProjectName>.IntegrationTests/` with SQLite. Omit if none.
-- {e.g., `GetTagUsageCountsAsync` — GroupBy on navigation property.}
+> Document any known limitations or gaps in test coverage, including justifications. Omit if none.
+
 
 ## Execution Steps
 > `[P]` = parallel-ok, `[S]` = sequential. `[SCOPE]` = file boundaries for fan-out.
