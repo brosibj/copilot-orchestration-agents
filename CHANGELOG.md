@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.1.0] - 2026-03-03
+
+### Added
+- **Features section** in `README.md` documenting workflow benefits, preventative measures, and when to adapt the template
+- **"Referenced in" column** to all package and tool tables in `README.md` for transparency and traceability
+- **Expanded test project types** in `testing.md`: added `E2ETests` and `ComponentTests` project variants
+
+### Changed
+- **Renamed orchestrator agent files** for clarity: `discover.agent.md` → `P1.discover.agent.md`, `build.agent.md` → `P2.build.agent.md`, `finalize.agent.md` → `P3.finalize.agent.md`
+- **Simplified dependency audit guidance** in `researcher.agent.md`: replaced explicit package name examples with framework-agnostic "pre-existing libraries" approach
+- **Removed outdated test exclusions** in `testing.md`: removed deferred UI/Radzen/Identity testing restrictions (superseded by current project context)
+- **Updated file references** throughout README tables to reflect renamed agent files
+
+### Fixed
+- **Clarified framework compatibility language** in `researcher.agent.md`: changed ".NET 10 compat" to generic "framework compatibility" for project adaptability
+
 ## [1.0.0] - 2026-03-02
 
 ### Added
