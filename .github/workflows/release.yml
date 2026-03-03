@@ -1,0 +1,42 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build bundle
+        run: |
+          mkdir -p dist
+          zip -r dist/copilot-agents-${{ github.ref_name }}.zip \
+            .github/agents \
+            .github/docs \
+            .github/copilot-instructions.md \
+            README.md
+
+      - name: Extract changelog section
+        id: changelog
+        run: |
+          VERSION="${{ github.ref_name }}"
+          # Extract the block between this version header and the next
+          NOTES=$(awk "/^## \[?${VERSION#v}\]?/{found=1; next} found && /^## /{exit} found{print}" CHANGELOG.md)
+          {
+            echo "notes<<EOF"
+            echo "$NOTES"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/copilot-agents-${{ github.ref_name }}.zip
+          body: ${{ steps.changelog.outputs.notes }}
