@@ -26,13 +26,9 @@ You are the Auditor.
    - **UI:** Component correctness per `styleguide.md`.
    - **Scope:** Files modified vs `plan.md` scope — Critical if unplanned public API changes, Minor if cosmetic.
 
-2. **Build & Test:**
-   - Run the build and test commands from `project.md` § Build & Validation.
-   - Regressions block. New failures block unless in `plan.md` → **Known Test Limitations**.
+2. **Build & Test:** Verify per `project.md` § Build & Validation. Regressions block. New failures block unless in `plan.md` → **Known Test Limitations**.
 
-3. **Test Quality** (per `testing.md`):
-   - Test files exist for new services. Naming: `{Method}_{Scenario}_{Expected}`.
-   - Cleanup patterns enforced. No anti-patterns (mocking concrete classes, missing disposal, etc.).
+3. **Test Quality:** Verify per `testing.md` — coverage, naming, patterns, anti-patterns.
 
 4. **Return findings** to the orchestrator in the structure of `{task-slug}/report.md` (template: `.github/agents/templates/report.md`):
    - Build/Test results, Requirements Coverage, Findings, Test Quality, Deferred Issues.

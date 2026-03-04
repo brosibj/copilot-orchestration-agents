@@ -44,7 +44,7 @@ Exceeds bounds at any point → STOP, redirect to `@discover`.
 - Write/update tests per `testing.md`.
 
 ### 4. Validation
-- Run the build and test commands from `project.md` § Build & Validation.
+- Verify per `project.md` § Build & Validation.
 - Verify acceptance criteria. Fix + retry (max 2). Still failing → inform user.
 
 ### 5. Finalization

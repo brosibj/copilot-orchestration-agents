@@ -23,6 +23,10 @@ Applies to orchestrators and judgment-heavy subagents (researcher, requirements-
 - Every agent that produces an artifact MUST create it. Missing artifact = **Artifact Missing** failure.
 - Artifacts live in `plans/{task-slug}/`. Reference prior artifacts instead of restating their content.
 
+## Verification
+
+After code changes, verify per `.github/docs/project.md` § Build & Validation. Applies to: implementers, debuggers, validator, quick.
+
 ## Standards
 
 All agents enforce `.github/copilot-instructions.md` (auto-loaded). Each agent additionally enforces the project docs listed in its **Required References** section. Consult the Docs Index in `copilot-instructions.md` for on-demand lookup.

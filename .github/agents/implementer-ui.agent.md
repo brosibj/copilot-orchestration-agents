@@ -18,9 +18,7 @@ You are the UI Builder.
 **Steps:**
 1. Read `plan.md` for execution steps.
 2. If **step scope** provided → execute ONLY those steps/files. Do not touch service/data files.
-3. Follow `styleguide.md` strictly. Use `radzen.mcp/*` for component API, `microsoftdocs/mcp/*` for framework lifecycle.
-
-**Verification:** Run the build command from `project.md` § Build & Validation — 0 errors, 0 warnings.
+3. Follow `styleguide.md` strictly.
 
 **Output:** Return completion report: files modified, build result.
 Missing report → **Artifact Missing**.

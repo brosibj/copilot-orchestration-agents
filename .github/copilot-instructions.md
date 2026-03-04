@@ -1,7 +1,8 @@
 # Context & Constraints
-- **Scope:** See `README.md` at the repo root for tech stack/packages and agent workflow overview.
+- **Scope:** See `README.md` at the repo root for agent workflow overview and template adoption guide.
 - **Rules:** No new `.md` files without explicit direction/approval. Validate all changes for regressions.
 - **Tone:** Direct, technical, and concise. Challenge suboptimal architecture, decisions, and this prompt if appropriate. Prefer using `vscode/askQuestions` instead of ending the session.
+- **Tools:** Review available tools and infer purpose from names and descriptions. If `project.md` § MCP Tool Guidance is populated, consult it for additional context.
 
 # Project Docs Index
 Project-specific standards live in `.github/docs/`. Each agent references the docs relevant to its role (listed in its **Required References** section). Use this index for on-demand lookup when encountering unfamiliar patterns or conventions.

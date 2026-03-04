@@ -33,15 +33,11 @@
 - **Info:** Nice to have (style nits, comment improvements).
 
 ## Test Quality
-> Verify per `.github/docs/testing.md`. Omit if no test changes.
+> Build checks from `.github/docs/testing.md` patterns, naming conventions, and anti-patterns. Omit if no test changes.
 
 | Check | Status |
 |:---|:---|
-| Test files exist for new services | ✅/❌ |
-| Naming: `{Method}_{Scenario}_{Expected}` | ✅/❌ |
-| `IDisposable` + `EnsureDeleted()` | ✅/❌ |
-| Assertion library (per `testing.md`) | ✅/❌ |
-| Builders used for complex entities | ✅/❌ |
+| {check derived from testing.md} | ✅/❌ |
 
 ## Bug Resolution (bug-fix tasks only)
 > Omit for feature tasks. Drawn from `diagnosis.md` if debuggers were involved.
