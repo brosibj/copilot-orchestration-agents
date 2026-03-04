@@ -53,5 +53,5 @@
 ## Build Baseline
 > Captured before implementation begins. Lets validators distinguish new issues from pre-existing ones.
 
-- **Warnings:** {count} pre-existing (`dotnet build --no-incremental`)
-- **Failing tests:** {count} pre-existing (`dotnet test`)
+- **Warnings:** {count} pre-existing (run the project build command)
+- **Failing tests:** {count} pre-existing (run the project test command)

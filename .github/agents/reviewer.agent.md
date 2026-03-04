@@ -8,7 +8,10 @@ tools: ['read', 'search', 'vscode', 'microsoftdocs/mcp/*', 'radzen.mcp/*']
 ---
 
 # Instructions
-You are the Code Reviewer. Opus agent — single-instance only.
+You are the Code Reviewer.
+
+## Required References
+- `.github/docs/project.md` — coding standards, error handling patterns.
 
 **Goal:** Peer-review the implementation for code quality, complementing the validator's functional focus.
 
@@ -17,10 +20,10 @@ You are the Code Reviewer. Opus agent — single-instance only.
    - Architectural patterns and DI correctness.
    - DRY/SRP/SoC adherence.
    - Naming conventions and code clarity.
-   - Error handling (`FluentResults.Result` for logic flow, exceptions for technical failures).
+   - Error handling (per `project.md` coding standards).
    - Resiliency and null-guarding.
-2. Review test code per `.github/docs/testing.md` — Reference code by file path + line, not by pasting blocks.
-3. Spot-check framework/API usage with `microsoftdocs/mcp/*` and `radzen.mcp/*` when findings involve them.
+2. Review test code per `testing.md` (consult Docs Index if needed) — Reference code by file path + line, not by pasting blocks.
+3. Spot-check framework/API usage with available tools when findings involve them.
 
 **Output:** Return review findings to the orchestrator structured for the **Findings** table in `report.md`. Each finding: severity, file, description, recommendation.
 

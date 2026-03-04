@@ -40,11 +40,11 @@
 
 1. `[S] [SCOPE: Models/Entity.cs]` {description}
 2. `[S] [SCOPE: Services/EntityService.cs]` {description}
-3. `[P] [SCOPE: Components/Pages/PageA.razor]` {description}
-4. `[P] [SCOPE: Components/Pages/PageB.razor]` {description}
+3. `[P] [SCOPE: Components/Pages/PageA]` {description}
+4. `[P] [SCOPE: Components/Pages/PageB]` {description}
 5. `[P] [TEST] [SCOPE: <ProjectName>.UnitTests/Services/EntityServiceTests.cs]` Unit tests — happy path, edge cases, failure scenarios
 
 ## Definition of Done
-- [ ] `dotnet build --no-incremental` — 0 errors, 0 warnings
-- [ ] `dotnet test` — 0 failures
+- [ ] Build command passes (see `project.md` § Build & Validation) — 0 errors, 0 warnings
+- [ ] Test command passes (see `project.md` § Build & Validation) — 0 failures
 - [ ] All acceptance criteria from `research.md` met

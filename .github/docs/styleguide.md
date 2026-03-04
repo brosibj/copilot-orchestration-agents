@@ -15,13 +15,22 @@
 - **Responsiveness:** Use `RadzenRow`/`RadzenColumn` with `Size`, `SizeMD`, and `SizeLG`. Use `FlexWrap.Wrap` on stacks for mobile-friendly wrapping.
 - **Accessibility:** Use semantic components (e.g., `RadzenButton`) over `div @onclick`. Always provide `title` attributes for icon-only buttons.
 
-## 3. Custom Utility Inventory
+## 3. Component Data Access Patterns
+| Component Type | Pattern | Strategy |
+|:---|:---|:---|
+| **Edit/Detail Pages** | `OwningComponentBase` | Scoped context, `ChangeTracker` for dirty state, Concurrency handling. |
+| **Read/List Pages** | `IDbContextFactory` | Short-lived `await using`, `AsNoTracking()` for performance. |
+| **Hybrid** | Mixed | `OwningComponentBase` for main entity; Services for lookups. |
+
+- JS interop → see `.github/docs/errata/blazor-js-interop-disposal.errata.md`.
+
+## 4. Custom Utility Inventory
 - **Opacity:** `.opacity-70` to `.opacity-90` for muted/helper text.
 - **Interactions:** `.cursor-pointer` for clickable non-button elements.
 - **Icons:** `.icon-empty-state` (3rem size, 0.4 opacity).
 - **Constraint:** Avoid Bootstrap-conflicting names (e.g., use `.opacity-80` instead of `.text-muted`).
 
-## 4. Development Standards
+## 5. Development Standards
 - **Theming:** Every style must support Light/Dark mode via Radzen variables.
 - **Organization:** Create component-specific CSS only if unique and >50 lines.
 - **Comments:** Document **why** (intent), not **what** (syntax). Use `// TODO:` for pending logic.

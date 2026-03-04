@@ -1,8 +1,7 @@
 # Copilot Orchestration Agents
 
-A GitHub Copilot agent template for structured, multi-phase AI-driven development workflows. Designed to be kept current with evolving standards and adapted per project.
+A GitHub Copilot agent template for structured, multi-phase AI-driven development workflows. Designed to be adapted per project.
 
----
 
 ## Overview
 
@@ -17,13 +16,12 @@ Each phase is an orchestrator that fans work out to focused sub-agents, enforces
 
 Four orchestrators are user-invokable: `@quick` for simple tasks, and the `@discover` → `@build` → `@finalize` pipeline for standard tasks. Orchestrators do not specify a model — the user chooses based on the scope and size of the requested changes. All sub-agents are model-assigned and invoked by the orchestrators.
 
----
 
 ## Features
 
 ### What it helps with:
 - **Consistent, repeatable development** — the same planning, implementation, validation, and documentation steps are enforced on every task, regardless of who invokes them.
-- **Right-sized model usage** — expensive reasoning models handle architecture and ambiguity; cheap, fast models handle narrow, well-scoped tasks like triage and classification.
+- **Right-sized model usage** — slower reasoning models handle architecture and ambiguity; faster models handle narrow, well-scoped tasks like triage and classification.
 - **Parallel execution** — independent sub-agents (research workers, validator + reviewer) run concurrently, reducing total wall-clock time per task.
 - **Structured artifact trail** — every task produces `research.md`, `plan.md`, `report.md`, and a PR `README.md`, making decisions traceable.
 - **Standards enforcement** — all agents read the same shared reference files, so code style, test patterns, error handling, and UI conventions are applied uniformly.
@@ -35,41 +33,6 @@ Four orchestrators are user-invokable: `@quick` for simple tasks, and the `@disc
 - **Deferred work going untracked** — `@deferred-tracker` catalogs non-blocking issues as GitHub issues before the task closes.
 - **Scope creep** — the complexity gate routes simple tasks to `@quick`, preventing heavyweight phases from being invoked unnecessarily.
 
-### Adapt for your project:
-- Non-Blazor projects should replace `styleguide.md`, the `implementer-ui` tool list, and the `debugger-detective` scope.
-- Projects using different ORMs, test frameworks, or job schedulers should update the relevant docs and agent files rather than leaving mismatched references.
-
-
-### Assumptions
-
-In order to adequately enforce the agent definitions, the following packages and tools are statically referenced. Projects consuming this template should have these in place, or update the relevant agent/addendum files accordingly.
-
-**Runtime & Framework**
-| Package | Purpose | Referenced in |
-|:---|:---|:---|
-| C# 14 / .NET 10.0 | Target language and runtime | `copilot-instructions.md` |
-| ASP.NET Core Blazor | UI framework (Server or WebAssembly) | `triage.agent.md`, `debugger-detective.agent.md`, `errata/blazor-js-interop-disposal.errata.md` |
-| Radzen.Blazor | Component library — enforced by `styleguide.md` and `implementer-ui` | `copilot-instructions.md`, `styleguide.md`, `research-worker.agent.md`, `validator.agent.md` |
-| Microsoft.EntityFrameworkCore | ORM — migrations managed by `@migrator` | `copilot-instructions.md`, `migrator.agent.md`, `research-worker.agent.md`, `implementer-service.agent.md`, `debugger-specialist.agent.md`, `triage.agent.md` |
-| Microsoft.EntityFrameworkCore.Sqlite | Integration test database provider | `testing.md`, `templates/plan.md` |
-| FluentResults | `Result<T>` pattern for service logic flow | `copilot-instructions.md`, `reviewer.agent.md`, `implementer-service.agent.md`, `quick.agent.md` |
-| Hangfire (via `IBackgroundJobClient`) | Background job scheduling — referenced in test anti-patterns | `testing.md`, `validator.agent.md` |
-
-**Testing**
-| Package | Purpose | Referenced in |
-|:---|:---|:---|
-| xUnit | Test framework | `testing.md`, `templates/report.md` |
-| FluentAssertions | Assertion library (replaces `xUnit Assert.*`) | `testing.md`, `templates/report.md` |
-| NSubstitute | Mocking library (interfaces only) | `testing.md` |
-
-**MCP Tool Extensions (GitHub Copilot)**
-| Tool | Used by | Referenced in |
-|:---|:---|:---|
-| `radzen.mcp/*` | `@implementer`, `@implementer-ui`, `@researcher`, `@research-worker`, `@validator`, `@reviewer` | `implementer.agent.md`, `implementer-ui.agent.md`, `researcher.agent.md`, `research-worker.agent.md`, `validator.agent.md`, `reviewer.agent.md` |
-| `microsoftdocs/mcp/*` | `@researcher`, `@research-worker`, `@implementer`, `@implementer-ui`, `@implementer-service`, `@validator`, `@reviewer`, all debuggers | `researcher.agent.md`, `research-worker.agent.md`, `implementer.agent.md`, `implementer-ui.agent.md`, `implementer-service.agent.md`, `validator.agent.md`, `reviewer.agent.md`, `debugger-*.agent.md` |
-| `github/*` | `@finalize`, `@quick`, `@deferred-tracker`, `@researcher`, `@requirements-builder` | `P3-finalize.agent.md`, `quick.agent.md`, `deferred-tracker.agent.md`, `researcher.agent.md`, `requirements-builder.agent.md` |
-
----
 
 ## Workflow
 
@@ -81,7 +44,6 @@ Single-pass orchestrator for tasks that touch ≤ 3 files, require no schema cha
 
 **Output:** `plans/{task-slug}/research.md` and `plans/{task-slug}/README.md`. Optionally creates/updates a PR.
 
----
 
 ### Phase 1 — `@discover`
 
@@ -97,7 +59,6 @@ Orchestrates discovery and planning:
 
 **Output:** `plans/{task-slug}/research.md` and (for Standard tasks) `plans/{task-slug}/plan.md`.
 
----
 
 ### Phase 2 — `@build`
 
@@ -105,17 +66,13 @@ Orchestrates discovery and planning:
 
 Orchestrates execution and validation:
 
-1. **Migration** (if needed) — `@migrator` handles EF Core schema changes with clean history.
-2. **Implementation** — routes to specialized implementers:
-   - `.razor`/layout/component files → `@implementer-ui`
-   - `.cs` service/repository/test files → `@implementer-service`
-   - Mixed scope → `@implementer`
+1. **Migration** (if needed) — `@migrator` handles schema changes with clean history.
+2. **Implementation** — routes to specialized implementers by file scope (UI, service/backend, or mixed).
 3. **Bug path** — dispatches the appropriate debugger tier per triage classification; auto-escalates if needed.
 4. **Validation** — `@validator` (build, tests, requirements coverage) and `@reviewer` (code quality) run in parallel, each returning findings to the orchestrator. The orchestrator merges results and writes `report.md`.
 
 **Output:** `plans/{task-slug}/report.md`. Loops on failures before surfacing to user (max 2 retries).
 
----
 
 ### Phase 3 — `@finalize`
 
@@ -127,33 +84,46 @@ Orchestrates finalization:
 2. **Deferred tracking** — `@deferred-tracker` catalogs non-blocking issues as GitHub issues.
 3. **PR readme** — creates `plans/{task-slug}/README.md` for the pull request.
 
----
 
 ## Subagent Model Assignments
 
-| Agent | Model | Rationale |
-|:---|:---|:---|
-| `requirements-builder` | Claude Opus | Ambiguity resolution, structured requirements |
-| `researcher` | Gemini Pro | Broad codebase exploration, dep audits |
-| `research-worker` | Haiku / Flash | Lightweight parallel fact-finding |
-| `triage` | Haiku / Flash | Initial identification of issues and classification |
-| `planner` | Claude Opus | Architecture decisions, plan correctness |
-| `migrator` | GPT Codex | Precise migration generation |
-| `implementer` | Claude Sonnet | Code generation |
-| `implementer-ui` | Claude Sonnet | UI/component generation |
-| `implementer-service` | GPT Codex | Service/backend generation |
-| `debugger-medic` | Haiku / Flash | Quick issue identification and resolution |
-| `debugger-detective` | Gemini Pro | Blazor lifecycle/state reasoning |
-| `debugger-specialist` | GPT Codex | EF Core/SQL/API diagnosis |
-| `debugger-forensic` | Claude Opus | Architectural root-cause analysis |
-| `validator` | Claude Sonnet | Build, test, coverage verification |
-| `deferred-tracker` | Haiku / Flash | Low-cost classification and tracking |
-| `documenter` | Codex-Mini / Flash | Lightweight documentation, proportional to change size |
-| `reviewer` | Claude Opus | Deep code quality judgment |
+| Agent | Role | Model | Rationale |
+|:---|:---|:---|:---|
+| `requirements-builder` | Discovery | Claude Opus | Ambiguity resolution, structured requirements |
+| `researcher` | Discovery | Gemini Pro | Broad codebase exploration, dep audits |
+| `research-worker` | Discovery | Haiku / Flash | Lightweight parallel fact-finding |
+| `triage` | Discovery | Haiku / Flash | Initial identification of issues and classification |
+| `planner` | Planning | Claude Opus | Architecture decisions, plan correctness |
+| `migrator` | Execution | GPT Codex | Precise migration generation |
+| `implementer` | Execution | Claude Sonnet | Mixed-scope code generation |
+| `implementer-ui` | Execution | Claude Sonnet | UI/component generation |
+| `implementer-service` | Execution | GPT Codex | Service/backend generation |
+| `debugger-medic` | Debugging | Haiku / Flash | Quick issue identification and resolution |
+| `debugger-detective` | Debugging | Gemini Pro | UI framework lifecycle/state reasoning |
+| `debugger-specialist` | Debugging | GPT Codex | Data/ORM/API diagnosis |
+| `debugger-forensic` | Debugging | Claude Opus | Architectural root-cause analysis |
+| `validator` | Validation | Claude Sonnet | Build, test, coverage verification |
+| `reviewer` | Validation | Claude Opus | Deep code quality judgment |
+| `deferred-tracker` | Finalization | Haiku / Flash | Low-cost classification and tracking |
+| `documenter` | Finalization | Codex-Mini / Flash | Lightweight documentation, proportional to change size |
 
-> Models chosen for each role based on strengths of the model. Agents are updated with fallback models in each agent file as new versions become available and in the case of rate-limiting.
+> [!NOTE]
+> Models chosen for each role based on strengths of the model. Each agent file lists primary + fallback models for rate-limiting resilience.
 
----
+> [!TIP]
+> The orchestrators are model-agnostic. The user chooses the model for each phase based on task complexity and size. Sub-agents are model-assigned to ensure the right model is used for each role. If a subagent defines a model with a higher multiplier cost than what is used for the orchestrator, the subagent will use the model chosen for the orchestrator instead of its default model. This is intended [functionality built into GitHub Copilot itself](https://github.com/microsoft/vscode/issues/295449#issuecomment-3979023134).
+
+## Bug Debugging Tiers
+
+| Tier | Agent | Scope | Budget |
+|:---|:---|:---|:---|
+| 1 | `@debugger-medic` | Compiler/syntax/null | 2 passes |
+| 2 | `@debugger-detective` | UI framework state/lifecycle/race | 3 passes |
+| 3 | `@debugger-specialist` | Data/ORM/API routing | 3 passes |
+| 4 | `@debugger-forensic` | DI/architecture/memory-leak | 5 passes |
+
+Triage (`@triage`) selects the lowest-cost appropriate tier. Debugger tier scoping is defined in `project.md` so it can be customized per project. If a tier exceeds its budget, it returns an escalation signal to the orchestrator. All debugger tiers write a regression test before applying the fix.
+
 
 ## Artifact Protocol
 
@@ -169,49 +139,65 @@ All artifacts live under `plans/{task-slug}/`. It is recommended that only `READ
 
 A missing expected artifact is considered a hard failure. Orchestrators will retry once before surfacing the failure to the user.
 
----
 
-## Bug Debugging Tiers
+## Repository Structure
 
-| Tier | Agent | Scope | Budget |
+```
+.github/
+├── copilot-instructions.md          # Auto-loaded baseline: tone, Docs Index, workflow overview
+├── agents/
+│   ├── *.agent.md                   # Agent definitions (project-agnostic)
+│   ├── shared/
+│   │   ├── workflow-rules.md        # Coordination, parallel dispatch, iteration, artifacts
+│   │   └── debugger-workflow.md     # Shared debugger execution steps
+│   └── templates/
+│       ├── research.md              # Discovery artifact template
+│       ├── plan.md                  # Planning artifact template
+│       ├── report.md                # Validation artifact template
+│       └── readme.md               # PR readme artifact template
+└── docs/
+    ├── project.md                   # Stack, build/test commands, coding standards, data access
+    ├── styleguide.md                # UI framework conventions, component patterns, CSS
+    ├── testing.md                   # Test framework, patterns, builders, anti-patterns
+    └── errata/                      # Framework-specific patterns & anti-patterns
+```
+
+### What lives where
+
+| Layer | Files | Purpose | Who customizes |
 |:---|:---|:---|:---|
-| 1 | `@debugger-medic` | Compiler/syntax/null | 2 passes |
-| 2 | `@debugger-detective` | Blazor state/lifecycle/race | 3 passes |
-| 3 | `@debugger-specialist` | EF Core/SQL/API routing | 3 passes |
-| 4 | `@debugger-forensic` | DI/architecture/memory-leak | 5 passes |
+| **Baseline** | `copilot-instructions.md` | Auto-loaded by all Copilot interactions. Tone, Docs Index, workflow overview. | Rarely — template maintainers only |
+| **Agent workflow** | `agents/*.agent.md`, `agents/shared/` | Project-agnostic orchestration and execution logic. | Rarely — only MCP tool frontmatter when swapping tools |
+| **Project docs** | `docs/project.md`, `docs/styleguide.md`, `docs/testing.md`, `docs/errata/` | All project-specific standards, conventions, and commands. | Always — this is what you customize for your project |
 
-Triage (`@triage`) selects the lowest-cost appropriate tier. If a tier exceeds its iteration budget without progress, it returns an escalation signal to the orchestrator. All debugger tiers write a regression test before applying the fix.
-
----
 
 ## Adapting This Template
 
-### Per-project customization
+Agent files are project-agnostic — all project-specific settings live in `.github/docs/`. To adapt this template:
 
-| File | What to customize |
-|:---|:---|
-| `.github/copilot-instructions.md` | Tech stack, .NET version, framework-specific patterns |
-| `.github/docs/styleguide.md` | UI library, component conventions, CSS approach |
-| `.github/docs/testing.md` | Test project names (`<ProjectName>.UnitTests`), builders, exclusions |
+### 1. Update project docs
 
-> `<ProjectName>` placeholders can be left alone, agents will infer the project name from context.
+| Priority | File | What to customize |
+|:---|:---|:---|
+| **Always** | `project.md` | Tech stack, build/test/migration commands, error handling, coding standards, data access patterns, MCP tool guidance, debugger tier scoping |
+| **If UI** | `styleguide.md` | UI library, component conventions, component data access patterns, CSS approach |
+| **If tests** | `testing.md` | Test framework, project names, assertion libraries, builders, anti-patterns |
+| **As needed** | `errata/` | Add/remove framework-specific patterns and anti-patterns |
 
-### Adding new addendums
+### 2. Update MCP tools (if applicable)
 
-Place additional reference files in `.github/docs/` and reference them from the relevant agent files by full path (e.g., `.github/docs/my-guide.md`).
+If your project uses different MCP tool extensions (e.g., replacing `radzen.mcp/*` with a different UI library's MCP), update the `tools:` list in the frontmatter of affected agent files. Agents infer tool purpose from names and descriptions, so no instruction text changes are needed — only the frontmatter `tools:` arrays.
 
-### Non-Blazor projects
+### 3. Adding new reference docs
 
-- Remove or replace `.github/docs/errata/blazor-js-interop-disposal.errata.md` and `styleguide.md`.
-- Update `implementer-ui.agent.md` tool list and rules for the target UI framework.
-- Update debugger-detective scope if not using Blazor.
+Place additional reference files in `.github/docs/` and add them to the Docs Index in `.github/copilot-instructions.md`. Reference them in the **Required References** section of relevant agent files.
 
----
 
-## Standards Enforced by All Agents
+## Standards Enforcement
 
-- `.github/copilot-instructions.md` — technical standards, patterns, error handling.
-- `.github/docs/styleguide.md` — UI/Radzen conventions.
-- `.github/docs/testing.md` — test patterns, builders, anti-patterns.
-- `dotnet build --no-incremental` — 0 errors, 0 warnings before any handoff.
-- `dotnet test` — 0 failures before merge. Regressions always block.
+| Layer | What | Loaded by |
+|:---|:---|:---|
+| `copilot-instructions.md` | Tone, Docs Index, workflow overview | Auto-loaded for all Copilot interactions |
+| `workflow-rules.md` | Coordination, parallel dispatch, iteration, artifacts, verification, failure handling | All orchestrators and sub-agents |
+| Per-agent **Required References** | Project docs relevant to each agent's role | Each agent loads only what it needs |
+| `project.md` § Build & Validation | Build/test commands associated with gates | Implementers, debuggers, validator, quick |

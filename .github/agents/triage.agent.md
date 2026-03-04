@@ -20,8 +20,8 @@ You are the Bug Triage Analyst.
 | Tier | Scope |
 |:---|:---|
 | **Medic** | Compiler/syntax/simple null-check issues |
-| **Detective** | UI state/lifecycle/race/circuit issues |
-| **Specialist** | Backend/data/EF Core/SQL/API routing issues |
+| **Detective** | UI framework state/lifecycle/race/circuit issues |
+| **Specialist** | Backend/data/ORM/API routing issues |
 | **Forensic** | Architectural/DI circular dependency/memory-leak issues |
 
 4. If ambiguous, choose the lower-cost tier first and include escalation trigger conditions.

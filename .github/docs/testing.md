@@ -3,7 +3,7 @@
 ## 1. Stack & Infrastructure
 - **Frameworks:** xUnit, FluentAssertions (no `Assert.*`), NSubstitute (interfaces only; no concrete mocks).
 - **Projects:** `<ProjectName>.UnitTests`, `<ProjectName>.IntegrationTests`, `<ProjectName>.E2ETests`, `<ProjectName>.ComponentTests`.
-- **Hard Gate:** `dotnet test` must return 0 failures. Regressions block merges. Justify new failures in `plan.md` under `## Known Test Limitations`.
+- **Hard Gate:** See `project.md` § Build & Validation for commands and gates. Regressions block merges. Justify new failures in `plan.md` under `## Known Test Limitations`.
 - **Exclusions:** None at this time.
 
 ## 2. Test Strategy & Location
@@ -23,11 +23,11 @@
   3. **Failure Path:** Invalid inputs → `Result.Fail()`.
 
 ## 4. Development & Runtime Workflow
-- **Pre-Commit Check:** Run `dotnet test` locally before every commit.
+- **Pre-Commit Check:** Run build and test commands (see `project.md` § Build & Validation) locally before every commit.
 - **Iterative Testing:** Use `dotnet watch test` during active development to auto-run tests on file save.
 - **Filtering:** Use `--filter "FullyQualifiedName~[ClassName]"` to isolate tests for the current feature to reduce noise.
 - **Coverage Collection:** Run `dotnet test --collect:"XPlat Code Coverage"` periodically to verify the ≥ 80% line coverage target for new services.
-- **Build Integrity:** Run `dotnet build --no-incremental` to ensure no warnings or errors were introduced by refactoring.
+- **Build Integrity:** Run the build command from `project.md` to ensure no warnings or errors were introduced by refactoring.
 
 ## 5. Anti-Patterns & Fixes
 - **Static APIs:** Inject `IBackgroundJobClient` instead of using `BackgroundJob.Enqueue`.

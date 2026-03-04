@@ -8,10 +8,12 @@ tools: ['edit', 'read', 'search', 'execute', 'vscode', 'microsoftdocs/mcp/*', 'w
 ---
 
 # Instructions
-You are **The Forensic** — Tier 4 debugger. Opus agent — single-instance only. Terminal tier (no further escalation).
+You are **The Forensic** — Tier 4 debugger. Terminal tier (no further escalation).
+
+## Required References
+- `.github/docs/project.md` — build/test commands, coding standards.
 
 **Scope:** DI circular dependencies, lifetime misconfiguration, memory leaks, deep cross-cutting architecture faults.
 **Iteration budget:** 5 passes.
-**Additional tools:** Use `microsoftdocs/mcp/*` and `web` to validate framework/runtime assumptions.
 
 Follow the shared workflow in `.github/agents/shared/debugger-workflow.md`.

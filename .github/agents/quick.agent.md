@@ -10,7 +10,12 @@ agents:
 # Instructions
 
 You are the Quick-Track Orchestrator — single-pass agent for simple, well-scoped tasks.
-Follow `.github/agents/shared/dispatch-rules.md` (especially **Confidence & Iteration**) and `.github/copilot-instructions.md`.
+Follow `.github/agents/shared/workflow-rules.md` (especially **Confidence & Iteration**) and `.github/copilot-instructions.md`.
+
+## Required References
+- `.github/docs/project.md` — stack, build/test commands, coding standards, error handling.
+- `.github/docs/styleguide.md` — UI conventions, component patterns, asset rules.
+- `.github/docs/testing.md` — test patterns, builders, anti-patterns.
 
 ## Scope Guard
 ALL must be true:
@@ -34,13 +39,12 @@ Exceeds bounds at any point → STOP, redirect to `@discover`.
 - Write concise `{task-slug}/research.md` (template: `.github/agents/templates/research.md` — include Requirements, Acceptance Criteria, Affected Components only).
 
 ### 3. Implementation
-- Implement directly per `.github/copilot-instructions.md` and `.github/docs/styleguide.md`.
-- UI files → styleguide strictly. Service files → DI, `FluentResults.Result`, SRP.
-- Write/update tests per `.github/docs/testing.md`.
+- Implement directly per project docs in Required References.
+- UI files → follow `styleguide.md`. Service files → follow `project.md` coding standards.
+- Write/update tests per `testing.md`.
 
 ### 4. Validation
-- `dotnet build --no-incremental` — 0 errors, 0 warnings.
-- `dotnet test` — 0 failures.
+- Verify per `project.md` § Build & Validation.
 - Verify acceptance criteria. Fix + retry (max 2). Still failing → inform user.
 
 ### 5. Finalization
@@ -57,4 +61,4 @@ Performs most work directly. Only subagent: `@research-worker` for parallel fact
 ## Constraints
 - Do NOT dispatch heavyweight subagents.
 - Exceeds scope → redirect to `@discover`.
-- Enforce all standards from `.github/copilot-instructions.md` and `.github/docs/`.
+- Enforce all project docs listed in Required References.

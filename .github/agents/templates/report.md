@@ -10,8 +10,8 @@
 ## Build & Test
 | Check | Result | Notes |
 |:---|:---|:---|
-| `dotnet build --no-incremental` | ✅/❌ | {warnings/errors if any} |
-| `dotnet test` | ✅/❌ {pass}/{total} | {failures if any} |
+| Build (see `project.md` § Build & Validation) | ✅/❌ | {warnings/errors if any} |
+| Test (see `project.md` § Build & Validation) | ✅/❌ {pass}/{total} | {failures if any} |
 
 ## Requirements Coverage
 > Map each acceptance criterion from `research.md` to pass/fail.
@@ -33,15 +33,11 @@
 - **Info:** Nice to have (style nits, comment improvements).
 
 ## Test Quality
-> Verify per `.github/docs/testing.md`. Omit if no test changes.
+> Build checks from `.github/docs/testing.md` patterns, naming conventions, and anti-patterns. Omit if no test changes.
 
 | Check | Status |
 |:---|:---|
-| Test files exist for new services | ✅/❌ |
-| Naming: `{Method}_{Scenario}_{Expected}` | ✅/❌ |
-| `IDisposable` + `EnsureDeleted()` | ✅/❌ |
-| FluentAssertions (no xUnit Assert) | ✅/❌ |
-| Builders used for complex entities | ✅/❌ |
+| {check derived from testing.md} | ✅/❌ |
 
 ## Bug Resolution (bug-fix tasks only)
 > Omit for feature tasks. Drawn from `diagnosis.md` if debuggers were involved.

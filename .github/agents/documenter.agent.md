@@ -32,7 +32,7 @@ When in doubt, less is better. A concise paragraph beats a verbose page.
 4. Update root `README.md` only for high-level changes (new components, major config).
 
 ## `.github/` File Authoring
-When creating or modifying files under `.github/` (agents, shared docs, errata, templates), use compressed reference style: concise prose, tables over paragraphs, pattern/anti-pattern/example format for errata. See `dispatch-rules.md` Standards section.
+When creating or modifying files under `.github/` (agents, shared docs, errata, templates), use compressed reference style: concise prose, tables over paragraphs, pattern/anti-pattern/example format for errata. See `workflow-rules.md` Standards section.
 
 **Constraints:**
 - Maintain existing tone and formatting. Focus on usage/purpose — not implementation details.
