@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.2.0] - 2026-03-04
+
+### Added
+- **New `project.md` file** — centralized project configuration for tech stack, build/test commands, migrations, coding standards, and data access patterns
+- **Docs Index in `copilot-instructions.md`** — quick reference table for accessing project-specific documentation
+- **Required References sections** in agent files — each agent now explicitly lists the project docs it needs to enforce
+- **Component Data Access Patterns** in `styleguide.md` — formalized patterns for UI component context usage (`OwningComponentBase`, `IDbContextFactory`)
+- **MCP Tool Guidance section** in `project.md` — optional structure for agents to understand when to use project-specific tools
+
+### Changed
+- **Renamed `dispatch-rules.md` → `workflow-rules.md`** — updated all agent references and clarified shared coordination patterns
+- **Framework abstraction throughout** — replaced specific references (Blazor → UI framework, EF Core → ORM) to improve template portability
+- **Simplified agent instructions** — removed "Opus agent — single-instance only" language; unified build/test verification to reference `project.md` § Build & Validation
+- **Restructured README** — consolidated tech stack tables into `project.md` as single source of truth; expanded debugging tier information and model assignment rationale
+- **Updated agent frontmatter** — added "Required References" section to agents that need specific project docs
+- **Streamlined debugging tier scoping** — moved to `project.md` for per-project customization via triage
+
+### Removed
+- **Opus model constraints table** — unified into coordination guidance in `workflow-rules.md`
+- **Explicit package/framework/tech stack references** — replaced with generic terms to reduce framework-specific coupling
+- **`dbcontext-patterns.errata.md`** — DbContext patterns moved to `styleguide.md` § Component Data Access Patterns
+
 ## [1.1.2] - 2026-03-03
 - build changes
 
