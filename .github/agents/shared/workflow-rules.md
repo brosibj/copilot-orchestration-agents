@@ -1,17 +1,8 @@
-# Agent Dispatch Rules
+# Agent Workflow Rules
 
 Shared rules for all orchestrators and sub-agents.
 
 **Default:** When in doubt, delegate. Orchestrators coordinate; subagents execute.
-
-## Model Constraints
-
-| Constraint | Rule |
-|:---|:---|
-| **Opus agents** | Single-instance only. Never fan-out. |
-| **Non-Opus agents** | May run in parallel with non-overlapping `[SCOPE]` tags. |
-
-**Opus Agents:** `@requirements-builder`, `@planner`, `@reviewer`, `@debugger-forensic`
 
 ## Parallel Dispatch
 
@@ -34,7 +25,7 @@ Applies to orchestrators and judgment-heavy subagents (researcher, requirements-
 
 ## Standards
 
-All agents enforce: `.github/copilot-instructions.md`, `.github/docs/styleguide.md`, `.github/docs/testing.md`, `.github/docs/errata/*.errata.md`.
+All agents enforce `.github/copilot-instructions.md` (auto-loaded). Each agent additionally enforces the project docs listed in its **Required References** section. Consult the Docs Index in `copilot-instructions.md` for on-demand lookup.
 
 Implementers and debuggers: scan `.github/docs/errata/` at init for applicable patterns/anti-patterns before writing code.
 

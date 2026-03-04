@@ -36,30 +36,31 @@ Four orchestrators are user-invokable: `@quick` for simple tasks, and the `@disc
 - **Scope creep** — the complexity gate routes simple tasks to `@quick`, preventing heavyweight phases from being invoked unnecessarily.
 
 ### Adapt for your project:
-- Non-Blazor projects should replace `styleguide.md`, the `implementer-ui` tool list, and the `debugger-detective` scope.
-- Projects using different ORMs, test frameworks, or job schedulers should update the relevant docs and agent files rather than leaving mismatched references.
+- All project-specific settings are consolidated in `.github/docs/` — primarily `project.md`, `styleguide.md`, and `testing.md`. No agent files need editing.
+- Projects using different UI frameworks should replace `styleguide.md` and the errata files.
+- Projects using different ORMs, test frameworks, or job schedulers should update the relevant docs.
 
 
 ### Assumptions
 
-In order to adequately enforce the agent definitions, the following packages and tools are statically referenced. Projects consuming this template should have these in place, or update the relevant agent/addendum files accordingly.
+In order to adequately enforce the agent definitions, the following packages and tools are statically referenced. Projects consuming this template should have these in place, or update the relevant docs accordingly.
 
 **Runtime & Framework**
-| Package | Purpose | Referenced in |
+| Package | Purpose | Defined in |
 |:---|:---|:---|
-| C# 14 / .NET 10.0 | Target language and runtime | `copilot-instructions.md` |
-| ASP.NET Core Blazor | UI framework (Server or WebAssembly) | `triage.agent.md`, `debugger-detective.agent.md`, `errata/blazor-js-interop-disposal.errata.md` |
-| Radzen.Blazor | Component library — enforced by `styleguide.md` and `implementer-ui` | `copilot-instructions.md`, `styleguide.md`, `research-worker.agent.md`, `validator.agent.md` |
-| Microsoft.EntityFrameworkCore | ORM — migrations managed by `@migrator` | `copilot-instructions.md`, `migrator.agent.md`, `research-worker.agent.md`, `implementer-service.agent.md`, `debugger-specialist.agent.md`, `triage.agent.md` |
-| Microsoft.EntityFrameworkCore.Sqlite | Integration test database provider | `testing.md`, `templates/plan.md` |
-| FluentResults | `Result<T>` pattern for service logic flow | `copilot-instructions.md`, `reviewer.agent.md`, `implementer-service.agent.md`, `quick.agent.md` |
-| Hangfire (via `IBackgroundJobClient`) | Background job scheduling — referenced in test anti-patterns | `testing.md`, `validator.agent.md` |
+| C# 14 / .NET 10.0 | Target language and runtime | `project.md` |
+| ASP.NET Core Blazor | UI framework (Server or WebAssembly) | `project.md`, `styleguide.md`, `errata/blazor-js-interop-disposal.errata.md` |
+| Radzen.Blazor | Component library | `project.md`, `styleguide.md` |
+| Microsoft.EntityFrameworkCore | ORM — migrations managed by `@migrator` | `project.md` |
+| Microsoft.EntityFrameworkCore.Sqlite | Integration test database provider | `project.md`, `testing.md` |
+| FluentResults | `Result<T>` pattern for service logic flow | `project.md` |
+| Hangfire (via `IBackgroundJobClient`) | Background job scheduling — referenced in test anti-patterns | `project.md`, `testing.md` |
 
 **Testing**
-| Package | Purpose | Referenced in |
+| Package | Purpose | Defined in |
 |:---|:---|:---|
-| xUnit | Test framework | `testing.md`, `templates/report.md` |
-| FluentAssertions | Assertion library (replaces `xUnit Assert.*`) | `testing.md`, `templates/report.md` |
+| xUnit | Test framework | `testing.md` |
+| FluentAssertions | Assertion library (replaces `xUnit Assert.*`) | `testing.md` |
 | NSubstitute | Mocking library (interfaces only) | `testing.md` |
 
 **MCP Tool Extensions (GitHub Copilot)**
@@ -105,7 +106,7 @@ Orchestrates discovery and planning:
 
 Orchestrates execution and validation:
 
-1. **Migration** (if needed) — `@migrator` handles EF Core schema changes with clean history.
+1. **Migration** (if needed) — `@migrator` handles schema changes with clean history.
 2. **Implementation** — routes to specialized implementers:
    - `.razor`/layout/component files → `@implementer-ui`
    - `.cs` service/repository/test files → `@implementer-service`
@@ -143,8 +144,8 @@ Orchestrates finalization:
 | `implementer-ui` | Claude Sonnet | UI/component generation |
 | `implementer-service` | GPT Codex | Service/backend generation |
 | `debugger-medic` | Haiku / Flash | Quick issue identification and resolution |
-| `debugger-detective` | Gemini Pro | Blazor lifecycle/state reasoning |
-| `debugger-specialist` | GPT Codex | EF Core/SQL/API diagnosis |
+| `debugger-detective` | Gemini Pro | UI framework lifecycle/state reasoning |
+| `debugger-specialist` | GPT Codex | ORM/SQL/API diagnosis |
 | `debugger-forensic` | Claude Opus | Architectural root-cause analysis |
 | `validator` | Claude Sonnet | Build, test, coverage verification |
 | `deferred-tracker` | Haiku / Flash | Low-cost classification and tracking |
@@ -176,8 +177,8 @@ A missing expected artifact is considered a hard failure. Orchestrators will ret
 | Tier | Agent | Scope | Budget |
 |:---|:---|:---|:---|
 | 1 | `@debugger-medic` | Compiler/syntax/null | 2 passes |
-| 2 | `@debugger-detective` | Blazor state/lifecycle/race | 3 passes |
-| 3 | `@debugger-specialist` | EF Core/SQL/API routing | 3 passes |
+| 2 | `@debugger-detective` | UI framework state/lifecycle/race | 3 passes |
+| 3 | `@debugger-specialist` | ORM/SQL/API routing | 3 passes |
 | 4 | `@debugger-forensic` | DI/architecture/memory-leak | 5 passes |
 
 Triage (`@triage`) selects the lowest-cost appropriate tier. If a tier exceeds its iteration budget without progress, it returns an escalation signal to the orchestrator. All debugger tiers write a regression test before applying the fix.
@@ -186,32 +187,35 @@ Triage (`@triage`) selects the lowest-cost appropriate tier. If a tier exceeds i
 
 ## Adapting This Template
 
-### Per-project customization
+Agent files are project-agnostic — all project-specific settings live in `.github/docs/`. To adapt this template for your project, update the docs below. No agent files need editing.
 
-| File | What to customize |
-|:---|:---|
-| `.github/copilot-instructions.md` | Tech stack, .NET version, framework-specific patterns |
-| `.github/docs/styleguide.md` | UI library, component conventions, CSS approach |
-| `.github/docs/testing.md` | Test project names (`<ProjectName>.UnitTests`), builders, exclusions |
+### Files to update
 
-> `<ProjectName>` placeholders can be left alone, agents will infer the project name from context.
+| Priority | File | What to customize |
+|:---|:---|:---|
+| **Always** | `.github/docs/project.md` | Tech stack, build/test/migration commands, error handling, coding standards, data access patterns, debugger tier scoping |
+| **If UI** | `.github/docs/styleguide.md` | UI library, component conventions, component data access patterns, CSS approach |
+| **If tests** | `.github/docs/testing.md` | Test framework, project names (`<ProjectName>.UnitTests`), builders, anti-patterns |
+| **As needed** | `.github/docs/errata/` | Add/remove framework-specific patterns and anti-patterns |
 
-### Adding new addendums
+> `<ProjectName>` placeholders can be left alone — agents will infer the project name from context.
 
-Place additional reference files in `.github/docs/` and reference them from the relevant agent files by full path (e.g., `.github/docs/my-guide.md`).
+### Adding new reference docs
+
+Place additional reference files in `.github/docs/` and add them to the Docs Index in `.github/copilot-instructions.md`. Reference them in the **Required References** section of relevant agent files.
 
 ### Non-Blazor projects
 
-- Remove or replace `.github/docs/errata/blazor-js-interop-disposal.errata.md` and `styleguide.md`.
-- Update `implementer-ui.agent.md` tool list and rules for the target UI framework.
-- Update debugger-detective scope if not using Blazor.
+1. Update `.github/docs/project.md` — change stack, packages, build commands, data access patterns, debugger tier scoping.
+2. Replace `.github/docs/styleguide.md` with conventions for your UI framework.
+3. Remove or replace `.github/docs/errata/blazor-js-interop-disposal.errata.md`.
+4. Update `.github/docs/testing.md` if using a different test framework.
 
 ---
 
 ## Standards Enforced by All Agents
 
-- `.github/copilot-instructions.md` — technical standards, patterns, error handling.
-- `.github/docs/styleguide.md` — UI/Radzen conventions.
-- `.github/docs/testing.md` — test patterns, builders, anti-patterns.
-- `dotnet build --no-incremental` — 0 errors, 0 warnings before any handoff.
-- `dotnet test` — 0 failures before merge. Regressions always block.
+- `.github/copilot-instructions.md` — auto-loaded baseline: tone, workflow overview, Docs Index.
+- `.github/agents/shared/workflow-rules.md` — coordination, parallel dispatch, iteration, artifacts, failure handling.
+- Each agent enforces the project docs listed in its **Required References** section.
+- Build and test gates are defined in `.github/docs/project.md` § Build & Validation.

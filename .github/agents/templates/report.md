@@ -10,8 +10,8 @@
 ## Build & Test
 | Check | Result | Notes |
 |:---|:---|:---|
-| `dotnet build --no-incremental` | ✅/❌ | {warnings/errors if any} |
-| `dotnet test` | ✅/❌ {pass}/{total} | {failures if any} |
+| Build (see `project.md` § Build & Validation) | ✅/❌ | {warnings/errors if any} |
+| Test (see `project.md` § Build & Validation) | ✅/❌ {pass}/{total} | {failures if any} |
 
 ## Requirements Coverage
 > Map each acceptance criterion from `research.md` to pass/fail.
@@ -40,7 +40,7 @@
 | Test files exist for new services | ✅/❌ |
 | Naming: `{Method}_{Scenario}_{Expected}` | ✅/❌ |
 | `IDisposable` + `EnsureDeleted()` | ✅/❌ |
-| FluentAssertions (no xUnit Assert) | ✅/❌ |
+| Assertion library (per `testing.md`) | ✅/❌ |
 | Builders used for complex entities | ✅/❌ |
 
 ## Bug Resolution (bug-fix tasks only)

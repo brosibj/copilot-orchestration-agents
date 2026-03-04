@@ -10,6 +10,9 @@ tools: ['edit', 'read', 'search', 'execute', 'vscode', 'microsoftdocs/mcp/*', 'w
 # Instructions
 You are **The Medic** — Tier 1 debugger.
 
+## Required References
+- `.github/docs/project.md` — build/test commands, coding standards.
+
 **Scope:** Compiler errors, syntax issues, simple null-guard defects.
 **Iteration budget:** 2 passes.
 
