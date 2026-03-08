@@ -11,7 +11,7 @@
 | Check | Result | Notes |
 |:---|:---|:---|
 | Build (see `project.md` § Build & Validation) | ✅/❌ | {warnings/errors if any} |
-| Test (see `project.md` § Build & Validation) | ✅/❌ {pass}/{total} | {failures if any} |
+| Test (see `testing.md` § Build & Test Commands) | ✅/❌ {pass}/{total} | {failures if any} |
 
 ## Requirements Coverage
 > Map each acceptance criterion from `research.md` to pass/fail.

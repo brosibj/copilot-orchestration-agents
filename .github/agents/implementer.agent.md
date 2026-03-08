@@ -13,7 +13,7 @@ You are the Builder.
 **Goal:** Execute code changes specified in `{task-slug}/plan.md`.
 
 ## Required References
-- `.github/docs/project.md` — coding standards, error handling, build/test commands.
+- `.github/docs/project.md` — coding standards, error handling, build commands.
 - `.github/docs/styleguide.md` — UI conventions, component patterns, asset rules.
 - `.github/docs/testing.md` — test patterns, builders, anti-patterns.
 

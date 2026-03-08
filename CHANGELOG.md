@@ -3,6 +3,44 @@
 All notable changes to this project will be documented in this file.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.3.0] - 2026-03-08
+
+### Added
+- **`edit` tool on P1** — orchestrator can now create `{task-slug}/` directories and seed files without delegating.
+- **`renderMermaidDiagram` tool on `@planner`** — enables execution-flow and architecture diagram generation during planning.
+- **`radzen.mcp/*` tool on `@debugger-detective`** — UI-framework debugger can now verify Radzen component behavior.
+- **Confidence gate (>85% overall, 90% per-topic)** in `workflow-rules.md` — replaces vague "~85%" language with hard thresholds and per-topic evaluation.
+- **Question batching guidance** in `workflow-rules.md` — agents must batch up to 4 questions per `askQuestions` call to minimize round trips.
+- **Deferred issue approval prompt** in P3 — orchestrator presents multi-select `askQuestions` for user to approve which deferred items become GitHub issues. Replaces silent auto-creation.
+- **PR create/update/skip question** in P3 and `@quick` — user chooses: create new PR, update existing (with PR #), or skip. Replaces bare yes/no confirmation.
+- **Dynamic `pr.md` template** — sections are conditional based on example `project.md` and example `testing.md` configuration. Includes size guide (Compact/Standard), Linked Issues table, and GitHub issue cross-references.
+- **Bug path now consistent with feature path** in P1 — `@requirements-builder` runs first for bugs (was already step 1 for features), ensuring `research.md` exists before `@triage` reads it.
+- **P3 PR description via `@researcher` summarize** — orchestrator dispatches `@researcher` to read `pr.md` content instead of reading it directly (respects orchestrator constraints).
+- **Orchestrator Constraints** in `workflow-rules.md` — orchestrators must not read file contents (existence checks only); all content-based routing via subagent return summaries. `@quick` exempt as hybrid worker.
+- **Platform Constraints** in `workflow-rules.md` — documents that subagents cannot invoke other subagents; only orchestrators dispatch.
+- **Return Protocol** in `workflow-rules.md` — concise structured return format guidance for subagent-to-orchestrator communication to prevent context bloat.
+- **Fragment pattern** for parallel research — `@researcher` instances write to `{task-slug}/fragments/{scope-name}.md`, then a compile pass merges into `research.md`.
+- **Build & Test Commands** section in example `testing.md` — test commands and gates consolidated as single source of truth for test configuration.
+- **No-code artifact guidance** — `workflow-rules.md` and `research.md` template enforce referencing code by file path + line instead of pasting blocks.
+- **Suggested research scopes** — `@requirements-builder` now returns suggested research scopes for orchestrator to dispatch parallel researchers.
+- **Pre-flight summarization** — `@build` and `@finalize` dispatch `@researcher` with summarize scope for routing info instead of reading artifacts directly.
+
+### Changed
+- **Renamed `readme.md` template → `pr.md`** — avoids confusion with project root `README.md`. All cross-references updated (P3, `@quick`, `@deferred-tracker`, `copilot-instructions.md`, `.gitignore`, `README.md`).
+- **Reworked P3 finalization workflow** — deferred issue creation now requires user approval (multi-select prompt); PR handling offers create/update/skip; `@deferred-tracker` writes `pr.md` with dynamic sections.
+- **Merged `researcher` + `research-worker`** into a single generic `@researcher` agent. Supports three modes: research (write fragment), compile (merge fragments), summarize (return routing data). Eliminates nested subagent dispatch.
+- **Reworked P1 Discovery workflow** — requirements-builder (serial, interactive) → parallel researchers (scoped) → compile researcher → planner. Replaces sequential researcher-with-nested-workers pattern.
+- **Stripped tools from orchestrators** — P1, P2, P3 orchestrators no longer have `read`, `search`, `web`, or MCP tools. Routing delegated to subagents.
+- **Strengthened `askQuestions` enforcement** — `copilot-instructions.md` and `workflow-rules.md` now mandate `vscode/askQuestions` over ending sessions. Added "Never end prematurely" rule.
+- **Test configuration single source of truth** — moved `dotnet test` and Test DB entries from example `project.md` to example `testing.md`. Updated Docs Index and all cross-references.
+- **Updated Docs Index** in `copilot-instructions.md` — split "build/test commands" between example `project.md` (build) and example `testing.md` (test).
+- **`@requirements-builder` scoped** — now writes only Summary + Requirements + AC sections of `research.md`; Technical Analysis deferred to researchers.
+
+### Removed
+- **`research-worker.agent.md`** — merged into generic `@researcher`. Nested subagent dispatch eliminated.
+- **Test DB from example `project.md`** — moved to example `testing.md` § Stack & Infrastructure.
+- **`dotnet test` from example `project.md`** — moved to example `testing.md` § Build & Test Commands.
+
 ## [1.2.0] - 2026-03-04
 
 ### Added

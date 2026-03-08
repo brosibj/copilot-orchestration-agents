@@ -2,10 +2,13 @@
 
 **Slug:** `{task-slug}` · **Date:** {date} · **Type:** Feature | Bug
 
+> **No code in artifacts.** Reference code by file path + line. Small pseudocode only when essential for clarity.
+
 ---
 
 ## Summary
 > 2-3 sentence overview of what was discovered and the recommended approach.
+> *Written by: `@requirements-builder`*
 
 ## Requirements
 
@@ -20,6 +23,7 @@
 - [ ] {criterion}
 
 ## Technical Analysis
+> *Written by: `@researcher` (compiled from fragments)*
 
 ### Affected Components
 | Component | File(s) | Impact |

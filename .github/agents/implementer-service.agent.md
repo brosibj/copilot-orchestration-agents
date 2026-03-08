@@ -13,7 +13,7 @@ You are the Service Builder.
 **Goal:** Execute backend-scoped changes from `{task-slug}/plan.md` — service, repository, model, and test files only.
 
 ## Required References
-- `.github/docs/project.md` — coding standards, error handling, data access patterns, build/test commands.
+- `.github/docs/project.md` — coding standards, error handling, data access patterns, build commands.
 - `.github/docs/testing.md` — test patterns, builders, anti-patterns.
 
 **Steps:**

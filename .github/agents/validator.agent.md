@@ -11,7 +11,7 @@ tools: ['read', 'search', 'execute', 'vscode', 'microsoftdocs/mcp/*', 'radzen.mc
 You are the Auditor.
 
 ## Required References
-- `.github/docs/project.md` — build/test commands, coding standards.
+- `.github/docs/project.md` — build commands, coding standards.
 - `.github/docs/styleguide.md` — UI conventions, component patterns.
 - `.github/docs/testing.md` — test patterns, builders, anti-patterns.
 
@@ -26,7 +26,7 @@ You are the Auditor.
    - **UI:** Component correctness per `styleguide.md`.
    - **Scope:** Files modified vs `plan.md` scope — Critical if unplanned public API changes, Minor if cosmetic.
 
-2. **Build & Test:** Verify per `project.md` § Build & Validation. Regressions block. New failures block unless in `plan.md` → **Known Test Limitations**.
+2. **Build & Test:** Verify build per `project.md` § Build & Validation and tests per `testing.md` § Build & Test Commands. Regressions block. New failures block unless in `plan.md` → **Known Test Limitations**.
 
 3. **Test Quality:** Verify per `testing.md` — coverage, naming, patterns, anti-patterns.
 

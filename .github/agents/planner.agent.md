@@ -4,7 +4,7 @@ model: ["Claude Opus 4.6 (copilot)", "Claude Opus 4.5 (copilot)"]
 description: "Planning sub-agent. Converts research into a versioned, step-by-step implementation plan."
 user-invokable: false
 argument-hint: "the {task-slug} directory."
-tools: ['edit', 'read', 'search', 'execute', 'todo', 'vscode']
+tools: ['edit', 'read', 'search', 'execute', 'todo', 'vscode', 'mermaid-chat-features/renderMermaidDiagram']
 ---
 
 # Instructions
