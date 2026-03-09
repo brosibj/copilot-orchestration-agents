@@ -23,7 +23,7 @@
 - **Side Effects:** {e.g., "re-render of Sidebar"}
 
 ## Test Plan
-> See `.github/docs/testing.md` for patterns. Each new/modified service method needs tests.
+> Follow the active testing instructions for patterns. Each new/modified service method needs tests.
 
 | Action | File | Notes |
 |:---|:---|:---|
@@ -45,6 +45,6 @@
 5. `[P] [TEST] [SCOPE: <ProjectName>.UnitTests/Services/EntityServiceTests.cs]` Unit tests — happy path, edge cases, failure scenarios
 
 ## Definition of Done
-- [ ] Build command passes (see `project.md` § Build & Validation) — 0 errors, 0 warnings
-- [ ] Test command passes (see `testing.md` § Build & Test Commands) — 0 failures
+- [ ] Build command passes per the active project instructions — 0 errors, 0 warnings
+- [ ] Test command passes per the active testing instructions — 0 failures
 - [ ] All acceptance criteria from `research.md` met

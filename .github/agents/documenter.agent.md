@@ -2,7 +2,7 @@
 name: documenter
 model: ["GPT-5.1-Codex-Mini (Preview) (copilot)", "Gemini 3 Flash (Preview) (copilot)"]
 description: "Documentation sub-agent. Updates feature docs and README.md with effort proportional to change size."
-user-invokable: false
+user-invocable: false
 argument-hint: "the {task-slug} directory and documentation mode ('New Feature', 'Modification', or 'Bug-Fix')."
 tools: ['edit', 'read', 'search', 'vscode']
 ---
@@ -32,7 +32,7 @@ When in doubt, less is better. A concise paragraph beats a verbose page.
 4. Update root `README.md` only for high-level changes (new components, major config).
 
 ## `.github/` File Authoring
-When creating or modifying files under `.github/` (agents, shared docs, errata, templates), use compressed reference style: concise prose, tables over paragraphs, pattern/anti-pattern/example format for errata. See `workflow-rules.md` Standards section.
+When creating or modifying files under `.github/` (agents, skills, shared docs, templates), use compressed reference style: concise prose, tables over paragraphs, pattern/anti-pattern/example format for skills. See `workflow-rules.md` Standards section.
 
 **Constraints:**
 - Maintain existing tone and formatting. Focus on usage/purpose — not implementation details.

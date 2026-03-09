@@ -10,8 +10,8 @@
 ## Build & Test
 | Check | Result | Notes |
 |:---|:---|:---|
-| Build (see `project.md` § Build & Validation) | ✅/❌ | {warnings/errors if any} |
-| Test (see `testing.md` § Build & Test Commands) | ✅/❌ {pass}/{total} | {failures if any} |
+| Build (per active project instructions) | ✅/❌ | {warnings/errors if any} |
+| Test (per active testing instructions) | ✅/❌ {pass}/{total} | {failures if any} |
 
 ## Requirements Coverage
 > Map each acceptance criterion from `research.md` to pass/fail.
@@ -33,11 +33,11 @@
 - **Info:** Nice to have (style nits, comment improvements).
 
 ## Test Quality
-> Build checks from `.github/docs/testing.md` patterns, naming conventions, and anti-patterns. Omit if no test changes.
+> Build checks from the active testing instructions: patterns, naming conventions, and anti-patterns. Omit if no test changes.
 
 | Check | Status |
 |:---|:---|
-| {check derived from testing.md} | ✅/❌ |
+| {check derived from active testing instructions} | ✅/❌ |
 
 ## Bug Resolution (bug-fix tasks only)
 > Omit for feature tasks. Drawn from `diagnosis.md` if debuggers were involved.

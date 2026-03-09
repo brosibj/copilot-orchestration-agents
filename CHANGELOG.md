@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.4.0] - 2026-03-09
+
+### Added
+- **Instruction-first standards layer** — active `.github/instructions/*.instructions.md` files now carry project, testing, styleguide, and Blazor JS interop guidance directly, with matching `.template` files available as seeds for new repos.
+- **LSP tooling upgrades** — VS Code 1.110 `search/usages` support is available to implementers, reviewers, planners, and researchers, `edit/rename` is wired into the implementer agents, and diagnostics now flow through `read/problems` so validators, debuggers, and implementers can inspect workspace issues directly.
+- **Reusable skills** — `artifact-management`, `dependency-audit`, and `blazor-js-interop-disposal` capture reusable procedures without relying on `.github/docs` references.
+- `.github/docs` has been removed in favor of using either `*.instructions.md` or `SKILL.md` files as applicable.
+- **Slash prompts, validator browser tools, and session guidance** — `/init-project`, `/bug-report`, `/new-feature`, and `/quick-fix` routes simplify common workflows, the validator can now open/read/navigate/click/screenshot UI pages when warranted, and the shared `workflow-rules.md` adds a Session Management section covering when and how to run `/compact` while preserving artifact data.
+- **P2 retry exhaustion behavior** — after 5 failed retries `@build` writes `report.md` with the final failing verdict and surfaces three options to the user via `vscode/askQuestions`: continue manually, restart from `@discover` with revised requirements, or abandon task.
+- **`report.md` retry guidance in `artifact-management` skill** — documents overwrite-on-retry semantics: include notable prior findings only, avoid accumulating full retry history.
+
+### Changed
+- **Instruction loading model** — agents, shared templates, prompts, skills, README, and `copilot-instructions.md` now reference auto-loaded instruction files instead of `.github/docs` paths.
+- **Complexity gate moved post-discovery** — `@requirements-builder` now returns a **complexity classification** (Simple/Standard) based on actual codebase analysis. P1 routes after discovery instead of pre-classifying before `@requirements-builder` runs.
+- **`@quick` PR step** — step 5 is now search-only (note existing PR URL); step 6 asks user to choose create/update/skip instead of auto-updating an existing PR.
+- **Instruction template files relocated** — `*.instructions.template.md` seeds moved from `.github/instructions/` to `.github/agents/templates/` alongside the existing artifact templates. `/init-project` references updated accordingly.
+- **`errata-patterns` skill and `errata/` directory replaced** — deleted the `errata-patterns` meta-skill and `.github/errata/` directory; `blazor-js-interop-disposal` converted to a proper standalone `skills/blazor-js-interop-disposal/SKILL.md`. All agent references updated from errata to skills.
+- **README overhaul** — structure diagram rebuilt to reflect template moves, skills changes, and empty `instructions/` note; P1 workflow description updated to match new complexity gate; P2 retry count corrected to 5; adoption sections merged with `/init-project` as the recommended first step; artifact protocol clarified as ephemeral/git-ignored.
+
+### Fixed
+- **Missing YAML frontmatter delimiter** — 10 agent files (`researcher`, `planner`, `implementer`, `implementer-ui`, `implementer-service`, `reviewer`, `debugger-medic`, `debugger-detective`, `debugger-specialist`, `debugger-forensic`) were missing the opening `---` line, causing frontmatter to render as body text.
+
 ## [1.3.0] - 2026-03-08
 
 ### Added

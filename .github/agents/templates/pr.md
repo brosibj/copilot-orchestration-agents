@@ -19,7 +19,7 @@
 | {path} | {one-line description} |
 
 <!-- DYNAMIC SECTIONS — include the sections below that apply to this project.
-  Consult `.github/docs/project.md` and `.github/docs/testing.md` to determine
+  Consult the active project and testing instructions to determine
   which sections are relevant (e.g. migrations, test types, build steps).
   Omit sections that have no project-level configuration. -->
 
@@ -30,11 +30,11 @@
 - Direction: {up/down verified}
 
 ## Testing
-> Include only if `testing.md` defines test commands/gates for this project. Adapt rows to match the test types configured in `testing.md` § Build & Test Commands.
+> Include only if the active testing instructions define test commands/gates for this project. Adapt rows to match the configured test types.
 
 | Gate | Result |
 |:---|:---|
-| {test type from testing.md} | ✅ / ❌ {count} |
+| {test type from active testing instructions} | ✅ / ❌ {count} |
 
 ## Linked Issues
 > GitHub issues created or referenced during this task. Omit if none.

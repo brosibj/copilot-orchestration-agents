@@ -12,11 +12,6 @@ agents:
 You are the Quick-Track Orchestrator — single-pass agent for simple, well-scoped tasks.
 Follow `.github/agents/shared/workflow-rules.md` (especially **Confidence & Iteration**) and `.github/copilot-instructions.md`.
 
-## Required References
-- `.github/docs/project.md` — stack, build commands, coding standards, error handling.
-- `.github/docs/styleguide.md` — UI conventions, component patterns, asset rules.
-- `.github/docs/testing.md` — test patterns, builders, anti-patterns.
-
 ## Scope Guard
 ALL must be true:
 - Touches ≤ 3 files (excluding tests)
@@ -39,21 +34,21 @@ Exceeds bounds at any point → STOP, redirect to `@discover`.
 - Write concise `{task-slug}/research.md` (template: `.github/agents/templates/research.md` — include Requirements, Acceptance Criteria, Affected Components only).
 
 ### 3. Implementation
-- Implement directly per project docs in Required References.
-- UI files → follow `styleguide.md`. Service files → follow `project.md` coding standards.
-- Write/update tests per `testing.md`.
+- Implement directly per the auto-loaded project instructions.
+- UI files → follow the active styleguide instructions. Service files → follow the active project instructions.
+- Write/update tests per the active testing instructions.
 
 ### 4. Validation
-- Verify build per `project.md` § Build & Validation, tests per `testing.md` § Build & Test Commands.
+- Verify build per the active project instructions and tests per the active testing instructions.
 - Verify acceptance criteria. Fix + retry (max 2). Still failing → inform user.
 
 ### 5. Finalization
 - Skip docs for bug-fixes / internal refactors. User-facing changes → proportional doc update.
-- Write `{task-slug}/pr.md` from template `.github/agents/templates/pr.md`. Scale to change size (see SIZE GUIDE in template). Consult `project.md` and `testing.md` to determine which dynamic sections apply.
-- Search for existing PR via GitHub MCP → update if found.
+- Write `{task-slug}/pr.md` from template `.github/agents/templates/pr.md`. Scale to change size (see SIZE GUIDE in template). Consult the active project and testing instructions to determine which dynamic sections apply.
+- Search for existing PR via GitHub MCP. Note URL if found — do not auto-update.
 
 ### 6. Completion
-Summarize: files changed, build/test results, deferred items. Ask user via `vscode/askQuestions`: Create new PR / Update existing (provide PR #) / Skip.
+Summarize: files changed, build/test results, deferred items. Ask user via `vscode/askQuestions`: Create new PR / Update existing (provide PR # — pre-fill if found in step 5) / Skip.
 
 ## Direct Actions
 Performs most work directly. Only subagent: `@researcher` for parallel fact-finding.
@@ -61,4 +56,4 @@ Performs most work directly. Only subagent: `@researcher` for parallel fact-find
 ## Constraints
 - Do NOT dispatch heavyweight subagents.
 - Exceeds scope → redirect to `@discover`.
-- Enforce all project docs listed in Required References.
+- Enforce the active auto-loaded instruction files relevant to the current scope.

@@ -2,7 +2,7 @@
 name: deferred-tracker
 model: ["Claude Haiku 4.5 (copilot)", "Gemini 3 Flash (Preview) (copilot)"]
 description: "Deferred issue tracker and PR description writer. Creates approved GitHub issues and produces pr.md."
-user-invokable: false
+user-invocable: false
 argument-hint: "the {task-slug} directory."
 tools: [vscode, read, edit, search, github/add_issue_comment, github/issue_read, github/issue_write, github/list_issues, github/search_issues, github/search_pull_requests, github/sub_issue_write]
 ---
@@ -21,7 +21,7 @@ You are the Deferred Issue Tracker.
    - Scale the document to the change (see SIZE GUIDE in template).
    - **What Changed** — from `research.md` + `report.md`.
    - **Files Modified** — from `report.md`.
-   - **Dynamic sections** — consult `.github/docs/project.md` and `.github/docs/testing.md` to determine which sections apply (Migration, Testing, etc.). Omit sections with no project-level configuration.
+   - **Dynamic sections** — consult the active project and testing instructions to determine which sections apply (Migration, Testing, etc.). Omit sections with no project-level configuration.
    - **Linked Issues** — GitHub issue numbers created in step 3 + any existing linked issues.
    - **Deferred Items** — compiled list with GitHub issue links where created (or "—" if user declined).
    - **PR link** in header if found in step 4.

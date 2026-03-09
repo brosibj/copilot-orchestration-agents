@@ -51,15 +51,15 @@ Subagents return concise, structured summaries to the orchestrator — not raw f
 
 ## Verification
 
-After code changes, verify build per `.github/docs/project.md` § Build & Validation and tests per `.github/docs/testing.md` § Build & Test Commands. Applies to: implementers, debuggers, validator, quick.
+After code changes, verify build per the active project instructions and tests per the active testing instructions. Applies to: implementers, debuggers, validator, quick.
 
 ## Standards
 
-All agents enforce `.github/copilot-instructions.md` (auto-loaded). Each agent additionally enforces the project docs listed in its **Required References** section. Consult the Docs Index in `copilot-instructions.md` for on-demand lookup.
+All agents enforce `.github/copilot-instructions.md` (auto-loaded) and rely on the active instruction files in `.github/instructions/` for project-specific standards.
 
-Implementers and debuggers: scan `.github/docs/errata/` at init for applicable patterns/anti-patterns before writing code.
+Implementers and debuggers: consult relevant skills (e.g., `blazor-js-interop-disposal`) before writing code that touches frameworks with known lifecycle or disposal pitfalls.
 
-When creating or modifying files in `.github/` (agent definitions, errata, shared docs), follow existing formatting: compressed reference style, no verbose prose.
+When creating or modifying files in `.github/` (agent definitions, skills, shared docs), follow existing formatting: compressed reference style, no verbose prose.
 
 ## User Interaction
 
@@ -78,3 +78,10 @@ On failure, agents return a structured block to the orchestrator:
 - **Why:** Root cause or error message.
 - **What was tried:** Recovery attempts.
 - **Suggested recovery:** Next steps or escalation path.
+
+## Session Management
+
+- **Use `/compact` after major phase gates:** After discover → build or build → finalize handoffs, or when context feels overloaded, run `/compact` to trim history.
+- **Custom focus text:** `/compact focus on {task-slug} plan decisions and implementation progress` — preserves routing decisions while trimming conversation bulk.
+- **Artifact persistence:** Plans in `plans/{task-slug}/` survive compaction. Orchestrators must ensure critical routing data (step order, scope tags, schema decisions) is written to artifacts *before* compaction, not held only in conversation history.
+- **Pre-compaction checklist:** Confirm task slug, current phase gate, next agent target, and any in-flight scope blocks are artifact-resident before issuing `/compact`.
