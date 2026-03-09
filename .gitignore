@@ -1,6 +1,7 @@
-# Agent workflow artifacts — only commit the PR README from each task-slug
+# Agent workflow artifacts — only commit pr.md from each task-slug
 **/plans/*/*.md
-!**/plans/*/README.md
+**/plans/*/fragments/
+!**/plans/*/pr.md
 
 
 # User-specific files

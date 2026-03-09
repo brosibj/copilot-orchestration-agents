@@ -10,7 +10,6 @@
 | UI Framework | ASP.NET Core Blazor Server | — |
 | UI Components | Radzen.Blazor | Component library |
 | ORM | Microsoft.EntityFrameworkCore | Migrations managed by `@migrator` |
-| Test DB | Microsoft.EntityFrameworkCore.Sqlite | Integration test database provider |
 | Error Handling | FluentResults | `Result<T>` for service logic flow / expected failures |
 | Background Jobs | Hangfire | Via `IBackgroundJobClient` |
 
@@ -18,7 +17,6 @@
 | Command | Purpose | Gate |
 |:---|:---|:---|
 | `dotnet build --no-incremental` | Full rebuild | 0 errors, 0 warnings |
-| `dotnet test` | Run all tests | 0 failures |
 | `dotnet add package <Name>` | Add package (no version — pulls latest) | Get user confirmation before adding new packages |
 | `dotnet list package` | Audit installed packages | — |
 

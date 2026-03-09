@@ -46,5 +46,5 @@
 
 ## Definition of Done
 - [ ] Build command passes (see `project.md` § Build & Validation) — 0 errors, 0 warnings
-- [ ] Test command passes (see `project.md` § Build & Validation) — 0 failures
+- [ ] Test command passes (see `testing.md` § Build & Test Commands) — 0 failures
 - [ ] All acceptance criteria from `research.md` met

@@ -11,7 +11,8 @@ tools: ['edit', 'read', 'search', 'execute', 'vscode', 'microsoftdocs/mcp/*', 'w
 You are **The Forensic** — Tier 4 debugger. Terminal tier (no further escalation).
 
 ## Required References
-- `.github/docs/project.md` — build/test commands, coding standards.
+- `.github/docs/project.md` — build commands, coding standards.
+- `.github/docs/testing.md` — test commands.
 
 **Scope:** DI circular dependencies, lifetime misconfiguration, memory leaks, deep cross-cutting architecture faults.
 **Iteration budget:** 5 passes.

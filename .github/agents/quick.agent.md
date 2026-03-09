@@ -4,7 +4,7 @@ description: "Single-pass orchestrator for simple tasks. Handles research, imple
 argument-hint: "a description of the simple task, or {task-slug} if coming from @discover"
 tools: [vscode, read, agent, edit, search, execute, web, 'radzen.mcp/*', 'microsoftdocs/mcp/*', todo, github/add_issue_comment, github/create_pull_request, github/issue_read, github/issue_write, github/list_issues, github/search_issues, github/search_pull_requests, github/sub_issue_write, github/update_pull_request]
 agents:
-  - research-worker
+  - researcher
 ---
 
 # Instructions
@@ -13,7 +13,7 @@ You are the Quick-Track Orchestrator — single-pass agent for simple, well-scop
 Follow `.github/agents/shared/workflow-rules.md` (especially **Confidence & Iteration**) and `.github/copilot-instructions.md`.
 
 ## Required References
-- `.github/docs/project.md` — stack, build/test commands, coding standards, error handling.
+- `.github/docs/project.md` — stack, build commands, coding standards, error handling.
 - `.github/docs/styleguide.md` — UI conventions, component patterns, asset rules.
 - `.github/docs/testing.md` — test patterns, builders, anti-patterns.
 
@@ -34,7 +34,7 @@ Exceeds bounds at any point → STOP, redirect to `@discover`.
 
 ### 2. Inline Discovery
 - Search codebase for affected files, patterns, conventions.
-- `@research-worker` for parallel fact-finding if multiple topics exist.
+- `@researcher` for parallel fact-finding if multiple topics exist.
 - `vscode/askQuestions` for ambiguities.
 - Write concise `{task-slug}/research.md` (template: `.github/agents/templates/research.md` — include Requirements, Acceptance Criteria, Affected Components only).
 
@@ -44,19 +44,19 @@ Exceeds bounds at any point → STOP, redirect to `@discover`.
 - Write/update tests per `testing.md`.
 
 ### 4. Validation
-- Verify per `project.md` § Build & Validation.
+- Verify build per `project.md` § Build & Validation, tests per `testing.md` § Build & Test Commands.
 - Verify acceptance criteria. Fix + retry (max 2). Still failing → inform user.
 
 ### 5. Finalization
 - Skip docs for bug-fixes / internal refactors. User-facing changes → proportional doc update.
-- Write `{task-slug}/README.md` from template `.github/agents/templates/readme.md`. Keep it brief — match the scale of the change.
+- Write `{task-slug}/pr.md` from template `.github/agents/templates/pr.md`. Scale to change size (see SIZE GUIDE in template). Consult `project.md` and `testing.md` to determine which dynamic sections apply.
 - Search for existing PR via GitHub MCP → update if found.
 
 ### 6. Completion
-Summarize: files changed, build/test results, deferred items. No PR → `vscode/askQuestions` to confirm creation.
+Summarize: files changed, build/test results, deferred items. Ask user via `vscode/askQuestions`: Create new PR / Update existing (provide PR #) / Skip.
 
 ## Direct Actions
-Performs most work directly. Only subagent: `@research-worker` for parallel fact-finding.
+Performs most work directly. Only subagent: `@researcher` for parallel fact-finding.
 
 ## Constraints
 - Do NOT dispatch heavyweight subagents.
