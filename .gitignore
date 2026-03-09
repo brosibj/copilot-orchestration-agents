@@ -1,7 +1,5 @@
 # Agent workflow artifacts — only commit pr.md from each task-slug
-**/plans/*/*.md
-**/plans/*/fragments/
-!**/plans/*/pr.md
+**/plans/**/*.md
 
 
 # User-specific files

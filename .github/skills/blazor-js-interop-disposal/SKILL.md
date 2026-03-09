@@ -1,3 +1,9 @@
+---
+name: blazor-js-interop-disposal
+description: "Blazor Server JS interop disposal patterns. Use when implementing or debugging IAsyncDisposable components that use IJSRuntime/IJSObjectReference for cleanup during disposal."
+user-invocable: false
+---
+
 # Blazor Server JS Interop Disposal
 
 ## Problem
@@ -55,4 +61,3 @@ public async ValueTask DisposeAsync()
 
 ## Applies When
 Component implements `IAsyncDisposable` AND uses `IJSRuntime` / `IJSObjectReference` for JS cleanup during disposal.
-

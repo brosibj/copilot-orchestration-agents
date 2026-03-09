@@ -24,7 +24,8 @@ Four orchestrators are user-invokable: `@quick` for simple tasks, and the `@disc
 - **Right-sized model usage** — slower reasoning models handle architecture and ambiguity; faster models handle narrow, well-scoped tasks like triage and classification.
 - **Parallel execution** — independent sub-agents (research workers, validator + reviewer) run concurrently, reducing total wall-clock time per task.
 - **Structured artifact trail** — every task produces `research.md`, `plan.md`, `report.md`, and `pr.md`, making decisions traceable.
-- **Standards enforcement** — all agents read the same shared reference files, so code style, test patterns, error handling, and UI conventions are applied uniformly.
+- **Context-aware UI validation** — `@validator` can open, read, navigate, and screenshot UI pages when needed via browser tooling, keeping tests targeted to the scale of the UI change.
+- **Standards enforcement** — agents rely on the same auto-loaded instruction files, so code style, test patterns, error handling, and UI conventions stay consistent.
 
 ### What it helps prevent:
 - **Context window management** — orchestrators are lean coordinators that do not read file contents. All analysis is delegated to subagents, which return concise structured summaries. This prevents context bloat in the orchestrator.
@@ -44,17 +45,16 @@ Single-pass orchestrator for tasks that touch ≤ 3 files, require no schema cha
 
 **Output:** `plans/{task-slug}/research.md` and `plans/{task-slug}/pr.md`. Optionally creates/updates a PR.
 
-
 ### Phase 1 — `@discover`
 
 **Invoke with:** a description of the feature or bug.
 
 Orchestrates discovery and planning:
 
-1. **Complexity gate** — classifies the task as Simple or Standard. Simple tasks are directed to `@quick` after discovery.
-2. **Requirements** — `@requirements-builder` formalizes intent, acceptance criteria, and suggests research scopes.
-3. **Parallel research** — The orchestrator dispatches multiple `@researcher` instances in parallel (one per scope from requirements). Each writes a fragment file. A final `@researcher` compile pass merges fragments into `research.md`.
-4. **Bug triage** — `@triage` classifies bugs to the correct debugger tier (if applicable).
+1. **Requirements** — `@requirements-builder` formalizes intent, acceptance criteria, suggests research scopes, and returns a **complexity classification** (Simple or Standard).
+2. **Bug triage** — `@triage` classifies bugs to the correct debugger tier (if applicable). Tier 2+ bugs are upgraded to Standard regardless of the initial classification.
+3. **Simple path** — if classified Simple (and tier 1 or no triage), produce `research.md` and hand off to `@quick`. `@quick` performs its own inline research.
+4. **Parallel research** (Standard only) — The orchestrator dispatches multiple `@researcher` instances in parallel (one per scope from requirements). Each writes a fragment file. A final `@researcher` compile pass merges fragments into `research.md`.
 5. **Planning** (Standard only) — `@planner` produces a step-by-step plan with scope, sequencing, and test requirements.
 
 **Output:** `plans/{task-slug}/research.md` and (for Standard tasks) `plans/{task-slug}/plan.md`.
@@ -72,7 +72,7 @@ Orchestrates execution and validation:
 3. **Bug path** — dispatches the appropriate debugger tier per triage classification; auto-escalates if needed.
 4. **Validation** — `@validator` (build, tests, requirements coverage) and `@reviewer` (code quality) run in parallel, each returning findings to the orchestrator. The orchestrator merges results and writes `report.md`.
 
-**Output:** `plans/{task-slug}/report.md`. Loops on failures before surfacing to user (max 2 retries).
+**Output:** `plans/{task-slug}/report.md`. Loops on failures before surfacing to user (max 5 retries).
 
 
 ### Phase 3 — `@finalize`
@@ -81,9 +81,12 @@ Orchestrates execution and validation:
 
 Orchestrates finalization:
 
-1. **Documentation** — `@documenter` updates project `README.md` and `docs/` if behavior changed. Documentation effort is proportional to change size.
+1. **Documentation** — `@documenter` updates project `README.md`, instruction-layer guidance, and related workflow docs if behavior changed. Documentation effort is proportional to change size.
 2. **Deferred tracking** — `@deferred-tracker` catalogs non-blocking issues. The orchestrator prompts the user to approve which items become GitHub issues (multi-select, batched).
 3. **PR description** — `@deferred-tracker` writes `plans/{task-slug}/pr.md` scaled to change size. The orchestrator asks the user: Create new PR / Update existing / Skip.
+
+
+> **Session management note:** After a major phase gate or before dispatching the next orchestrator, run `/compact focus on {task-slug} plan decisions and implementation progress` to trim history while preserving routing data; the Session Management section of [agents/shared/workflow-rules.md](agents/shared/workflow-rules.md#L82-L87) spells out the checklist and artifact expectations.
 
 
 ## Subagent Model Assignments
@@ -122,12 +125,12 @@ Orchestrates finalization:
 | 3 | `@debugger-specialist` | Data/ORM/API routing | 3 passes |
 | 4 | `@debugger-forensic` | DI/architecture/memory-leak | 5 passes |
 
-Triage (`@triage`) selects the lowest-cost appropriate tier. Debugger tier scoping is defined in `project.md` so it can be customized per project. If a tier exceeds its budget, it returns an escalation signal to the orchestrator. All debugger tiers write a regression test before applying the fix.
+Triage (`@triage`) selects the lowest-cost appropriate tier. Debugger tier scoping is defined in the active project instructions so it can be customized per project. If a tier exceeds its budget, it returns an escalation signal to the orchestrator. All debugger tiers write a regression test before applying the fix.
 
 
 ## Artifact Protocol
 
-All artifacts live under `plans/{task-slug}/`. It is recommended that only `pr.md` in each `task-slug` directory is committed to avoid excessive noise in the repo (see this repo's `.gitignore`). All other artifacts are treated as ephemeral and are not committed. Agents reference prior artifacts rather than restating their content, to enforce full context, and allow for idempotent restarts.
+All artifacts live under `plans/{task-slug}/`. All artifacts are treated as ephemeral and are git-ignored (see this repo's `.gitignore`). Agents reference prior artifacts rather than restating their content, to enforce full context, and allow for idempotent restarts.
 
 | File | Produced by | Consumed by |
 |:---|:---|:---|
@@ -145,7 +148,7 @@ A missing expected artifact is considered a hard failure. Orchestrators will ret
 
 ```
 .github/
-├── copilot-instructions.md          # Auto-loaded baseline: tone, Docs Index, workflow overview
+├── copilot-instructions.md          # Auto-loaded baseline: tone, instruction index, workflow overview
 ├── agents/
 │   ├── *.agent.md                   # Agent definitions (project-agnostic)
 │   ├── shared/
@@ -155,51 +158,70 @@ A missing expected artifact is considered a hard failure. Orchestrators will ret
 │       ├── research.md              # Discovery artifact template
 │       ├── plan.md                  # Planning artifact template
 │       ├── report.md                # Validation artifact template
-│       └── pr.md                   # PR description artifact template
-└── docs/
-    ├── project.md                   # Stack, build commands, coding standards, data access
-    ├── styleguide.md                # UI framework conventions, component patterns, CSS
-    ├── testing.md                   # Test framework, test commands, patterns, builders, anti-patterns
-    └── errata/                      # Framework-specific patterns & anti-patterns
+│       ├── pr.md                    # PR description artifact template
+│       ├── project.instructions.template.md       # Seed for project standards
+│       ├── styleguide.instructions.template.md    # Seed for UI conventions
+│       └── testing.instructions.template.md       # Seed for test conventions
+├── instructions/                    # Empty in template; populated during adoption via /init-project
+├── skills/
+│   ├── artifact-management/SKILL.md   # Reusable procedure: artifact/fragment conventions
+│   ├── dependency-audit/SKILL.md      # Reusable procedure: new-dependency evaluation
+│   └── blazor-js-interop-disposal/SKILL.md # Framework-specific: Blazor JS interop disposal patterns
+├── workflows/
+│   ├── release.yml                  # GitHub Actions: release workflow
+│   └── tag-release.yml              # GitHub Actions: tag-based release
+└── prompts/
+    ├── init-project.prompt.md       # /init-project — initialize or update workflow customization
+    ├── bug-report.prompt.md         # /bug-report — structured bug investigation entry point
+    ├── new-feature.prompt.md        # /new-feature — structured feature request entry point
+    └── quick-fix.prompt.md          # /quick-fix — single-pass fix entry point
 ```
 
 ### What lives where
 
 | Layer | Files | Purpose | Who customizes |
 |:---|:---|:---|:---|
-| **Baseline** | `copilot-instructions.md` | Auto-loaded by all Copilot interactions. Tone, Docs Index, workflow overview. | Rarely — template maintainers only |
+| **Baseline** | `copilot-instructions.md` | Auto-loaded by all Copilot interactions. Tone, instruction index, workflow overview. | Rarely — template maintainers only |
 | **Agent workflow** | `agents/*.agent.md`, `agents/shared/` | Project-agnostic orchestration and execution logic. | Rarely — only MCP tool frontmatter when swapping tools |
-| **Project docs** | `docs/project.md`, `docs/styleguide.md`, `docs/testing.md`, `docs/errata/` | All project-specific standards, conventions, and commands. | Always — this is what you customize for your project |
+| **Auto-loaded instructions** | `instructions/*.instructions.md` | Primary project-specific standards, loaded automatically by `applyTo` scope. | Always — this is what you customize for your project |
+| **Instruction templates** | `agents/templates/*.instructions.template.md` | Seed files for new repos before active instructions are populated. | As needed — template maintainers or `/init-project` |
+| **Reusable skills** | `skills/*/SKILL.md` | On-demand procedures invoked by agents (not users directly). Cover artifact management, dependency audit, and framework-specific patterns. | Rarely — extend when adding new reusable procedures or framework-specific guidance |
+| **Slash prompts** | `prompts/*.prompt.md` | Entry-point shortcuts available in Copilot Chat via `/`. Route to agents or provide structured context for common workflows. | Optionally — add project-specific shortcuts |
 
 
 ## Adapting This Template
 
-Agent files are project-agnostic — all project-specific settings live in `.github/docs/`. To adapt this template:
+Agent files are project-agnostic — all project-specific settings live in `.github/instructions/`. To adapt this template:
 
-### 1. Update project docs
+### 1. Run `/init-project`
+
+The recommended way to set up instruction files. The `/init-project` slash prompt gathers project facts (stack, build commands, test framework, UI library, etc.) and creates or updates the active instruction files from their templates. Re-run when project setup changes.
+
+### 2. Populate active instruction files
+
+`/init-project` creates these in `.github/instructions/` from templates in `agents/templates/`. Customize as needed:
 
 | Priority | File | What to customize |
 |:---|:---|:---|
-| **Always** | `project.md` | Tech stack, build/migration commands, error handling, coding standards, data access patterns, MCP tool guidance, debugger tier scoping |
-| **If UI** | `styleguide.md` | UI library, component conventions, component data access patterns, CSS approach |
-| **If tests** | `testing.md` | Test framework, test commands, project names, assertion libraries, builders, anti-patterns |
-| **As needed** | `errata/` | Add/remove framework-specific patterns and anti-patterns |
+| **Always** | `instructions/project.instructions.md` | Tech stack, build/migration commands, error handling, coding standards, data access patterns, MCP tool guidance, debugger tier scoping |
+| **If UI** | `instructions/styleguide.instructions.md` | UI library, component conventions, component data access patterns, CSS approach |
+| **If tests** | `instructions/testing.instructions.md` | Test framework, test commands, project names, assertion libraries, builders, anti-patterns |
 
-### 2. Update MCP tools (if applicable)
+### 3. Update MCP tools (if applicable)
 
 If your project uses different MCP tool extensions (e.g., replacing `radzen.mcp/*` with a different UI library's MCP), update the `tools:` list in the frontmatter of affected agent files. Agents infer tool purpose from names and descriptions, so no instruction text changes are needed — only the frontmatter `tools:` arrays.
 
-### 3. Adding new reference docs
+### 4. Add new instruction files or skills when needed
 
-Place additional reference files in `.github/docs/` and add them to the Docs Index in `.github/copilot-instructions.md`. Reference them in the **Required References** section of relevant agent files.
+Place additional instruction files in `.github/instructions/` with focused `applyTo` scopes for auto-loading. For framework-specific anti-patterns or lifecycle guidance, create a new skill under `.github/skills/` (see existing skills for format).
+
+> The slash prompts in `prompts/` work out-of-the-box. `/init-project` seeds or refreshes instructions, `/bug-report` and `/new-feature` route straight into `@discover`, and `/quick-fix` jumps into `@quick`; see the matching prompt files [init-project.prompt.md](.github/prompts/init-project.prompt.md), [bug-report.prompt.md](.github/prompts/bug-report.prompt.md), [new-feature.prompt.md](.github/prompts/new-feature.prompt.md), and [quick-fix.prompt.md](.github/prompts/quick-fix.prompt.md) when customizing.
 
 
 ## Standards Enforcement
 
 | Layer | What | Loaded by |
 |:---|:---|:---|
-| `copilot-instructions.md` | Tone, Docs Index, workflow overview | Auto-loaded for all Copilot interactions |
+| `copilot-instructions.md` | Tone, instruction index, workflow overview | Auto-loaded for all Copilot interactions |
 | `workflow-rules.md` | Coordination, parallel dispatch, iteration, artifacts, verification, failure handling | All orchestrators and sub-agents |
-| Per-agent **Required References** | Project docs relevant to each agent's role | Each agent loads only what it needs |
-| `project.md` § Build & Validation | Build commands associated with gates | Implementers, debuggers, validator, quick |
-| `testing.md` § Build & Test Commands | Test commands and gates | Implementers, debuggers, validator, quick |
+| `instructions/*.instructions.md` | Project-specific standards and framework guidance | Auto-loaded by `applyTo` scope |

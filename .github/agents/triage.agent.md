@@ -2,7 +2,7 @@
 name: triage
 model: ["Claude Haiku 4.5 (copilot)", "Gemini 3 Flash (Preview) (copilot)"]
 description: "Bug triage classifier. Selects the correct debugger tier."
-user-invokable: false
+user-invocable: false
 argument-hint: "the {task-slug} directory and bug description."
 tools: ['read', 'search', 'vscode']
 ---

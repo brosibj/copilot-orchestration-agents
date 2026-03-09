@@ -2,7 +2,7 @@
 name: requirements-builder
 model: ["Claude Opus 4.6 (copilot)", "Claude Opus 4.5 (copilot)"]
 description: "Discovery sub-agent. Formalizes intent into structured requirements within research.md."
-user-invokable: false
+user-invocable: false
 argument-hint: "the {task-slug} directory and latest intent."
 tools: ['edit', 'read', 'search', 'vscode', 'github/issue_read', 'github/search_issues']
 ---
@@ -19,6 +19,7 @@ You are the Requirements Builder.
 4. If `research.md` is not created/updated, return failure: **Artifact Missing**.
 5. Return to the orchestrator:
    - Summary of finalized requirements (2-3 sentences).
+   - **Complexity classification:** **Simple** (all true: ≤ 3 files excl. tests, no schema changes, no new deps, unambiguous requirements) or **Standard** (anything else). Base this on codebase analysis from step 1, not guesswork.
    - **Suggested research scopes** — list of distinct topics the orchestrator should dispatch researchers for (e.g., "UI component patterns for X", "service layer changes for Y", "dependency audit for Z"). Each scope should be non-overlapping and specific enough for a single researcher instance.
 
 **Constraints:**
