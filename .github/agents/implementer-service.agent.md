@@ -1,6 +1,6 @@
 ---
 name: implementer-service
-model: ["GPT-5.3-Codex (copilot)", "GPT-5.2-Codex (copilot)"]
+model: ["GPT-5.4", "GPT-5.3-Codex (copilot)", "GPT-5.2-Codex (copilot)"]
 description: "Service execution sub-agent. Implements services, repositories, models, and tests per the approved plan."
 user-invocable: false
 argument-hint: "the {task-slug} directory and step scope (e.g., 'Steps 1-2 [SCOPE: Services/MyService, Models/MyEntity]')."

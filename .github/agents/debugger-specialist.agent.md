@@ -1,6 +1,6 @@
 ---
 name: debugger-specialist
-model: ["GPT-5.3-Codex (copilot)", "GPT-5.2-Codex (copilot)"]
+model: ["GPT-5.4", "GPT-5.3-Codex (copilot)", "GPT-5.2-Codex (copilot)"]
 description: "Tier 3 debugger. Fixes backend/data/ORM/API routing issues."
 user-invocable: false
 argument-hint: "the {task-slug} directory and bug description."
