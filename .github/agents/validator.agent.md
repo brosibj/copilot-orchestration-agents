@@ -27,7 +27,7 @@ You are the Auditor.
 
 4. **Browser Validation** (when browser tools are available): Verify UI behavior for changes involving visual output or interactivity. **Proportionality rule:** scope browser checks to the scale of UI changes — a CSS tweak does not warrant a full-page regression; a new interactive component does. Skip silently if browser tools are unavailable.
 
-5. **Return findings** to the orchestrator in the structure of `{task-slug}/report.md` (template: `.github/agents/templates/report.md`):
+5. **Return findings** to the orchestrator in the structure of `{task-slug}/report.md` (template: `.github/agents/templates/report.template.md`):
    - Build/Test results, Requirements Coverage, Findings, Test Quality, Deferred Issues.
    - Categorize: Critical/Major/Minor.
    - Failures → include **Restart Recommendation** with phase + specifics.
