@@ -1,11 +1,22 @@
 name: Tag Release
 
-# Fires when a PR labeled "release" is merged into main.
-# Reads the target version from the PR title (e.g. "Release v1.0.0" or just "v1.0.0").
+# Fires when a PR labeled "release" is merged into main,
+# or can be run manually with an explicit version.
 on:
   pull_request:
     types: [closed]
     branches: [main]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Version tag to create and release (for example v1.0.0)
+        required: true
+        type: string
+      target_ref:
+        description: Branch or commit to tag when run manually
+        required: true
+        default: main
+        type: string
 
 permissions:
   contents: write
@@ -13,33 +24,45 @@ permissions:
 jobs:
   tag:
     if: >
-      github.event.pull_request.merged == true &&
-      contains(github.event.pull_request.labels.*.name, 'release')
+      github.event_name == 'workflow_dispatch' ||
+      (
+        github.event.pull_request.merged == true &&
+        contains(github.event.pull_request.labels.*.name, 'release')
+      )
     runs-on: ubuntu-latest
     outputs:
       tag: ${{ steps.version.outputs.tag }}
     steps:
-      - name: Extract version from PR title
+      - name: Resolve version
         id: version
         run: |
-          TITLE="${{ github.event.pull_request.title }}"
-          TAG=$(echo "$TITLE" | grep -oP 'v\d+\.\d+\.\d+')
-          if [ -z "$TAG" ]; then
-            echo "No version tag found in PR title (expected e.g. 'v1.0.0')"
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            TAG="${{ inputs.version }}"
+          else
+            TITLE="${{ github.event.pull_request.title }}"
+            TAG=$(echo "$TITLE" | grep -oP 'v\d+\.\d+\.\d+')
+          fi
+          if ! echo "$TAG" | grep -qE '^v[0-9]+\.[0-9]+\.[0-9]+$'; then
+            echo "Version must match v<major>.<minor>.<patch> (for example v1.0.0)"
             exit 1
           fi
           echo "tag=$TAG" >> "$GITHUB_OUTPUT"
 
       - uses: actions/checkout@v4
         with:
-          ref: main
+          ref: ${{ github.event_name == 'workflow_dispatch' && inputs.target_ref || 'main' }}
 
       - name: Create and push tag
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git tag ${{ steps.version.outputs.tag }}
-          git push origin ${{ steps.version.outputs.tag }}
+          git fetch --tags origin
+          if git rev-parse "${{ steps.version.outputs.tag }}" >/dev/null 2>&1; then
+            echo "Tag ${{ steps.version.outputs.tag }} already exists; continuing"
+          else
+            git tag ${{ steps.version.outputs.tag }}
+            git push origin ${{ steps.version.outputs.tag }}
+          fi
 
   release:
     needs: tag
@@ -54,7 +77,8 @@ jobs:
           mkdir -p dist
           zip -r dist/copilot-agents-${{ needs.tag.outputs.tag }}.zip \
             .github/agents \
-            .github/docs \
+            .github/prompts \
+            .github/skills \
             .github/copilot-instructions.md \
             README.md \
             CHANGELOG.md
