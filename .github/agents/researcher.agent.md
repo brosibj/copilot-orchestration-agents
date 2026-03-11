@@ -1,6 +1,6 @@
 ---
 name: researcher
-model: ["Gemini 3.1 Pro (Preview) (copilot)", "Gemini 3 Pro (Preview) (copilot)"]
+model: ["GPT-5.4", "Claude Sonnet 4.6 (copilot)"]
 description: "Generic research agent. Performs scoped codebase analysis, fact-finding, and artifact compilation."
 user-invocable: false
 argument-hint: "the {task-slug} directory and a [SCOPE] tag or task description."
