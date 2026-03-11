@@ -1,6 +1,6 @@
 ---
 name: planner
-model: ["Claude Opus 4.6 (copilot)", "Claude Opus 4.5 (copilot)"]
+model: ["Claude Opus 4.6 (copilot)", "Claude Opus 4.5 (copilot)", "Claude Sonnet 4.6 (copilot)", "GPT-5.4"]
 description: "Planning sub-agent. Converts research into a versioned, step-by-step implementation plan."
 user-invocable: false
 argument-hint: "the {task-slug} directory."

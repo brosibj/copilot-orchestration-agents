@@ -1,6 +1,6 @@
 ---
 name: requirements-builder
-model: ["Claude Opus 4.6 (copilot)", "Claude Opus 4.5 (copilot)"]
+model: ["Claude Opus 4.6 (copilot)", "Claude Opus 4.5 (copilot)", "Claude Sonnet 4.6 (copilot)", "GPT-5.4"]
 description: "Discovery sub-agent. Formalizes intent into structured requirements within research.md."
 user-invocable: false
 argument-hint: "the {task-slug} directory and latest intent."
