@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.5.0] - 2026-03-10
+
+### Added
+- **`update-docs-from-history` skill** — adds a reusable procedure for updating `README.md`, `CHANGELOG.md`, prompts, instructions, and workflow docs from git history, branch diffs, or PR context while treating the local diff as the source of truth.
+- **Manual release dispatch** — `.github/workflows/tag-release.yml` can now run via `workflow_dispatch` with explicit `version` and `target_ref` inputs instead of relying only on a merged `release`-labeled PR.
+
+### Changed
+- **Artifact template naming standardized** — `.github/agents/templates/` now uses `research.template.md`, `plan.template.md`, `report.template.md`, and `pr.template.md`, and all affected agent/shared-doc references were updated to match.
+- **Model defaults and fallbacks refreshed** — `researcher`, `implementer-service`, `debugger-specialist`, and `documenter` now prefer GPT-5.4, while `planner`, `requirements-builder`, and `reviewer` add broader Claude Sonnet 4.6 / GPT-5.4 fallback coverage.
+- **Session management wording clarified** — `/compact` guidance in `workflow-rules.md` now explicitly states that plans, artifacts, and fragment files under `plans/{task-slug}/` persist across compaction.
+- **Release bundle contents updated** — the tag/release workflow now packages `.github/prompts` and `.github/skills` alongside agents and core docs, replacing the old `.github/docs` bundle assumption.
+
 ## [1.4.0] - 2026-03-09
 
 ### Added
