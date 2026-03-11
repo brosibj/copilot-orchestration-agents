@@ -19,8 +19,8 @@ All user-invoked orchestrator agents listed below enforce this file. Project-spe
 | 3 | `@finalize` | Documentation, deferred issue tracking, PR description | — |
 
 ## Shared References
-- **Workflow rules:** `.github/agents/shared/workflow-rules.md` — coordination, parallel dispatch, iteration, artifact protocol, verification, and failure handling, plus the new Session Management section (see `.github/agents/shared/workflow-rules.md`) for `/compact` guidance.
+- **Workflow rules:** `.github/agents/shared/workflow-rules.md` — coordination, parallel dispatch, iteration, artifact protocol, verification, failure handling, session management, and for `/compact` guidance.
 - **Debugger workflow:** `.github/agents/shared/debugger-workflow.md` — common steps for all 4 debugger tiers.
-- **Artifact templates:** `.github/agents/templates/` — `research.md`, `plan.md`, `report.md`, `pr.md`.
+- **Artifact templates:** `.github/agents/templates/` — `research.template.md`, `plan.template.md`, `report.template.md`, `pr.template.md`.
 
 

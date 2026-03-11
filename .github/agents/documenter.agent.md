@@ -1,6 +1,6 @@
 ---
 name: documenter
-model: ["GPT-5.1-Codex-Mini (Preview) (copilot)", "Gemini 3 Flash (Preview) (copilot)"]
+model: ["GPT-5.4", "GPT-5.3-Codex (copilot)", "Claude Haiku 4.5 (copilot)"]
 description: "Documentation sub-agent. Updates feature docs and README.md with effort proportional to change size."
 user-invocable: false
 argument-hint: "the {task-slug} directory and documentation mode ('New Feature', 'Modification', or 'Bug-Fix')."

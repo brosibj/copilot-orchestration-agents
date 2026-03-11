@@ -57,7 +57,7 @@ After code changes, verify build per the active project instructions and tests p
 
 All agents enforce `.github/copilot-instructions.md` (auto-loaded) and rely on the active instruction files in `.github/instructions/` for project-specific standards.
 
-Implementers and debuggers: consult relevant skills (e.g., `blazor-js-interop-disposal`) before writing code that touches frameworks with known lifecycle or disposal pitfalls.
+Implementers and debuggers: consult relevant skills before writing code that touches frameworks with known lifecycle or disposal pitfalls.
 
 When creating or modifying files in `.github/` (agent definitions, skills, shared docs), follow existing formatting: compressed reference style, no verbose prose.
 
@@ -83,5 +83,5 @@ On failure, agents return a structured block to the orchestrator:
 
 - **Use `/compact` after major phase gates:** After discover → build or build → finalize handoffs, or when context feels overloaded, run `/compact` to trim history.
 - **Custom focus text:** `/compact focus on {task-slug} plan decisions and implementation progress` — preserves routing decisions while trimming conversation bulk.
-- **Artifact persistence:** Plans in `plans/{task-slug}/` survive compaction. Orchestrators must ensure critical routing data (step order, scope tags, schema decisions) is written to artifacts *before* compaction, not held only in conversation history.
+- **Artifact persistence:** Plans, artifacts, and fragments in `plans/{task-slug}/` survive compaction. Orchestrators must ensure critical routing data (step order, scope tags, schema decisions) is written to artifacts *before* compaction, not held only in conversation history.
 - **Pre-compaction checklist:** Confirm task slug, current phase gate, next agent target, and any in-flight scope blocks are artifact-resident before issuing `/compact`.

@@ -31,7 +31,7 @@ Exceeds bounds at any point → STOP, redirect to `@discover`.
 - Search codebase for affected files, patterns, conventions.
 - `@researcher` for parallel fact-finding if multiple topics exist.
 - `vscode/askQuestions` for ambiguities.
-- Write concise `{task-slug}/research.md` (template: `.github/agents/templates/research.md` — include Requirements, Acceptance Criteria, Affected Components only).
+- Write concise `{task-slug}/research.md` (template: `.github/agents/templates/research.template.md` — include Requirements, Acceptance Criteria, Affected Components only).
 
 ### 3. Implementation
 - Implement directly per the auto-loaded project instructions.
@@ -44,7 +44,7 @@ Exceeds bounds at any point → STOP, redirect to `@discover`.
 
 ### 5. Finalization
 - Skip docs for bug-fixes / internal refactors. User-facing changes → proportional doc update.
-- Write `{task-slug}/pr.md` from template `.github/agents/templates/pr.md`. Scale to change size (see SIZE GUIDE in template). Consult the active project and testing instructions to determine which dynamic sections apply.
+- Write `{task-slug}/pr.md` from template `.github/agents/templates/pr.template.md`. Scale to change size (see SIZE GUIDE in template). Consult the active project and testing instructions to determine which dynamic sections apply.
 - Search for existing PR via GitHub MCP. Note URL if found — do not auto-update.
 
 ### 6. Completion

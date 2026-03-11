@@ -17,7 +17,7 @@ You are the Deferred Issue Tracker.
 2. Read `{task-slug}/plan.md` for `// TODO:` items or known limitations.
 3. If the orchestrator provided an approved item list → create GitHub issues only for approved items. If no list provided (zero deferred items) → skip issue creation.
 4. Search for existing PR via `github/search_pull_requests` (branch or task-slug). Note URL if found.
-5. Write `{task-slug}/pr.md` from template `.github/agents/templates/pr.md`:
+5. Write `{task-slug}/pr.md` from template `.github/agents/templates/pr.template.md`:
    - Scale the document to the change (see SIZE GUIDE in template).
    - **What Changed** — from `research.md` + `report.md`.
    - **Files Modified** — from `report.md`.

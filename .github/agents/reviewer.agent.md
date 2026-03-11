@@ -1,6 +1,6 @@
 ---
 name: reviewer
-model: ["Claude Opus 4.6 (copilot)", "Claude Opus 4.5 (copilot)"]
+model: ["Claude Opus 4.6 (copilot)", "Claude Opus 4.5 (copilot)", "Claude Sonnet 4.6 (copilot)", "GPT-5.4"]
 description: "Code review sub-agent. Peer-review lens on code quality, patterns, and style."
 user-invocable: false
 argument-hint: "the {task-slug} directory."
