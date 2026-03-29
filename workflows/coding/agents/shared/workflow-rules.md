@@ -1,8 +1,20 @@
-# Agent Workflow Rules
+# Coding Workflow Rules
 
-Shared rules for all orchestrators and sub-agents.
+These rules apply only to the coding workflow agents in this package: `@quick`, `@discover`, `@build`, `@finalize`, and their supporting subagents. They do not automatically apply to built-in VS Code agents, unrelated custom agents, prompts, or skills unless those entry points explicitly invoke this workflow.
 
 **Default:** When in doubt, delegate. Orchestrators coordinate; subagents execute.
+
+## Workflow Shape
+
+- `@quick` handles simple tasks in a single pass.
+- `@discover` owns requirements, research, triage, and planning.
+- `@build` owns execution, migrations, implementation routing, and validation.
+- `@finalize` owns documentation refresh, deferred follow-up tracking, and PR-ready closure.
+
+## Shared References
+
+- **Debugger workflow:** `.github/agents/shared/debugger-workflow.md` — common steps for all debugger tiers.
+- **Artifact templates:** `.github/agents/templates/` — `research.template.md`, `plan.template.md`, `report.template.md`, `pr.template.md`.
 
 ## Platform Constraints
 
@@ -55,7 +67,7 @@ After code changes, verify build per the active project instructions and tests p
 
 ## Standards
 
-All agents enforce `.github/copilot-instructions.md` (auto-loaded) and rely on the active instruction files in `.github/instructions/` for project-specific standards.
+Coding workflow agents apply these rules in addition to the global `.github/copilot-instructions.md` baseline and the active instruction files in `.github/instructions/`.
 
 Implementers and debuggers: consult relevant skills before writing code that touches frameworks with known lifecycle or disposal pitfalls.
 

@@ -2,6 +2,8 @@
 
 This document covers the coding workflow package authored under `workflows/coding/`.
 
+The coding workflow shares the global baseline authored in `workflows/copilot-instructions.md`. Coding-specific orchestration behavior lives in `workflows/coding/agents/shared/workflow-rules.md`.
+
 ## Overview
 
 The coding workflow implements a repeatable multi-phase development flow:
@@ -138,8 +140,8 @@ All coding workflow artifacts live under `plans/{task-slug}/`.
 
 ```text
 workflows/
+├── copilot-instructions.md
 └── coding/
-    ├── copilot-instructions.md
     ├── agents/
     │   ├── *.agent.md
     │   ├── shared/

@@ -2,6 +2,8 @@
 
 This document covers the project workflow package authored under `workflows/project/`.
 
+The project workflow shares the global baseline authored in `workflows/copilot-instructions.md`. Project-specific orchestration behavior lives in `workflows/project/agents/shared/workflow-rules.md`.
+
 ## Overview
 
 The project workflow is intentionally open-ended. It is designed for long-running project work where research, planning, execution, coordination, and replanning are iterative activities rather than fixed handoff phases.
@@ -89,8 +91,8 @@ Route into the coding workflow when the work becomes:
 
 ```text
 workflows/
+├── copilot-instructions.md
 └── project/
-    ├── copilot-instructions.md
     ├── agents/
     │   ├── orchestrator.agent.md
     │   ├── quick.agent.md

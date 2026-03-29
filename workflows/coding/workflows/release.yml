@@ -27,12 +27,17 @@ jobs:
 
       - name: Build bundle
         run: |
-          mkdir -p dist
-          zip -r dist/copilot-agents-${{ steps.version.outputs.tag }}.zip \
-            .github \
-            docs \
-            workflows \
-            README.md
+          rm -rf dist/bundle
+          mkdir -p dist/bundle
+          cp -R .github dist/bundle/
+          cp -R docs dist/bundle/
+          cp -R workflows dist/bundle/
+          cp README.md dist/bundle/
+          cp workflows/copilot-instructions.md dist/bundle/.github/copilot-instructions.md
+          (
+            cd dist/bundle
+            zip -r ../copilot-agents-${{ steps.version.outputs.tag }}.zip .
+          )
 
       - name: Extract changelog section
         id: changelog
