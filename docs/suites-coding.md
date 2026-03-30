@@ -58,6 +58,8 @@ If your project uses different MCP tool extensions, update the `tools:` lists in
 
 Add focused instruction files or suite-local skills only when the coding workflow needs them.
 
+Optional domain-specific skills that are not part of the base suite install, such as `blazor-js-interop-disposal`, are released separately in `copilot-skills-<tag>.zip`.
+
 ## Orchestrators
 
 ### Quick Path — `@quick`
