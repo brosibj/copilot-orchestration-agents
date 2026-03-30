@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [2.0.0] - 2026-03-30
+
+### Added
+- **Dedicated `project` suite** — adds a separate install target for open-ended research, planning, writing, coordination, and bounded automation. It ships a loop-oriented `@orchestrator`, a compact `@quick` path, dedicated project worker agents, suite-local prompts, templates, and adoption docs.
+- **Nested subagent orchestration in both suites** — the coding and project suites now support coordinator-to-worker-to-helper delegation when nested subagents are enabled in VS Code, with explicit ownership rules and a soft cap of three nested layers beneath the entry agent.
+- **Project-state anchor artifacts** — the project suite formalizes a compact `summary.md` plus per-update files under `worklog/`, replacing the single large worklog pattern for long-running project threads.
+- **Optional top-level skills bundle** — optional cross-project skills now ship separately from the base suites, including a standalone `blazor-js-interop-disposal` skill that can be merged into either installation when needed.
+
+### Changed
+- **Suites replace workflows as the published model** — the repository is now organized around separately installable `coding` and `project` suites under `suites/`, with adopter-facing docs split into `docs/suites-coding.md` and `docs/suites-project.md`.
+- **Coding-suite onboarding and coordination flow refreshed** — the setup path now centers on `/align-project`, documents nested subagent enablement as part of onboarding, and refreshes phase orchestrators, prompts, templates, and suite rules around the new coordinator-worker model.
+- **Release packaging now builds suite assets directly from authored sources** — `scripts/build-release-assets.ps1` assembles `copilot-suite-coding-<tag>.zip`, `copilot-suite-project-<tag>.zip`, and `copilot-skills-<tag>.zip`, replacing the previous combined-workflow release framing.
+- **Shared versus suite-local guidance is more explicit** — both suites now share a single authored baseline in `suites/copilot-instructions.md`, while workflow-specific behavior lives in each suite's `suite-rules.instructions.md` file.
+
+### Removed
+- **Single-workflow install framing** — the older monolithic workflow-oriented structure has been retired in favor of suite-specific installation, prompts, docs, and authored sources.
+- **Single-file project worklog pattern** — long-running project history is no longer accumulated in one continuously growing worklog file.
+
 ## [1.5.0] - 2026-03-10
 
 ### Added
