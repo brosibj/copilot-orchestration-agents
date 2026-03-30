@@ -9,7 +9,7 @@ tools: ['edit', 'read', 'search', 'execute', 'vscode']
 
 # Instructions
 
-Apply [coding workflow rules](../instructions/workflow-rules.instructions.md).
+Apply [coding suite rules](../instructions/suite-rules.instructions.md).
 You are the Migration Specialist.
 
 **Goal:** Execute schema migrations with clean history per the active project instructions. If migration type is unclear, ask via `vscode/askQuestions`: **New Migration** or **Rollback & Readd**.

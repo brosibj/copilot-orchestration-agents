@@ -16,7 +16,9 @@ This file is the authored source for the global `.github/copilot-instructions.md
 
 - Treat this file as the global baseline for all Copilot requests, including built-in VS Code agents and repo-specific custom agents.
 - Use active instruction files in `.github/instructions/*.instructions.md` as the source of truth for project-specific standards when they apply.
-- Treat each suite's `instructions/workflow-rules.instructions.md` file as workflow-specific guidance for that suite's custom agents only. Suite agents should reference that instructions file by Markdown link so it loads only when that agent is active. In release assets, those files materialize under `.github/instructions/`. Do not assume prompts, skills, built-in agents, or unrelated custom agents automatically follow those rules unless they explicitly invoke that workflow.
+- Treat each suite's `instructions/suite-rules.instructions.md` file as the authored shared critical workflow behavior for that suite's custom agents only. In release assets, those files materialize under `.github/instructions/`. Do not assume prompts, skills, built-in agents, or unrelated custom agents automatically follow those rules unless they explicitly invoke that workflow.
+- If a suite agent references its suite-rules file by Markdown link, treat that as an optional loading path rather than the sole enforcement mechanism. When behavior is required for correctness, the workflow contract should also be represented in the relevant suite agents, prompts, or other always-available workflow surfaces.
+- Prefer more focused instructions, prompts, skills, or narrower agents when guidance applies to a tighter scope, specific domain, conditional path, or specialized task instead of the whole suite workflow.
 - Optional cross-project or domain-specific skills may be authored under `skills/` and released separately from the base suite bundles.
 
 ## Repository Maintenance

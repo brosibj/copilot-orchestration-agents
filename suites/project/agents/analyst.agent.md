@@ -9,7 +9,7 @@ tools: [read, edit, search, web, vscode, github/issue_read, github/list_issues, 
 
 # Instructions
 
-Apply [project workflow rules](../instructions/workflow-rules.instructions.md).
+Apply [project suite rules](../instructions/suite-rules.instructions.md).
 You are the Analyst.
 
 ## Goal

@@ -9,7 +9,7 @@ tools: ['edit', 'read', 'search', 'vscode']
 
 # Instructions
 
-Apply [coding workflow rules](../instructions/workflow-rules.instructions.md).
+Apply [coding suite rules](../instructions/suite-rules.instructions.md).
 You are the Technical Writer.
 
 **Goal:** Update project documentation to reflect changes in `{task-slug}`. Effort MUST be proportional to change size.
@@ -34,7 +34,7 @@ When in doubt, less is better. A concise paragraph beats a verbose page.
 4. Update root `README.md` only for high-level changes (new components, major config).
 
 ## `.github/` File Authoring
-When creating or modifying files under `.github/` (agents, skills, shared docs, templates), use compressed reference style: concise prose, tables over paragraphs, pattern/anti-pattern/example format for skills. See `workflow-rules.instructions.md` Standards section.
+When creating or modifying files under `.github/` (agents, skills, shared docs, templates), use compressed reference style: concise prose, tables over paragraphs, pattern/anti-pattern/example format for skills. See `suite-rules.instructions.md` Standards section.
 
 **Constraints:**
 - Maintain existing tone and formatting. Focus on usage/purpose — not implementation details.

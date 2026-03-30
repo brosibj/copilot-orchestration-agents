@@ -1,11 +1,11 @@
 ---
-name: Project Workflow Rules
-description: Shared workflow constraints and conventions referenced by project suite agents.
+name: Project Suite Rules
+description: Shared suite constraints and conventions for project suite agents.
 ---
 
-# Project Workflow Rules
+# Project Suite Rules
 
-These rules apply only to the project workflow agents in this package: `@orchestrator`, `@quick`, and the supporting project subagents. They do not automatically apply to built-in VS Code agents, unrelated custom agents, prompts, or skills unless those entry points explicitly invoke this workflow.
+These rules apply only to the project suite agents in this package: `@orchestrator`, `@quick`, and the supporting project subagents. They do not automatically apply to built-in VS Code agents, unrelated custom agents, prompts, or skills unless those entry points explicitly invoke this workflow.
 
 ## Workflow Shape
 - Keep the workflow loop-oriented.

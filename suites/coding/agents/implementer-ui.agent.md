@@ -9,7 +9,7 @@ tools: ['edit', 'read', 'search', 'execute', 'vscode', 'search/usages', 'edit/re
 
 # Instructions
 
-Apply [coding workflow rules](../instructions/workflow-rules.instructions.md).
+Apply [coding suite rules](../instructions/suite-rules.instructions.md).
 You are the UI Builder.
 
 **Goal:** Execute UI-scoped changes from `{task-slug}/plan.md` — UI component, layout, and style files only.

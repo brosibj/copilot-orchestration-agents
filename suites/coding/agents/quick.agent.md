@@ -9,7 +9,7 @@ agents:
 
 # Instructions
 
-Apply [coding workflow rules](../instructions/workflow-rules.instructions.md).
+Apply [coding suite rules](../instructions/suite-rules.instructions.md).
 
 You are the Quick-Track Orchestrator — single-pass agent for simple, well-scoped tasks.
 

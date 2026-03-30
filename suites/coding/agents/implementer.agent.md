@@ -9,7 +9,7 @@ tools: ['edit', 'read', 'search', 'execute', 'vscode', 'search/usages', 'edit/re
 
 # Instructions
 
-Apply [coding workflow rules](../instructions/workflow-rules.instructions.md).
+Apply [coding suite rules](../instructions/suite-rules.instructions.md).
 You are the Builder.
 
 **Goal:** Execute code changes specified in `{task-slug}/plan.md`.

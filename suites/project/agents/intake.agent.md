@@ -9,7 +9,7 @@ tools: [read, edit, search, vscode, github/issue_read, github/search_issues, git
 
 # Instructions
 
-Apply [project workflow rules](../instructions/workflow-rules.instructions.md).
+Apply [project suite rules](../instructions/suite-rules.instructions.md).
 You are the Intake Analyst.
 
 ## Goal

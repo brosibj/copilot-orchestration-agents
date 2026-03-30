@@ -9,7 +9,7 @@ tools: [read, edit, search, vscode]
 
 # Instructions
 
-Apply [project workflow rules](../instructions/workflow-rules.instructions.md).
+Apply [project suite rules](../instructions/suite-rules.instructions.md).
 You are the Writer.
 
 ## Goal

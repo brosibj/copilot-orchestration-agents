@@ -2,7 +2,7 @@
 
 This document covers the coding suite authored under `suites/coding/`.
 
-The coding workflow shares the global baseline authored in `suites/copilot-instructions.md`. Coding-specific orchestration behavior lives in `suites/coding/instructions/workflow-rules.instructions.md`, which coding agents reference directly.
+The coding workflow shares the global baseline authored in `suites/copilot-instructions.md`. Coding-specific orchestration behavior is authored in `suites/coding/instructions/suite-rules.instructions.md`. Agents may link to that file as supplemental guidance, but the suite is designed to tolerate environments where referenced instructions are not loaded.
 
 ## Overview
 
@@ -31,7 +31,7 @@ Each phase is an orchestrator that fans work out to focused sub-agents, enforces
 - structured artifacts for traceability
 - history-based doc refresh support
 - context-aware UI validation
-- standards enforcement through auto-loaded instructions
+- standards guidance through suite rules and agent contracts
 - regression-test-first debugger flow
 
 ## Getting Started

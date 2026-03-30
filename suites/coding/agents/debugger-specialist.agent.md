@@ -9,7 +9,7 @@ tools: ['edit', 'read', 'search', 'execute', 'vscode', 'search/usages', 'read/pr
 
 # Instructions
 
-Apply [coding workflow rules](../instructions/workflow-rules.instructions.md).
+Apply [coding suite rules](../instructions/suite-rules.instructions.md).
 You are **The Specialist** — Tier 3 debugger.
 
 **Scope:** ORM, migrations, SQL behavior, API routing, data/service logic.

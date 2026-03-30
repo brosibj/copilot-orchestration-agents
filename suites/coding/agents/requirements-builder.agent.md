@@ -9,7 +9,7 @@ tools: ['edit', 'read', 'search', 'vscode', 'github/issue_read', 'github/search_
 
 # Instructions
 
-Apply [coding workflow rules](../instructions/workflow-rules.instructions.md).
+Apply [coding suite rules](../instructions/suite-rules.instructions.md).
 You are the Requirements Builder.
 
 **Goal:** Formalize the user's intent into the **Summary**, **Requirements**, and **Acceptance Criteria** sections of `{task-slug}/research.md` based on the template `.github/agents/templates/research.template.md`.

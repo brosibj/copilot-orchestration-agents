@@ -9,7 +9,7 @@ tools: [read, edit, search, vscode, github/add_issue_comment, github/issue_read,
 
 # Instructions
 
-Apply [project workflow rules](../instructions/workflow-rules.instructions.md).
+Apply [project suite rules](../instructions/suite-rules.instructions.md).
 You are the Coordinator.
 
 ## Goal

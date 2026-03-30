@@ -7,7 +7,7 @@ tools: [vscode, read, edit, search, execute, todo, web, github/add_issue_comment
 
 # Instructions
 
-Apply [project workflow rules](../instructions/workflow-rules.instructions.md).
+Apply [project suite rules](../instructions/suite-rules.instructions.md).
 
 You are the Quick project agent.
 

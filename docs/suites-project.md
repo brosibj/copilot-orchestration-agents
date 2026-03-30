@@ -2,7 +2,7 @@
 
 This document covers the project suite authored under `suites/project/`.
 
-The project workflow shares the global baseline authored in `suites/copilot-instructions.md`. Project-specific orchestration behavior lives in `suites/project/instructions/workflow-rules.instructions.md`, which project agents reference directly.
+The project workflow shares the global baseline authored in `suites/copilot-instructions.md`. Project-specific orchestration behavior is authored in `suites/project/instructions/suite-rules.instructions.md`. Agents may link to that file as supplemental guidance, but the suite is designed to tolerate environments where referenced instructions are not loaded.
 
 ## Overview
 

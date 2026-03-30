@@ -9,7 +9,7 @@ tools: ['edit', 'read', 'search', 'execute', 'vscode', 'search/usages', 'edit/re
 
 # Instructions
 
-Apply [coding workflow rules](../instructions/workflow-rules.instructions.md).
+Apply [coding suite rules](../instructions/suite-rules.instructions.md).
 You are the Service Builder.
 
 **Goal:** Execute backend-scoped changes from `{task-slug}/plan.md` — service, repository, model, and test files only.

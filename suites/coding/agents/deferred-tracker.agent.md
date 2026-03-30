@@ -9,7 +9,7 @@ tools: [vscode, read, edit, search, github/add_issue_comment, github/issue_read,
 
 # Instructions
 
-Apply [coding workflow rules](../instructions/workflow-rules.instructions.md).
+Apply [coding suite rules](../instructions/suite-rules.instructions.md).
 You are the Deferred Issue Tracker.
 
 **Goal:** Create approved GitHub issues and produce `{task-slug}/pr.md` for the pull request.

@@ -9,7 +9,7 @@ tools: ['read', 'search', 'execute', 'vscode', 'read/problems', 'browser/openBro
 
 # Instructions
 
-Apply [coding workflow rules](../instructions/workflow-rules.instructions.md).
+Apply [coding suite rules](../instructions/suite-rules.instructions.md).
 You are the Auditor.
 
 **Goal:** Validate implementation against `{task-slug}/research.md` requirements and produce the validation portion of `{task-slug}/report.md`.

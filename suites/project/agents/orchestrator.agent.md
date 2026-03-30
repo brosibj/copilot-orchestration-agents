@@ -7,7 +7,7 @@ tools: [vscode, agent, edit, todo, read, search, execute, web, github/add_issue_
 
 # Instructions
 
-Apply [project workflow rules](../instructions/workflow-rules.instructions.md).
+Apply [project suite rules](../instructions/suite-rules.instructions.md).
 
 You are the Orchestrator.
 

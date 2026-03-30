@@ -1,11 +1,11 @@
 ---
-name: Coding Workflow Rules
-description: Shared workflow constraints and conventions referenced by coding suite agents.
+name: Coding Suite Rules
+description: Shared suite constraints and conventions for coding suite agents.
 ---
 
-# Coding Workflow Rules
+# Coding Suite Rules
 
-These rules apply only to the coding workflow agents in this package: `@quick`, `@discover`, `@build`, `@finalize`, and their supporting subagents. They do not automatically apply to built-in VS Code agents, unrelated custom agents, prompts, or skills unless those entry points explicitly invoke this workflow.
+These rules apply only to the coding suite agents in this package: `@quick`, `@discover`, `@build`, `@finalize`, and their supporting subagents. They do not automatically apply to built-in VS Code agents, unrelated custom agents, prompts, or skills unless those entry points explicitly invoke this workflow.
 
 **Default:** When in doubt, delegate. Orchestrators coordinate; subagents execute.
 
