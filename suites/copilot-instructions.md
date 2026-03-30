@@ -1,6 +1,6 @@
 # Global Copilot Instructions
 
-This file is the active global `.github/copilot-instructions.md` baseline for the repository. Keep it aligned with `suites/copilot-instructions.md`. Repo-specific maintenance guidance belongs in `.github/instructions/*.instructions.md`.
+This file is the authored source for the global `.github/copilot-instructions.md` baseline.
 
 ## Working Style
 
@@ -25,5 +25,3 @@ This file is the active global `.github/copilot-instructions.md` baseline for th
 
 - No new `.md` files without explicit direction or approval.
 - Validate changes for regressions.
-
-

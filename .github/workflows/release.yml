@@ -1,38 +1,68 @@
 name: Release
 
 on:
-  push:
-    tags:
-      - "v*"
+  pull_request:
+    types: [closed]
+    branches: [main]
   workflow_dispatch:
     inputs:
-      tag:
-        description: "Tag to release (e.g. v1.0.0)"
+      version:
+        description: Version tag to create and release (for example v1.0.0)
         required: true
+        type: string
+      target_ref:
+        description: Branch or commit to tag when run manually
+        required: true
+        default: main
+        type: string
 
 permissions:
   contents: write
 
 jobs:
   release:
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      (
+        github.event.pull_request.merged == true &&
+        contains(github.event.pull_request.labels.*.name, 'release')
+      )
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.inputs.tag || github.ref }}
-
       - name: Resolve version
         id: version
-        run: echo "tag=${{ github.event.inputs.tag || github.ref_name }}" >> "$GITHUB_OUTPUT"
-
-      - name: Build bundle
         run: |
-          mkdir -p dist
-          zip -r dist/copilot-agents-${{ steps.version.outputs.tag }}.zip \
-            .github/agents \
-            .github/docs \
-            .github/copilot-instructions.md \
-            README.md
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            TAG="${{ inputs.version }}"
+          else
+            TITLE="${{ github.event.pull_request.title }}"
+            TAG=$(echo "$TITLE" | grep -oP 'v\d+\.\d+\.\d+')
+          fi
+          if ! echo "$TAG" | grep -qE '^v[0-9]+\.[0-9]+\.[0-9]+$'; then
+            echo "Version must match v<major>.<minor>.<patch> (for example v1.0.0)"
+            exit 1
+          fi
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'workflow_dispatch' && inputs.target_ref || 'main' }}
+
+      - name: Create and push tag
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git fetch --tags origin
+          if git rev-parse "${{ steps.version.outputs.tag }}" >/dev/null 2>&1; then
+            echo "Tag ${{ steps.version.outputs.tag }} already exists; continuing"
+          else
+            git tag ${{ steps.version.outputs.tag }}
+            git push origin ${{ steps.version.outputs.tag }}
+          fi
+
+      - name: Build release assets
+        shell: pwsh
+        run: ./scripts/build-release-assets.ps1 -Version '${{ steps.version.outputs.tag }}'
 
       - name: Extract changelog section
         id: changelog
@@ -50,5 +80,5 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.version.outputs.tag }}
-          files: dist/copilot-agents-${{ steps.version.outputs.tag }}.zip
+          files: dist/*.zip
           body: ${{ steps.changelog.outputs.notes }}
