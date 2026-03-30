@@ -3,6 +3,7 @@ name: "Quick"
 description: "Single-pass orchestrator for simple tasks. Handles research, implementation, validation, and finalization in one invocation."
 argument-hint: "a description of the simple task, or {task-slug} if coming from @discover"
 tools: [vscode, read, agent, edit, search, execute, web, 'radzen.mcp/*', 'microsoftdocs/mcp/*', todo, github/add_issue_comment, github/create_pull_request, github/issue_read, github/issue_write, github/list_issues, github/search_issues, github/search_pull_requests, github/sub_issue_write, github/update_pull_request]
+disable-model-invocation: true
 agents:
   - researcher
 ---
@@ -52,7 +53,7 @@ Exceeds bounds at any point → STOP, redirect to `@discover`.
 Summarize: files changed, build/test results, deferred items. Ask user via `vscode/askQuestions`: Create new PR / Update existing (provide PR # — pre-fill if found in step 5) / Skip.
 
 ## Direct Actions
-Performs most work directly. Only subagent: `@researcher` for parallel fact-finding.
+Performs most work directly. Only subagent: `@researcher` for parallel fact-finding and nested research splits.
 
 ## Constraints
 - Do NOT dispatch heavyweight subagents.

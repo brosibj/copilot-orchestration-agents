@@ -13,7 +13,7 @@ The coding workflow implements a repeatable multi-phase development flow:
 @discover  →  @build  →  @finalize     ← standard tasks (multi-phase)
 ```
 
-Each phase is an orchestrator that fans work out to focused sub-agents, enforces quality gates, and hands off structured artifacts to the next phase. Orchestrators are lean coordinators and route decisions through concise subagent summaries.
+Each phase is an orchestrator that fans work out to focused sub-agents, enforces quality gates, and hands off structured artifacts to the next phase. Orchestrators are lean coordinators and route decisions through concise subagent summaries, while selected workers can recursively fan out to narrower helpers.
 
 ## What It Is For
 
@@ -31,16 +31,35 @@ Each phase is an orchestrator that fans work out to focused sub-agents, enforces
 - structured artifacts for traceability
 - history-based doc refresh support
 - context-aware UI validation
+- nested coordinator-worker delegation with a soft cap below the platform maximum
 - standards guidance through suite rules and agent contracts
 - regression-test-first debugger flow
+
+## Nested Subagents
+
+The coding suite supports nested subagents when `chat.subagents.allowInvocationsFromSubagents` is enabled in VS Code.
+
+- **Soft cap:** three nested layers beneath the entry agent. In practice: `entry agent -> worker -> specialist -> helper`. This stays below VS Code's hard maximum depth of 5.
+- **Top-level ownership stays intact:** `@discover`, `@build`, and `@finalize` remain the phase owners.
+- **Primary nested coordinators:** `@requirements-builder`, `@researcher`, `@planner`, `@reviewer`, and `@validator`.
+- **Leaf-by-default workers:** implementers, `@migrator`, debugger tiers, `@documenter`, and `@deferred-tracker`.
 
 ## Getting Started
 
 ### 1. Run `/align-project`
 
-Use the coding suite setup prompt to gather project facts and align the active instruction files to the current repo state.
+Use the coding suite setup prompt to gather project facts and align the active instruction files to the current repo state. The prompt now ends with an exact reminder block for enabling nested subagents.
 
-### 2. Populate active instruction files
+### 2. Enable nested subagents
+
+Nested worker orchestration is off by default in VS Code. Enable `chat.subagents.allowInvocationsFromSubagents` in either of these ways:
+
+1. Settings UI: press `Ctrl+,`, search for `allow invocations from subagents`, then enable **Chat > Subagents: Allow Invocations From Subagents**.
+2. Settings JSON: open Workspace Settings JSON for this repo only, or User Settings JSON for all repos, and add `"chat.subagents.allowInvocationsFromSubagents": true`.
+
+Workspace settings are the safer default for a shared repo.
+
+### 3. Populate active instruction files
 
 `/align-project` creates or updates these in `.github/instructions/` from templates in `.github/agents/templates/`:
 
@@ -50,11 +69,11 @@ Use the coding suite setup prompt to gather project facts and align the active i
 | **If UI** | `instructions/styleguide.instructions.md` | UI library, component conventions, component data access patterns, CSS approach |
 | **If tests** | `instructions/testing.instructions.md` | Test framework, test commands, project names, assertion libraries, builders, anti-patterns |
 
-### 3. Update MCP tools when needed
+### 4. Update MCP tools when needed
 
 If your project uses different MCP tool extensions, update the `tools:` lists in the affected agent frontmatter.
 
-### 4. Add suite-local instructions or skills when needed
+### 5. Add suite-local instructions or skills when needed
 
 Add focused instruction files or suite-local skills only when the coding workflow needs them.
 

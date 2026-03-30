@@ -17,7 +17,8 @@ Reusable GitHub Copilot suites for installing structured coding and project work
 2. Copy the included `.github/` folder into the root of your repository.
 3. If you want optional skills, merge `.github/skills/` from `copilot-skills-<tag>.zip`.
 4. Open the repository in VS Code and run `/align-project`.
-5. Answer the setup questions, then start with the installed suite prompts.
+5. Enable `chat.subagents.allowInvocationsFromSubagents` when `/align-project` tells you to. Nested suite workflows depend on it and the setting is off by default.
+6. Answer the setup questions, then start with the installed suite prompts.
 
 ## Suite Entry Points
 
@@ -25,6 +26,7 @@ Reusable GitHub Copilot suites for installing structured coding and project work
 - Project suite prompts: `/project-update`, `/quick-project`
 
 Both suites include `/align-project` for initial setup and later resync.
+`/align-project` now ends with exact UI and JSON steps for enabling nested subagents.
 
 ## Release Assets
 

@@ -37,6 +37,15 @@ Its cycle is:
 
 Planning is treated as an activity inside the loop, not as a locked phase.
 
+## Nested Subagents
+
+The project suite supports nested subagents when `chat.subagents.allowInvocationsFromSubagents` is enabled in VS Code.
+
+- **Soft cap:** three nested layers beneath the entry agent. In practice: `entry agent -> worker -> specialist -> helper`. This stays below VS Code's hard maximum depth of 5.
+- **Loop ownership stays intact:** `@orchestrator` remains the only loop owner.
+- **Primary nested coordinators:** `@analyst`, `@writer`, `@coordinator`, `@reviewer`, and `@quick` for compact helper passes.
+- **Anchor ownership rule:** one agent per branch owns `summary.md` and `worklog.md`; nested helpers return summaries or write only dedicated artifacts for their parent to integrate.
+
 ## Anchor Artifacts
 
 The project workflow keeps two stable anchors:
@@ -59,13 +68,22 @@ Examples:
 
 ### 1. Run `/align-project`
 
-Use the project suite setup prompt to capture or refresh the working norms for project-style orchestration in this repo.
+Use the project suite setup prompt to capture or refresh the working norms for project-style orchestration in this repo. The prompt now ends with an exact reminder block for enabling nested subagents.
 
-### 2. Populate active project instructions
+### 2. Enable nested subagents
+
+Nested worker orchestration is off by default in VS Code. Enable `chat.subagents.allowInvocationsFromSubagents` in either of these ways:
+
+1. Settings UI: press `Ctrl+,`, search for `allow invocations from subagents`, then enable **Chat > Subagents: Allow Invocations From Subagents**.
+2. Settings JSON: open Workspace Settings JSON for this repo only, or User Settings JSON for all repos, and add `"chat.subagents.allowInvocationsFromSubagents": true`.
+
+Workspace settings are the safer default for a shared repo.
+
+### 3. Populate active project instructions
 
 `/align-project` creates or updates `.github/instructions/project.instructions.md` from `.github/agents/templates/project.instructions.template.md`.
 
-### 3. Start the loop
+### 4. Start the loop
 
 Use `/project-update` for iterative progress or invoke `@orchestrator` directly when you already have the project context.
 

@@ -21,9 +21,13 @@ These rules apply only to the coding suite agents in this package: `@quick`, `@d
 - **Debugger workflow:** `.github/agents/shared/debugger-workflow.md` — common steps for all debugger tiers.
 - **Artifact templates:** `.github/agents/templates/` — `research.template.md`, `plan.template.md`, `report.template.md`, `pr.template.md`.
 
-## Platform Constraints
+## Nested Dispatch
 
-- **No nested subagent dispatch.** Subagents CANNOT invoke other subagents. Only orchestrators (and `@quick`) dispatch subagents. Design all workflows accordingly — if a subagent needs information from another agent's domain, the orchestrator must coordinate the handoff.
+- Nested subagent dispatch is supported when users enable `chat.subagents.allowInvocationsFromSubagents` (`false` by default).
+- **Soft cap:** use at most 3 nested subagent layers beneath the entry agent. Treat this as `entry agent -> primary worker -> specialist -> helper`. Stay below the platform max of 5 unless the user explicitly asks for deeper recursion.
+- Top-level orchestrators (`@discover`, `@build`, `@finalize`) remain the only phase owners. Nested delegation exists to isolate focused worker subtasks, not to bypass phase ownership.
+- Nested coordinators in this suite: `@requirements-builder`, `@researcher`, `@planner`, `@reviewer`, `@validator`, and `@quick` for inline research only.
+- Leaf-by-default workers: implementers, `@migrator`, debugger tiers, `@documenter`, and `@deferred-tracker`. Avoid nested edit/edit fan-out unless a prompt explicitly restricts child work to read-only support.
 
 ## Orchestrator Constraints
 
@@ -39,6 +43,8 @@ Applies to P1, P2, P3 orchestrators. `@quick` is exempt (hybrid worker).
 - Dispatch parallel agents in the same turn with non-overlapping `[SCOPE]` tags.
 - Never dispatch two agents that write to the same file **concurrently**. Sequential writes are permitted.
 - **Fragment pattern:** For parallel research, dispatch multiple `@researcher` instances each writing to `{task-slug}/fragments/{scope-name}.md`, then dispatch a compile `@researcher` to merge fragments into the target artifact.
+- Nested helpers should return summaries by default. If child agents write files, assign each child a unique fragment or dedicated artifact path owned by the parent.
+- Never let multiple nested agents write `research.md`, `plan.md`, `report.md`, or the same source file concurrently.
 
 ## Confidence & Iteration
 
@@ -58,6 +64,7 @@ Subagents return concise, structured summaries to the orchestrator — not raw f
 
 - **Keep returns brief.** Focus on status, key findings, and routing hints. Avoid restating artifact contents.
 - **Structure:** Status (success/fail), Summary (2-3 sentences), Blockers/Flags (if any), Routing Hints (next-step info the orchestrator needs).
+- This protocol applies at every nesting layer. Parent subagents merge child returns before responding upward.
 
 ## Artifacts
 

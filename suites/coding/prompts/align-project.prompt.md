@@ -47,3 +47,18 @@ Using the project info and answers, update or create the following files from th
 If any additional information is needed to fully complete the files, use `vscode/askQuestions` to clarify. Iterate until all files are complete and consistent with the project facts.
 
 Once completed, list each file modified or created,  and any gaps that couldn't be answered from the provided information.
+
+After that file summary, ALWAYS end your response with this exact section:
+
+## Enable Nested Subagents
+Nested suite workflows require the VS Code setting `chat.subagents.allowInvocationsFromSubagents`, which is off by default.
+
+Enable it in either place:
+1. Settings UI: press `Ctrl+,`, search for `allow invocations from subagents`, and enable **Chat > Subagents: Allow Invocations From Subagents**.
+2. Settings JSON: run **Preferences: Open Workspace Settings (JSON)** for this repo only, or **Preferences: Open User Settings (JSON)** for all repos, then add:
+
+```json
+"chat.subagents.allowInvocationsFromSubagents": true
+```
+
+Workspace settings are the safer default for a shared repo. User settings are fine if you want nested subagents enabled everywhere.

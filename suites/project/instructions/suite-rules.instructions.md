@@ -27,9 +27,22 @@ These rules apply only to the project suite agents in this package: `@orchestrat
 - Update anchor artifacts after meaningful decisions, changed blockers, or changed next actions.
 - Keep the current project state reviewable without replaying the full conversation.
 
+## Nested Dispatch
+- Nested subagent dispatch is supported when users enable `chat.subagents.allowInvocationsFromSubagents` (`false` by default).
+- **Soft cap:** use at most 3 nested subagent layers beneath the entry agent. Treat this as `entry agent -> worker -> specialist -> helper`, which stays below the platform max of 5.
+- `@orchestrator` remains the only loop owner. Nested delegation is for focused helper work inside worker agents, not for spinning up competing loop controllers.
+- Preferred nested coordinators: `@analyst`, `@writer`, `@coordinator`, `@reviewer`, and `@quick` for compact helper passes.
+- Leaf-by-default workers: `@intake`, `@synthesizer`, and `@automator` unless a prompt explicitly says otherwise.
+
+## Anchor Ownership
+- Exactly one agent in a dispatch branch owns `summary.md` and `worklog.md` updates.
+- Nested helpers default to support-only / return-only work or dedicated artifact writes. The parent coordinator integrates their results into the anchors.
+- When a nested helper should avoid anchor writes, say so explicitly in the dispatch prompt.
+
 ## Parallel Dispatch
 - The orchestrator may dispatch multiple project subagents in parallel only when they do not write the same file.
 - Prefer one writer per artifact at a time.
+- The same one-writer rule applies inside nested worker branches.
 
 ## Confidence & Questions
 - Use `vscode/askQuestions` when the objective, audience, constraints, or decision criteria are unclear.
@@ -47,6 +60,7 @@ These rules apply only to the project suite agents in this package: `@orchestrat
 ## Return Protocol
 - Returns should be concise and routing-oriented.
 - Include: status, summary, blockers, and recommended next action.
+- Nested helpers return to their parent agent first; the parent owns anchor updates unless the prompt explicitly transfers that responsibility.
 
 ## Failure Protocol
 - On failure, return what failed, why, what was tried, and the recommended next action.

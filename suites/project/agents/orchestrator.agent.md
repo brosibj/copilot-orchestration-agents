@@ -3,6 +3,15 @@ name: "Orchestrator"
 description: "Open-ended orchestrator for research, planning, coordination, documentation, issue operations, and bounded automation."
 argument-hint: "a project objective, ongoing project state, or a path like 'plans/my-project'"
 tools: [vscode, agent, edit, todo, read, search, execute, web, github/add_issue_comment, github/create_pull_request, github/issue_read, github/issue_write, github/list_issues, github/search_issues, github/search_pull_requests, github/sub_issue_write, github/update_pull_request]
+disable-model-invocation: true
+agents:
+  - intake
+  - analyst
+  - synthesizer
+  - writer
+  - coordinator
+  - automator
+  - reviewer
 ---
 
 # Instructions
