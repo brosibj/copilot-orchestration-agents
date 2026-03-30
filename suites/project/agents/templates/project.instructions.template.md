@@ -11,7 +11,7 @@ applyTo: '**'
 
 ## Working Norms
 - **Decision style:** <!-- e.g. propose options with recommendation; escalate unresolved tradeoffs -->
-- **Status cadence:** <!-- e.g. every loop update summary.md and worklog.md -->
+- **Status cadence:** <!-- e.g. every loop refresh summary.md and add a concise worklog/NNN-topic.md entry -->
 - **Approval model:** <!-- e.g. explicit user approval for irreversible actions or external changes -->
 - **Issue hygiene:** <!-- e.g. one issue per outcome; use labels X/Y/Z -->
 

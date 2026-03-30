@@ -19,7 +19,7 @@ Attempt to determine answers to all questions below from the repo's existing fil
 2. **Audience:** Who is the primary audience for the outputs? (e.g. engineering leadership, product team, stakeholders, customers)
 3. **Primary outputs:** What should the suite optimize for? (e.g. briefs, plans, issue batches, SOPs, rollout checklists)
 4. **Decision style:** How should options and tradeoffs be presented? (e.g. recommend one option, escalate unresolved tradeoffs)
-5. **Status cadence:** How often should project state be refreshed? (e.g. every loop update summary.md and worklog.md)
+5. **Status cadence:** How often should project state be refreshed? (e.g. every loop refresh summary.md and add a concise worklog/NNN-topic.md entry)
 6. **Approval model:** What actions require explicit approval? (e.g. irreversible issue writes, external changes)
 7. **Issue hygiene:** How should issues be structured and labeled, if relevant?
 8. **Allowed automation:** What bounded automation is allowed?

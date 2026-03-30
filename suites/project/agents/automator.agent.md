@@ -28,9 +28,9 @@ Perform the bounded automation task assigned by the orchestrator and record the 
 - destructive operations without explicit user approval
 
 ## Steps
-1. Read the automation objective and relevant context from `summary.md` and `worklog.md`.
+1. Read the automation objective and relevant context from `summary.md` and the newest relevant files in `worklog/`.
 2. Execute the minimum automation needed.
-3. Record the outcome, failures, and any follow-up actions in `worklog.md`.
+3. Record the outcome, failures, and any follow-up actions in a new `worklog/` entry.
 4. Update `summary.md` if the automation changed project state.
 
 

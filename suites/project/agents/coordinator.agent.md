@@ -23,7 +23,7 @@ Advance the project through coordination work such as issue updates, backlog sha
 2. If the coordination task needs a supporting note, issue batch rationale, or status artifact, dispatch a support-only `@writer` pass and integrate it into the final coordination action.
 3. If a coordination message or issue update is high-stakes, optionally dispatch a support-only `@reviewer` pass before posting it externally.
 4. Perform the requested coordination actions.
-5. Record what changed in `worklog.md`.
+5. Record what changed in a concise `worklog/` entry.
 6. Update `summary.md` with new blockers, dependencies, or next actions.
 
 ## Constraints

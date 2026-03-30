@@ -29,9 +29,9 @@ If the task grows beyond those limits, redirect to `@orchestrator`.
 
 ## Workflow
 1. Establish or reuse the relevant `{task-slug}`.
-2. Ensure `summary.md` and `worklog.md` exist if the task needs persistent state.
+2. Ensure `summary.md` and `worklog/` exist if the task needs persistent state. If only a legacy `worklog.md` exists, repair the anchors before continuing.
 3. Complete the requested bounded work directly. Use at most one focused helper wave when it keeps the pass compact: `@analyst` for evidence gathering or `@reviewer` for a quick readiness check.
-4. Update `summary.md` and `worklog.md` when the task changes project state.
+4. Update `summary.md` and add a concise entry under `worklog/` when the task changes project state.
 5. Return a concise summary, blockers, and recommended next action.
 
 ## Constraints

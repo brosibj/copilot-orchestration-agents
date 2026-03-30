@@ -19,19 +19,21 @@ These rules apply only to the project suite agents in this package: `@orchestrat
 - **Anchor templates:** `.github/agents/templates/summary.template.md`, `.github/agents/templates/worklog.template.md`
 
 ## Anchor Artifacts
-- `summary.md` is the persistent source of current state.
-- `worklog.md` is the rolling trace of what happened and why.
+- `summary.md` is the persistent source of current state and should stay compact enough to skim quickly.
+- `worklog/` is the rolling trace directory. Store one concise entry file per meaningful loop update, decision, or action using zero-padded names such as `001-intake.md` and `002-research-findings.md`.
+- If a legacy `worklog.md` exists, treat it as historical input and repair the anchors into `worklog/` before continuing the loop.
 - All other artifacts are dynamic and should be created only when the task needs them.
 
 ## State Maintenance
 - Update anchor artifacts after meaningful decisions, changed blockers, or changed next actions.
+- Read the newest relevant worklog entries first; expand deeper only when the summary or filenames indicate missing context.
 - Keep the current project state reviewable without replaying the full conversation.
 
 ## Orchestrator Constraints
 
 Applies to `@orchestrator`. `@quick` is exempt (hybrid worker).
 
-- **No direct artifact reads.** `@orchestrator` should not read `summary.md`, `worklog.md`, or other project artifacts directly. Route synthesis and artifact inspection through worker returns.
+- **No direct artifact reads.** `@orchestrator` should not read `summary.md`, `worklog/`, or other project artifacts directly. Route synthesis and artifact inspection through worker returns.
 - **No direct artifact writes.** `@orchestrator` chooses which worker owns anchor updates, but does not edit the anchors itself.
 - **No direct external execution or data gathering.** Route research and web lookups to `@analyst`, coordination and GitHub operations to `@coordinator`, and execution tasks to `@automator`.
 - **Existence checks and routing only.** The loop owner may generate or reuse the task slug, check whether anchors exist, ask questions, and choose the next worker mix.
@@ -45,7 +47,7 @@ Applies to `@orchestrator`. `@quick` is exempt (hybrid worker).
 - Leaf-by-default workers: `@intake`, `@synthesizer`, and `@automator` unless a prompt explicitly says otherwise.
 
 ## Anchor Ownership
-- Exactly one agent in a dispatch branch owns `summary.md` and `worklog.md` updates.
+- Exactly one agent in a dispatch branch owns `summary.md` and `worklog/` updates.
 - Nested helpers default to support-only / return-only work or dedicated artifact writes. The parent coordinator integrates their results into the anchors.
 - When a nested helper should avoid anchor writes, say so explicitly in the dispatch prompt.
 

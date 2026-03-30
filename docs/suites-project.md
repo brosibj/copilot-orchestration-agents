@@ -44,16 +44,16 @@ The project suite supports nested subagents when `chat.subagents.allowInvocation
 - **Soft cap:** three nested layers beneath the entry agent. In practice: `entry agent -> worker -> specialist -> helper`. This stays below VS Code's hard maximum depth of 5.
 - **Loop ownership stays intact:** `@orchestrator` remains the only loop owner.
 - **Primary nested coordinators:** `@analyst`, `@writer`, `@coordinator`, `@reviewer`, and `@quick` for compact helper passes.
-- **Anchor ownership rule:** one agent per branch owns `summary.md` and `worklog.md`; nested helpers return summaries or write only dedicated artifacts for their parent to integrate.
+- **Anchor ownership rule:** one agent per branch owns `summary.md` and `worklog/`; nested helpers return summaries or write only dedicated artifacts for their parent to integrate.
 
 ## Anchor Artifacts
 
 The project workflow keeps two stable anchors:
 
 - `summary.md` for objective, current state, decisions, blockers, and next actions
-- `worklog.md` for the running iteration trace
+- `worklog/` for the running iteration trace, with one small file per meaningful update such as `001-intake.md` or `002-research-findings.md`
 
-Beyond those anchors, artifacts are dynamic and created only when the project needs them.
+Keep `summary.md` compact and move detailed history into `worklog/` entries or task-specific artifacts. Beyond those anchors, artifacts are dynamic and created only when the project needs them.
 
 Examples:
 - research notes
@@ -91,7 +91,7 @@ Use `/project-update` for iterative progress or invoke `@orchestrator` directly 
 
 ### `@orchestrator`
 
-The primary loop controller. It decides what kind of work is needed next, assigns anchor ownership to the right worker, and keeps `summary.md` and `worklog.md` coherent through delegated owner passes rather than direct editing.
+The primary loop controller. It decides what kind of work is needed next, assigns anchor ownership to the right worker, and keeps `summary.md` and `worklog/` coherent through delegated owner passes rather than direct editing.
 
 ### Intended Loop Workers
 
@@ -150,4 +150,4 @@ suites/
 
 ## Suite-Local Skill
 
-- `project-artifact-management` — conventions for maintaining `summary.md`, `worklog.md`, and dynamic project artifacts
+- `project-artifact-management` — conventions for maintaining `summary.md`, `worklog/`, and dynamic project artifacts

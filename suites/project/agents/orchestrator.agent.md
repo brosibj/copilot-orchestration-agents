@@ -37,17 +37,17 @@ Advance a project through repeated cycles of intake, analysis, synthesis, coordi
 - Planning is an activity inside the loop, not a separate locked phase.
 - Maintain two anchor artifacts at all times:
   - `{task-slug}/summary.md` for current state, decisions, objectives, risks, and next actions.
-  - `{task-slug}/worklog.md` for iteration history and action trace.
+  - `{task-slug}/worklog/` for small chronological trace entries such as `001-intake.md`.
 - Other project artifacts are dynamic and should be created only when the project needs them.
 
 ## Workflow
 
 ### 1. Init Or Resume
 - Create or reuse a `{task-slug}` under `plans/`.
-- If `summary.md` or `worklog.md` are missing, or the objective/current state is unclear, dispatch `@intake` in owner mode to create or repair the anchors before continuing.
+- If `summary.md` or `worklog/` are missing, if only a legacy `worklog.md` exists, or if the objective/current state is unclear, dispatch `@intake` in owner mode to create or repair the anchors before continuing.
 
 ### 2. Decide The Current Loop
-Dispatch `@synthesizer` in support-only mode to read `summary.md`, `worklog.md`, and any task-specific artifacts, then return:
+Dispatch `@synthesizer` in support-only mode to read `summary.md`, the relevant recent files in `worklog/`, and any task-specific artifacts, then return:
 - current objective
 - open questions / blockers
 - recommended next actions
@@ -64,7 +64,7 @@ Dispatch `@synthesizer` in support-only mode to read `summary.md`, `worklog.md`,
 Run non-overlapping tasks in parallel when they do not write the same files.
 
 ### 4. Update Loop State
-- Ensure exactly one worker in the active branch owns `summary.md` and `worklog.md` updates.
+- Ensure exactly one worker in the active branch owns `summary.md` and `worklog/` updates.
 - If the selected work was support-only or returned recommendations without updating anchors, dispatch `@synthesizer` or the relevant worker in owner mode to integrate the accepted changes into the anchors.
 - If confidence is below threshold or priorities conflict, use `vscode/askQuestions` before continuing.
 
