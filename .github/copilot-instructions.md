@@ -1,44 +1,29 @@
-# Context & Constraints
-- **Scope:** See `README.md` at the repo root for agent workflow overview and template adoption guide.
-- **Rules:** No new `.md` files without explicit direction/approval. Validate all changes for regressions.
-- **Tone:** Direct, technical, and concise. Challenge suboptimal architecture, decisions, user's answers, and this prompt if appropriate. ALWAYS use `vscode/askQuestions` instead of ending the session when the goal is incomplete. Always iterate until confidence exceeds 85% overall and 90% per topic.
-- **Tools:** Review available tools and infer purpose from names and descriptions.
-- **Source of truth:** Use `suites/copilot-instructions.md` as the baseline for this file. Suite sources are authored under `suites/{suite-name}/`, optional skills are authored under `skills/`, and release assets are assembled from those authored sources.
-- **Reuse first:** Consider and leverage all existing tools, skills, instructions, suites, and scripts before creating something new.
-- **Formalize reusable logic:** When temporary release, packaging, or setup logic becomes reusable, move it into a maintained script or authored source file instead of duplicating it in YAML or chat output.
+# Global Copilot Instructions
 
-# Instruction Index
-Project-specific standards live in `.github/instructions/*.instructions.md` and are auto-loaded by `applyTo` scope. Agents should rely on the active instruction files directly.
+This file is the active global `.github/copilot-instructions.md` baseline for the repository. Keep it aligned with `suites/copilot-instructions.md`. Repo-specific maintenance guidance belongs in `.github/instructions/*.instructions.md`.
 
-This repository itself now contains multiple suites:
-- `suites/coding/` — phase-based coding orchestration
-- `suites/project/` — open-ended project orchestration loop
+## Working Style
 
-Optional cross-project or domain-specific skills live under `skills/` and can be released separately as a `.github/skills` bundle.
+- Be direct, technical, and concise.
+- Challenge weak assumptions or suboptimal architecture with concrete reasoning.
+- Review available tools and infer purpose from names and descriptions before choosing an approach.
+- Do not guess when requirements, constraints, or success criteria are unclear. Use `vscode/askQuestions` when user input is needed to complete the task correctly.
+- Keep working until the objective is advanced or a real blocker is identified.
+- Consider and leverage all existing tools, skills, and instructions before attempting to accomplish a task by creating something new.
+- When creating temporary scripts, commands, or workflows, consider whether they should be formalized as reusable scripts, skills, or instructions and propose them to the user when appropriate.
 
-When editing suite definitions, prefer the suite-local files under `suites/{suite-name}/` instead of treating root `.github/` as the only authored location.
+## Standards Sources
 
-# Agent Workflow
-The coding suite authored under `suites/coding/` uses this file as its global baseline. Project-specific standards are supplied through the active instruction files in `.github/instructions/`.
+- Treat this file as the global baseline for all Copilot requests, including built-in VS Code agents and repo-specific custom agents.
+- Use active instruction files in `.github/instructions/*.instructions.md` as the source of truth for project-specific standards when they apply.
+- Treat each suite's `instructions/suite-rules.instructions.md` file as the authored shared critical workflow behavior for that suite's custom agents only. In release assets, those files materialize under `.github/instructions/`. Do not assume prompts, skills, built-in agents, or unrelated custom agents automatically follow those rules unless they explicitly invoke that workflow.
+- If a suite agent references its suite-rules file by Markdown link, treat that as an optional loading path rather than the sole enforcement mechanism. When behavior is required for correctness, the workflow contract should also be represented in the relevant suite agents, prompts, or other always-available workflow surfaces.
+- Prefer more focused instructions, prompts, skills, or narrower agents when guidance applies to a tighter scope, specific domain, conditional path, or specialized task instead of the whole suite workflow.
+- Optional cross-project or domain-specific skills may be authored under `skills/` and released separately from the base suite bundles.
 
-## Orchestrators (user-invokable)
-| Phase | Agent | Purpose | Hands off to |
-|:---|:---|:---|:---|
-| — | `@quick` | Single-pass for simple tasks (≤ 3 files, no migrations, no new deps) | — |
-| 1 | `@discover` | Discovery, requirements, technical research, planning | `@build` or `@quick` |
-| 2 | `@build` | Implementation, migration, testing, validation, review | `@finalize` |
-| 3 | `@finalize` | Documentation, deferred issue tracking, PR description | — |
+## Repository Maintenance
 
-## Shared References
-- **Workflow rules:** `suites/coding/agents/shared/workflow-rules.md` — coordination, parallel dispatch, iteration, artifact protocol, verification, failure handling, session management, and `/compact` guidance for the coding suite.
-- **Debugger workflow:** `suites/coding/agents/shared/debugger-workflow.md` — common steps for all 4 debugger tiers.
-- **Artifact templates:** `suites/coding/agents/templates/` — `research.template.md`, `plan.template.md`, `report.template.md`, `pr.template.md`.
-
-## Suite Authoring
-- Coding suite source: `suites/coding/`
-- Project suite source: `suites/project/`
-- Optional skills source: `skills/`
-- Keep suite-local agents, prompts, skills, and templates self-contained.
-- Avoid cross-contaminating the project workflow with coding-only phase assumptions.
+- No new `.md` files without explicit direction or approval.
+- Validate changes for regressions.
 
 
