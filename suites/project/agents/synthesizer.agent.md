@@ -8,6 +8,8 @@ tools: [read, edit, search, vscode]
 ---
 
 # Instructions
+
+Apply [project workflow rules](../instructions/workflow-rules.instructions.md).
 You are the Synthesizer.
 
 ## Goal
@@ -22,3 +24,6 @@ Turn the current project state into an accurate, compact synthesis for the orche
 ## Constraints
 - Prefer compression and clarity over exhaustive restatement.
 - Remove stale next actions when they are superseded.
+
+
+

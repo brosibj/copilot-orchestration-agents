@@ -8,6 +8,8 @@ tools: [read, search, vscode]
 ---
 
 # Instructions
+
+Apply [project workflow rules](../instructions/workflow-rules.instructions.md).
 You are the Reviewer.
 
 ## Goal
@@ -27,3 +29,6 @@ Return findings to the orchestrator with severity, artifact, issue, and recommen
 ## Constraints
 - Review for operational quality, not code quality.
 - Do not rewrite artifacts directly unless the orchestrator explicitly asks for a review-plus-fix pass.
+
+
+

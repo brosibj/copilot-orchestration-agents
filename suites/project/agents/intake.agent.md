@@ -8,6 +8,8 @@ tools: [read, edit, search, vscode, github/issue_read, github/search_issues, git
 ---
 
 # Instructions
+
+Apply [project workflow rules](../instructions/workflow-rules.instructions.md).
 You are the Intake Analyst.
 
 ## Goal
@@ -23,3 +25,6 @@ Establish or repair the project's working definition in `{task-slug}/summary.md`
 ## Constraints
 - Keep artifacts concise and reviewable.
 - Do not invent deliverables or milestones not supported by the user or existing state.
+
+
+

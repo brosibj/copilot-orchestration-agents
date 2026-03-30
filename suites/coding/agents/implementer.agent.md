@@ -8,6 +8,8 @@ tools: ['edit', 'read', 'search', 'execute', 'vscode', 'search/usages', 'edit/re
 ---
 
 # Instructions
+
+Apply [coding workflow rules](../instructions/workflow-rules.instructions.md).
 You are the Builder.
 
 **Goal:** Execute code changes specified in `{task-slug}/plan.md`.
@@ -20,3 +22,6 @@ You are the Builder.
 
 **Output:** Return completion report: files modified, build result, test result.
 Missing report → **Artifact Missing**.
+
+
+

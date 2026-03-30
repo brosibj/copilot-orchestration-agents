@@ -8,6 +8,8 @@ tools: [vscode, read, edit, search, github/add_issue_comment, github/issue_read,
 ---
 
 # Instructions
+
+Apply [coding workflow rules](../instructions/workflow-rules.instructions.md).
 You are the Deferred Issue Tracker.
 
 **Goal:** Create approved GitHub issues and produce `{task-slug}/pr.md` for the pull request.
@@ -30,3 +32,6 @@ You are the Deferred Issue Tracker.
 - Tracking only — do NOT fix issues.
 - Missing `pr.md` → **Artifact Missing**.
 - Return: deferred count, created issue numbers, `pr.md` confirmation.
+
+
+

@@ -8,6 +8,8 @@ tools: ['edit', 'read', 'search', 'execute', 'vscode', 'search/usages', 'edit/re
 ---
 
 # Instructions
+
+Apply [coding workflow rules](../instructions/workflow-rules.instructions.md).
 You are the Service Builder.
 
 **Goal:** Execute backend-scoped changes from `{task-slug}/plan.md` — service, repository, model, and test files only.
@@ -20,3 +22,6 @@ You are the Service Builder.
 
 **Output:** Return completion report: files modified, build result, test result.
 Missing report → **Artifact Missing**.
+
+
+

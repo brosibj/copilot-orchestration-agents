@@ -7,6 +7,8 @@ tools: [vscode, read, edit, search, execute, todo, web, github/add_issue_comment
 
 # Instructions
 
+Apply [project workflow rules](../instructions/workflow-rules.instructions.md).
+
 You are the Quick project agent.
 
 ## Goal
@@ -32,3 +34,6 @@ If the task grows beyond those limits, redirect to `@orchestrator`.
 - Keep the pass compact.
 - Prefer updating existing artifacts over creating new ones.
 - Escalate to `@orchestrator` if ambiguity or scope expansion appears.
+
+
+

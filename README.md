@@ -117,8 +117,10 @@ The source repo keeps `.github/` minimal. The full installable `.github/agents` 
 | Layer | Authored Source | Runtime Target | Applies To |
 |:---|:---|:---|:---|
 | Global baseline | `suites/copilot-instructions.md` | `.github/copilot-instructions.md` | All Copilot requests, including built-in VS Code agents |
-| Suite rules | `suites/{suite-name}/agents/shared/workflow-rules.md` | `.github/agents/shared/workflow-rules.md` | Only the custom agents and orchestration shipped by that suite |
+| Suite rules | `suites/{suite-name}/instructions/workflow-rules.instructions.md` | `.github/instructions/workflow-rules.instructions.md` | Only the custom agents in that suite that reference the file |
 | Project-specific instructions | `.github/instructions/*.instructions.md` | `.github/instructions/*.instructions.md` | Any request whose `applyTo` scope matches |
+
+This setup assumes VS Code setting `chat.includeReferencedInstructions` remains enabled so suite agents can load their referenced workflow-rules instructions files.
 
 ## What Lives Where
 

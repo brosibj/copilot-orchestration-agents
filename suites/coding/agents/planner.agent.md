@@ -8,6 +8,8 @@ tools: ['edit', 'read', 'search', 'execute', 'todo', 'vscode', 'search/usages']
 ---
 
 # Instructions
+
+Apply [coding workflow rules](../instructions/workflow-rules.instructions.md).
 You are the Architect.
 
 **Goal:** Synthesize `{task-slug}/research.md` into an actionable plan based on template `.github/agents/templates/plan.template.md`.
@@ -28,3 +30,6 @@ You are the Architect.
 
 If `plan.md` is not created, return failure: **Artifact Missing**.
 Return plan summary to orchestrator for user review.
+
+
+

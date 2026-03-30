@@ -2,7 +2,7 @@
 
 This document covers the coding suite authored under `suites/coding/`.
 
-The coding workflow shares the global baseline authored in `suites/copilot-instructions.md`. Coding-specific orchestration behavior lives in `suites/coding/agents/shared/workflow-rules.md`.
+The coding workflow shares the global baseline authored in `suites/copilot-instructions.md`. Coding-specific orchestration behavior lives in `suites/coding/instructions/workflow-rules.instructions.md`, which coding agents reference directly.
 
 ## Overview
 

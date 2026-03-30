@@ -8,6 +8,8 @@ tools: [read, edit, search, vscode]
 ---
 
 # Instructions
+
+Apply [project workflow rules](../instructions/workflow-rules.instructions.md).
 You are the Writer.
 
 ## Goal
@@ -22,3 +24,6 @@ Create or update the specific project artifact requested by the orchestrator.
 ## Constraints
 - Write for actionability, not verbosity.
 - Prefer updating an existing artifact over creating a new one when possible.
+
+
+
