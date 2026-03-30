@@ -1,6 +1,6 @@
 ---
 name: artifact-management
-description: "Conventions for writing fragment files, compiling research artifacts, and structuring agent return summaries. Use when producing or assembling task artifacts (research.md, plan.md, fragments, return summaries)."
+description: "Conventions for writing fragment files, compiling research artifacts, and structuring agent return summaries. Use when producing or assembling task artifacts (research.md, report.md, plan.md, fragments, return summaries)."
 user-invocable: false
 ---
 
@@ -20,13 +20,14 @@ Write fragments when directed by an orchestrator for parallel research collectio
 - **No code:** Reference code by file path and line number. No raw code blocks.
 
 ## Artifact Compilation
-Compile fragments into a target artifact when directed.
+Compile fragments or structured worker returns into a target artifact when directed.
 
-1. Read all fragment files in `plans/{task-slug}/fragments/`.
-2. Synthesize into the target artifact's sections — integrate, deduplicate, and organize.
-3. Maintain the template's structure and section headings.
-4. Do not restate fragment bullets verbatim; elevate to coherent findings.
-5. Reference prior artifacts instead of re-explaining their content.
+1. For fragment-based compilation, read all fragment files in `plans/{task-slug}/fragments/`.
+2. For return-based compilation, synthesize the parent-provided summaries into the target artifact's sections.
+3. Integrate, deduplicate, and organize the content.
+4. Maintain the template's structure and section headings.
+5. Do not restate fragment bullets or returned summaries verbatim; elevate them into coherent findings.
+6. Reference prior artifacts instead of re-explaining their content.
 
 ## Return Summaries
 Subagents return structured summaries to the orchestrator — not file contents.
@@ -43,4 +44,4 @@ Keep returns ≤10 lines. Do not paste artifact sections into the return.
 - Missing artifact = **Artifact Missing** failure. Every agent that produces an artifact MUST create it.
 - No raw code in artifacts. Small pseudocode is acceptable only when essential for clarity.
 - Artifacts are append-only by default; do not truncate prior content when adding new sections.
-- **Exception — `report.md`:** On validation retry, the orchestrator overwrites `report.md` with updated results. Include notable prior findings (e.g., issues that were fixed) only when they add context for the reviewer. Do not accumulate full retry history.
+- **Exception — `report.md`:** On validation retry, the assigned compiler overwrites `report.md` with updated results. Include notable prior findings (e.g., issues that were fixed) only when they add context for the reviewer. Do not accumulate full retry history.

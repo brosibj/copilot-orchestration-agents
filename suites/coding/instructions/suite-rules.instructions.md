@@ -36,6 +36,7 @@ Applies to P1, P2, P3 orchestrators. `@quick` is exempt (hybrid worker).
 - **No file reads.** Orchestrators MUST NOT read file contents. All content-based decisions come from subagent return summaries.
 - **Existence checks only.** Orchestrators may check whether an artifact file exists, but must not read its contents.
 - **Pre-flight via subagent.** When an orchestrator needs routing info from an artifact (e.g., plan.md for step ordering), dispatch `@researcher` with a summarize scope to return compact routing data.
+- **Prefer delegated artifact synthesis.** When a worker already owns compilation or templated artifact generation (for example `research.md`, `report.md`, or `pr.md`), prefer a subagent write over direct orchestrator editing.
 - **Minimize context.** Keep orchestrator context lean — subagent returns should be concise and routing-focused.
 
 ## Parallel Dispatch

@@ -32,7 +32,7 @@ Its cycle is:
 1. clarify or repair the current objective
 2. synthesize current state
 3. dispatch the needed mix of analysis, writing, coordination, automation, and review
-4. update project state artifacts
+4. have the current owner update project state artifacts
 5. either loop again or close the current objective
 
 Planning is treated as an activity inside the loop, not as a locked phase.
@@ -91,7 +91,7 @@ Use `/project-update` for iterative progress or invoke `@orchestrator` directly 
 
 ### `@orchestrator`
 
-The primary loop controller. It decides what kind of work is needed next and keeps `summary.md` and `worklog.md` coherent.
+The primary loop controller. It decides what kind of work is needed next, assigns anchor ownership to the right worker, and keeps `summary.md` and `worklog.md` coherent through delegated owner passes rather than direct editing.
 
 ### Intended Loop Workers
 

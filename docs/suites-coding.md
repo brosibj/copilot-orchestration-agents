@@ -104,7 +104,7 @@ Execution and validation orchestrator.
 1. Uses `@researcher` for pre-flight routing.
 2. Invokes `@migrator` when schema changes are required.
 3. Routes implementation to the relevant implementer or debugger tier.
-4. Runs `@validator` and `@reviewer` in parallel, then writes `report.md`.
+4. Runs `@validator` and `@reviewer` in parallel, then dispatches `@researcher` to compile `report.md`.
 
 ### Phase 3 — `@finalize`
 

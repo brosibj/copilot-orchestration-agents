@@ -27,6 +27,16 @@ These rules apply only to the project suite agents in this package: `@orchestrat
 - Update anchor artifacts after meaningful decisions, changed blockers, or changed next actions.
 - Keep the current project state reviewable without replaying the full conversation.
 
+## Orchestrator Constraints
+
+Applies to `@orchestrator`. `@quick` is exempt (hybrid worker).
+
+- **No direct artifact reads.** `@orchestrator` should not read `summary.md`, `worklog.md`, or other project artifacts directly. Route synthesis and artifact inspection through worker returns.
+- **No direct artifact writes.** `@orchestrator` chooses which worker owns anchor updates, but does not edit the anchors itself.
+- **No direct external execution or data gathering.** Route research and web lookups to `@analyst`, coordination and GitHub operations to `@coordinator`, and execution tasks to `@automator`.
+- **Existence checks and routing only.** The loop owner may generate or reuse the task slug, check whether anchors exist, ask questions, and choose the next worker mix.
+- **Minimize context.** Keep orchestrator context lean by relying on concise worker summaries and explicit ownership transfers.
+
 ## Nested Dispatch
 - Nested subagent dispatch is supported when users enable `chat.subagents.allowInvocationsFromSubagents` (`false` by default).
 - **Soft cap:** use at most 3 nested subagent layers beneath the entry agent. Treat this as `entry agent -> worker -> specialist -> helper`, which stays below the platform max of 5.
