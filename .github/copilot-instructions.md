@@ -3,19 +3,19 @@
 - **Rules:** No new `.md` files without explicit direction/approval. Validate all changes for regressions.
 - **Tone:** Direct, technical, and concise. Challenge suboptimal architecture, decisions, user's answers, and this prompt if appropriate. ALWAYS use `vscode/askQuestions` instead of ending the session when the goal is incomplete. Always iterate until confidence exceeds 85% overall and 90% per topic.
 - **Tools:** Review available tools and infer purpose from names and descriptions.
-- **Source of truth:** Workflow packages are authored under `workflows/{workflow-name}/`. The root `.github/` layout remains the runtime-facing surface and currently mirrors the coding workflow.
+- **Source of truth:** Suite sources are authored under `suites/{suite-name}/`. The root `.github/` in this repo is intentionally minimal; installable runtime `.github` surfaces are assembled from `suites/` by release automation.
 
 # Instruction Index
 Project-specific standards live in `.github/instructions/*.instructions.md` and are auto-loaded by `applyTo` scope. Agents should rely on the active instruction files directly.
 
-This repository itself now contains multiple workflow families:
-- `workflows/coding/` — phase-based coding orchestration
-- `workflows/project/` — open-ended project orchestration loop
+This repository itself now contains multiple suites:
+- `suites/coding/` — phase-based coding orchestration
+- `suites/project/` — open-ended project orchestration loop
 
-When editing workflow definitions, prefer the workflow-local files under `workflows/{workflow-name}/` instead of treating root `.github/` as the only authored location.
+When editing suite definitions, prefer the suite-local files under `suites/{suite-name}/` instead of treating root `.github/` as the only authored location.
 
 # Agent Workflow
-All user-invoked orchestrator agents listed below enforce this file for the runtime-facing coding workflow. Project-specific standards are supplied through the active instruction files in `.github/instructions/`. 
+The coding suite authored under `suites/coding/` uses this file as its global baseline. Project-specific standards are supplied through the active instruction files in `.github/instructions/`.
 
 ## Orchestrators (user-invokable)
 | Phase | Agent | Purpose | Hands off to |
@@ -26,14 +26,14 @@ All user-invoked orchestrator agents listed below enforce this file for the runt
 | 3 | `@finalize` | Documentation, deferred issue tracking, PR description | — |
 
 ## Shared References
-- **Workflow rules:** `.github/agents/shared/workflow-rules.md` — coordination, parallel dispatch, iteration, artifact protocol, verification, failure handling, session management, and for `/compact` guidance.
-- **Debugger workflow:** `.github/agents/shared/debugger-workflow.md` — common steps for all 4 debugger tiers.
-- **Artifact templates:** `.github/agents/templates/` — `research.template.md`, `plan.template.md`, `report.template.md`, `pr.template.md`.
+- **Workflow rules:** `suites/coding/agents/shared/workflow-rules.md` — coordination, parallel dispatch, iteration, artifact protocol, verification, failure handling, session management, and `/compact` guidance for the coding suite.
+- **Debugger workflow:** `suites/coding/agents/shared/debugger-workflow.md` — common steps for all 4 debugger tiers.
+- **Artifact templates:** `suites/coding/agents/templates/` — `research.template.md`, `plan.template.md`, `report.template.md`, `pr.template.md`.
 
-## Workflow Package Authoring
-- Coding workflow source package: `workflows/coding/`
-- Project workflow source package: `workflows/project/`
-- Keep workflow-local agents, prompts, skills, and templates self-contained.
+## Suite Authoring
+- Coding suite source: `suites/coding/`
+- Project suite source: `suites/project/`
+- Keep suite-local agents, prompts, skills, and templates self-contained.
 - Avoid cross-contaminating the project workflow with coding-only phase assumptions.
 
 

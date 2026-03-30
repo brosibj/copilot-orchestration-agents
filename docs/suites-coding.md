@@ -1,8 +1,8 @@
-# Coding Workflow
+# Coding Suite
 
-This document covers the coding workflow package authored under `workflows/coding/`.
+This document covers the coding suite authored under `suites/coding/`.
 
-The coding workflow shares the global baseline authored in `workflows/copilot-instructions.md`. Coding-specific orchestration behavior lives in `workflows/coding/agents/shared/workflow-rules.md`.
+The coding workflow shares the global baseline authored in `suites/copilot-instructions.md`. Coding-specific orchestration behavior lives in `suites/coding/agents/shared/workflow-rules.md`.
 
 ## Overview
 
@@ -36,13 +36,13 @@ Each phase is an orchestrator that fans work out to focused sub-agents, enforces
 
 ## Getting Started
 
-### 1. Run `/init-project`
+### 1. Run `/align-project`
 
-Use the coding workflow init prompt to gather project facts and seed active instruction files.
+Use the coding suite setup prompt to gather project facts and align the active instruction files to the current repo state.
 
 ### 2. Populate active instruction files
 
-`/init-project` creates these in `.github/instructions/` from templates in `.github/agents/templates/`:
+`/align-project` creates or updates these in `.github/instructions/` from templates in `.github/agents/templates/`:
 
 | Priority | File | What to customize |
 |:---|:---|:---|
@@ -54,9 +54,9 @@ Use the coding workflow init prompt to gather project facts and seed active inst
 
 If your project uses different MCP tool extensions, update the `tools:` lists in the affected agent frontmatter.
 
-### 4. Add workflow-local instructions or skills when needed
+### 4. Add suite-local instructions or skills when needed
 
-Add focused instruction files or workflow-local skills only when the coding workflow needs them.
+Add focused instruction files or suite-local skills only when the coding workflow needs them.
 
 ## Orchestrators
 
@@ -136,10 +136,10 @@ All coding workflow artifacts live under `plans/{task-slug}/`.
 | `diagnosis.md` | debugger tiers | `@build` |
 | `pr.md` | `@finalize` or `@quick` | pull request |
 
-## Coding Workflow Package Structure
+## Coding Suite Structure
 
 ```text
-workflows/
+suites/
 ├── copilot-instructions.md
 └── coding/
     ├── agents/
@@ -148,6 +148,5 @@ workflows/
     │   └── templates/
     ├── instructions/
     ├── prompts/
-    ├── skills/
-    └── workflows/
+    └── skills/
 ```

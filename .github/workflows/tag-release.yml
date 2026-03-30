@@ -72,15 +72,32 @@ jobs:
         with:
           ref: ${{ needs.tag.outputs.tag }}
 
-      - name: Build bundle
+      - name: Build install bundles
         run: |
+          set -euo pipefail
+
+          build_suite() {
+            SUITE_NAME="$1"
+            SUITE_DIR="suites/$SUITE_NAME"
+            BUNDLE_DIR="dist/$SUITE_NAME"
+
+            mkdir -p "$BUNDLE_DIR/.github"
+            cp suites/copilot-instructions.md "$BUNDLE_DIR/.github/copilot-instructions.md"
+            cp -R "$SUITE_DIR/agents" "$BUNDLE_DIR/.github/"
+            cp -R "$SUITE_DIR/prompts" "$BUNDLE_DIR/.github/"
+            cp -R "$SUITE_DIR/skills" "$BUNDLE_DIR/.github/"
+            cp -R "$SUITE_DIR/instructions" "$BUNDLE_DIR/.github/"
+
+            (
+              cd "$BUNDLE_DIR"
+              zip -r "../copilot-suite-${SUITE_NAME}-${{ needs.tag.outputs.tag }}.zip" .github
+            )
+          }
+
+          rm -rf dist
           mkdir -p dist
-          zip -r dist/copilot-agents-${{ needs.tag.outputs.tag }}.zip \
-            .github \
-            docs \
-            workflows \
-            README.md \
-            CHANGELOG.md
+          build_suite coding
+          build_suite project
 
       - name: Extract changelog section
         id: changelog
@@ -97,5 +114,5 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ needs.tag.outputs.tag }}
-          files: dist/copilot-agents-${{ needs.tag.outputs.tag }}.zip
+          files: dist/*.zip
           body: ${{ steps.changelog.outputs.notes }}

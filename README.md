@@ -1,124 +1,131 @@
 # Copilot Orchestration Agents
 
-A GitHub Copilot agent template repository for workflow-centric orchestration packages.
+A GitHub Copilot suite repository for reusable orchestration setups.
 
 ## Overview
 
-This repository contains authored workflow packages under `workflows/` and the runtime-facing `.github/` surface used for adoption and release bundles.
+This repository contains authored suites under `suites/`. Repo-level automation under `.github/workflows/` assembles those authored suites into installable release assets.
 
-`workflows/copilot-instructions.md` is the shared authored source for the global `.github/copilot-instructions.md` baseline. Workflow-specific agent behavior stays inside each package under `workflows/{workflow-name}/`.
+`suites/copilot-instructions.md` is the shared authored source for the global `.github/copilot-instructions.md` baseline. Suite-specific behavior stays inside each suite under `suites/{suite-name}/`.
 
-The top-level repository documentation is intentionally workflow-agnostic. Workflow-specific behavior, agents, prompts, and artifact models are documented separately:
+The top-level repository documentation is intentionally suite-agnostic. Suite-specific behavior, agents, prompts, instructions, skills, and artifact models are documented separately:
 
-- [docs/workflows-coding.md](docs/workflows-coding.md)
-- [docs/workflows-project.md](docs/workflows-project.md)
+- [docs/suites-coding.md](docs/suites-coding.md)
+- [docs/suites-project.md](docs/suites-project.md)
 
 ## Common Repo Model
 
-The repository uses one shared global Copilot baseline plus workflow-local packages.
+The repository uses one shared global Copilot baseline plus suite-local source directories.
 
-Each workflow package owns its own:
+Each suite owns its own:
 
 - agents
 - shared rules
 - templates
 - prompts
 - skills
-- workflow-local instructions
-- workflow-local automation or packaging files
+- suite-local instructions
 
-The shared global baseline lives at `workflows/copilot-instructions.md`.
+The shared global baseline lives at `suites/copilot-instructions.md`.
 
 ## Repository Features
 
-- workflow-family isolation
-- workflow-local authoring under `workflows/{workflow-name}/`
-- runtime-facing `.github/` layout for adoption
-- release bundles that ship both `.github/` and `workflows/`
-- support for workflow-specific prompts, templates, and skills without forcing a single orchestration model across the whole repository
+- suite isolation
+- suite-local authoring under `suites/{suite-name}/`
+- shared global baseline for built-in and custom agents
+- installable release assets that ship ready-to-copy `.github/` folders per suite
+- support for suite-specific prompts, templates, and skills without forcing a single orchestration model across the whole repository
 
-## Workflow Packages
+## Suites
 
 ```text
-workflows/
+suites/
 ├── copilot-instructions.md
 ├── coding/
 └── project/
 ```
 
-Use the workflow-specific docs for package behavior:
+Use the suite-specific docs for behavior details:
 
-- [docs/workflows-coding.md](docs/workflows-coding.md)
-- [docs/workflows-project.md](docs/workflows-project.md)
+- [docs/suites-coding.md](docs/suites-coding.md)
+- [docs/suites-project.md](docs/suites-project.md)
 
-## Getting Started
+## Quick Start
 
-### 1. Install the shared global baseline
+### 1. Download the release asset for the suite you want
 
-Use `workflows/copilot-instructions.md` as the authored source for the runtime `.github/copilot-instructions.md` file. This gives built-in VS Code agents and custom agents the same always-on baseline.
+- `copilot-suite-coding-<tag>.zip` — coding orchestration for implementation, debugging, migrations, validation, and PR closure
+- `copilot-suite-project-<tag>.zip` — project orchestration for research, planning, writing, coordination, and bounded automation
 
-### 2. Choose the workflow package
+### 2. Copy the included `.github/` folder into your repo root
 
-Select the workflow package that matches the orchestration model you want to adopt or extend.
+Each release asset contains a ready-to-copy `.github/` folder for that suite plus the shared global `copilot-instructions.md` baseline.
 
-### 3. Review the workflow-specific documentation
+### 3. Open the repo in VS Code and run `/align-project`
 
-Read the relevant workflow doc in `docs/` before customizing agents, prompts, or templates.
+Both installable suites include `align-project` as the setup and resync entry point.
 
-### 4. Customize active instructions in `.github/instructions/`
+### 4. Answer the setup questions and let the suite seed `.github/instructions/`
 
 Project-specific standards continue to live in `.github/instructions/` using standard `*.instructions.md` files.
 
-### 5. Update workflow-local assets only in the relevant package
+### 5. Start with the suite-specific prompts
 
-Prefer editing the source-of-truth under `workflows/{workflow-name}/` rather than treating `.github/` as the authored location for repo maintenance.
+- Coding suite: `/new-feature`, `/quick-fix`, `/bug-report`
+- Project suite: `/project-update`, `/quick-project`
+
+Review the relevant suite doc before deeper customization:
+
+- [docs/suites-coding.md](docs/suites-coding.md)
+- [docs/suites-project.md](docs/suites-project.md)
 
 ## Repository Structure
 
 ```text
 .github/
-├── agents/
+├── copilot-instructions.md
 ├── instructions/
-├── prompts/
 ├── skills/
-├── workflows/
-└── copilot-instructions.md
+└── workflows/
 
 docs/
-├── workflows-coding.md
-└── workflows-project.md
+├── suites-coding.md
+└── suites-project.md
 
-workflows/
+suites/
 ├── copilot-instructions.md
 ├── coding/
 └── project/
 ```
 
+The source repo keeps `.github/` minimal. The full installable `.github/agents` and `.github/prompts` surfaces are materialized per suite in the release assets.
+
 ## Instruction Layers
 
 | Layer | Authored Source | Runtime Target | Applies To |
 |:---|:---|:---|:---|
-| Global baseline | `workflows/copilot-instructions.md` | `.github/copilot-instructions.md` | All Copilot requests, including built-in VS Code agents |
-| Workflow rules | `workflows/{workflow-name}/agents/shared/workflow-rules.md` | `.github/agents/shared/workflow-rules.md` | Only the custom agents and workflows shipped by that package |
+| Global baseline | `suites/copilot-instructions.md` | `.github/copilot-instructions.md` | All Copilot requests, including built-in VS Code agents |
+| Suite rules | `suites/{suite-name}/agents/shared/workflow-rules.md` | `.github/agents/shared/workflow-rules.md` | Only the custom agents and orchestration shipped by that suite |
 | Project-specific instructions | `.github/instructions/*.instructions.md` | `.github/instructions/*.instructions.md` | Any request whose `applyTo` scope matches |
 
 ## What Lives Where
 
 | Layer | Files | Purpose |
 |:---|:---|:---|
-| Runtime surface | `.github/**` | Runtime-facing layout for adoption and release output |
-| Shared global baseline | `workflows/copilot-instructions.md` | Authored source for `.github/copilot-instructions.md` |
-| Workflow source packages | `workflows/{workflow-name}/**` | Source-of-truth authoring location for each workflow family |
-| Workflow docs | `docs/workflows-*.md` | Workflow-specific documentation |
+| Repo automation | `.github/workflows/*.yml` | Assembles installable suite assets from `suites/` |
+| Shared global baseline | `suites/copilot-instructions.md` | Authored source for `.github/copilot-instructions.md` |
+| Suite sources | `suites/{suite-name}/**` | Source-of-truth authoring location for each suite |
+| Suite docs | `docs/suites-*.md` | Suite-specific documentation |
 | Project-specific active instructions | `.github/instructions/*.instructions.md` | Customization for an adopting repo |
 
-## Release Bundles
+## Release Assets
 
-Release bundles include both:
+Each release publishes two installable assets:
 
-- the runtime `.github/` layout
-- the workflow docs in `docs/`
-- the authored `workflows/` source tree
+- `copilot-suite-coding-<tag>.zip`
+- `copilot-suite-project-<tag>.zip`
 
-During bundle creation, `workflows/copilot-instructions.md` is copied into `.github/copilot-instructions.md` so the packaged runtime surface uses the shared global baseline.
+Each zip contains only a ready-to-copy `.github/` folder built from `suites/copilot-instructions.md` plus the selected suite's agents, prompts, skills, templates, and suite-local rules.
+
+There is no single combined install bundle. The runtime `.github` namespace has suite collisions such as `Quick` and suite-specific shared files, so separate suite assets are the safest path for immediate installation.
 

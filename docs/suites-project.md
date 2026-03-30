@@ -1,8 +1,8 @@
-# Project Workflow
+# Project Suite
 
-This document covers the project workflow package authored under `workflows/project/`.
+This document covers the project suite authored under `suites/project/`.
 
-The project workflow shares the global baseline authored in `workflows/copilot-instructions.md`. Project-specific orchestration behavior lives in `workflows/project/agents/shared/workflow-rules.md`.
+The project workflow shares the global baseline authored in `suites/copilot-instructions.md`. Project-specific orchestration behavior lives in `suites/project/agents/shared/workflow-rules.md`.
 
 ## Overview
 
@@ -55,6 +55,20 @@ Examples:
 - issue batches
 - automation output summaries
 
+## Getting Started
+
+### 1. Run `/align-project`
+
+Use the project suite setup prompt to capture or refresh the working norms for project-style orchestration in this repo.
+
+### 2. Populate active project instructions
+
+`/align-project` creates or updates `.github/instructions/project.instructions.md` from `.github/agents/templates/project.instructions.template.md`.
+
+### 3. Start the loop
+
+Use `/project-update` for iterative progress or invoke `@orchestrator` directly when you already have the project context.
+
 ## Agents
 
 ### `@orchestrator`
@@ -83,14 +97,14 @@ Route into the coding workflow when the work becomes:
 
 ## Prompts
 
-- `project-kickoff.prompt.md` — start or resume a long-running project
+- `align-project.prompt.md` — align project-suite setup and working norms to the current repo state
 - `project-update.prompt.md` — advance an existing project state
 - `quick-project.prompt.md` — compact path for clearly bounded project tasks that route to `@quick`
 
-## Project Workflow Package Structure
+## Project Suite Structure
 
 ```text
-workflows/
+suites/
 ├── copilot-instructions.md
 └── project/
     ├── agents/
@@ -107,16 +121,15 @@ workflows/
     │   └── templates/
     ├── instructions/
     ├── prompts/
-    ├── skills/
-    └── workflows/
+    └── skills/
 ```
 
-## Workflow-Local Templates
+## Suite-Local Templates
 
 - `summary.template.md`
 - `worklog.template.md`
 - `project.instructions.template.md`
 
-## Workflow-Local Skill
+## Suite-Local Skill
 
 - `project-artifact-management` — conventions for maintaining `summary.md`, `worklog.md`, and dynamic project artifacts

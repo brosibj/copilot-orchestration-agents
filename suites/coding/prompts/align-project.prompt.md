@@ -1,10 +1,10 @@
 ---
 agent: 'agent'
-description: "Initialize or update this repo's instruction-driven workflow customization for a specific project."
+description: "Align this repo's coding-suite customization to the current project state."
 tools: [read, edit, search, vscode]
 ---
 
-You are setting up or updating this repository's GitHub Copilot workflow customization for a specific adopting project.
+You are aligning this repository's GitHub Copilot coding-suite customization to the current adopting project.
 
 ## Behavior
 
@@ -39,8 +39,9 @@ Using the project info and answers, update or create the following files from th
 - Set `applyTo` to match UI file types (e.g., `'**/*.razor,**/*.css'`) or leave as `'**'` if no UI layer.
 - Populate with: UI framework, component conventions, asset rules.
 
-### `.github/copilot-instructions.md` — update the instruction inventory and project-standard references as needed
-- Keep the Agent Workflow section unchanged unless explicitly asked.
+### `.github/copilot-instructions.md`
+- Keep the global baseline intact.
+- Update only project-standard references when needed.
 
 ## Step 3 — Confirm
 If any additional information is needed to fully complete the files, use `vscode/askQuestions` to clarify. Iterate until all files are complete and consistent with the project facts.
