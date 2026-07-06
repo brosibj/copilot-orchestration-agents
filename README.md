@@ -4,7 +4,7 @@ Reusable GitHub Copilot suites for installing structured coding and project work
 
 ## What You Can Install
 
-- `coding` suite: phased coding orchestration for discovery, implementation, validation, debugging, and PR wrap-up. See [docs/suites-coding.md](docs/suites-coding.md).
+- `coding` suite: prompt-and-skill-based coding workflow for planning, implementation, validation, debugging, and PR wrap-up. See [docs/suites-coding.md](docs/suites-coding.md).
 - `project` suite: open-ended project orchestration for research, planning, writing, coordination, and bounded automation. See [docs/suites-project.md](docs/suites-project.md).
 - Optional skills: separately installable `.github/skills/` bundle for cross-project or domain-specific capabilities.
 
@@ -17,16 +17,18 @@ Reusable GitHub Copilot suites for installing structured coding and project work
 2. Copy the included `.github/` folder into the root of your repository.
 3. If you want optional skills, merge `.github/skills/` from `copilot-skills-<tag>.zip`.
 4. Open the repository in VS Code and run `/align-project`.
-5. Enable `chat.subagents.allowInvocationsFromSubagents` when `/align-project` tells you to. Nested suite workflows depend on it and the setting is off by default.
-6. Answer the setup questions, then start with the installed suite prompts.
+5. Answer the setup questions, then start with the installed suite prompts or skills.
+6. If you also install the `project` suite and its `/align-project` prompt asks for nested subagent support, enable `chat.subagents.allowInvocationsFromSubagents` at that time.
 
 ## Suite Entry Points
 
 - Coding suite prompts: `/new-feature`, `/quick-fix`, `/bug-report`
+- Coding suite phase prompts: `/discover-plan`, `/execute-plan`, `/finalize-task`
+- Coding suite atomic skills can also be invoked directly when needed: planning, migration, validation, docs, and PR-prep skills under `.github/skills/`
 - Project suite prompts: `/project-update`, `/quick-project`
 
 Both suites include `/align-project` for initial setup and later resync.
-`/align-project` now ends with exact UI and JSON steps for enabling nested subagents.
+The coding-suite `/align-project` now focuses on repo context layering for instructions, prompts, and skills.
 
 ## Release Assets
 

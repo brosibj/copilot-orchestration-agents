@@ -1,18 +1,29 @@
 ---
 name: artifact-management
-description: "Conventions for writing fragment files, compiling research artifacts, and structuring agent return summaries. Use when producing or assembling task artifacts (research.md, report.md, plan.md, fragments, return summaries)."
+description: "Conventions for bootstrapping task workspaces, writing fragment files, compiling research artifacts, and structuring short workflow handoff summaries. Use when producing or assembling task artifacts (research.md, report.md, plan.md, fragments, and related summaries)."
 user-invocable: false
 ---
 
 # Artifact Management Conventions
 
+## Task Workspace Bootstrap
+- Resolve `{task-slug}` from an explicit `plans/{task-slug}` path first. If only a task title or short description is available, normalize it to kebab-case and reuse that slug consistently.
+- Ensure `plans/{task-slug}/` exists before any artifact read or write.
+- Create `plans/{task-slug}/fragments/` only when a workflow actually fans out into parallel research or analysis scopes.
+- This skill owns location and bootstrap rules. The workflow that owns a template still creates the missing artifact file from that template.
+
 ## Artifact Locations
 - Task artifacts: `plans/{task-slug}/` — `research.md`, `plan.md`, `report.md`, `pr.md`.
 - Fragment files: `plans/{task-slug}/fragments/{scope-name}.md`.
-- Templates: `.github/agents/templates/` — use as structural reference, not copy-paste.
+- Templates live with the skill that creates the artifact:
+	- `capture-requirements/templates/research.template.md`
+	- `write-plan/templates/plan.template.md`
+	- `validation-review/templates/report.template.md`
+	- `prepare-pr/templates/pr.template.md`
+	- `record-diagnosis/templates/diagnosis.template.md`
 
 ## Fragment Writing
-Write fragments when directed by an orchestrator for parallel research collection.
+Write fragments when a planning or analysis workflow benefits from parallel research collection.
 
 - **Format:** Bullet points only — what was found, what was not found, concerns/caveats.
 - **Length:** 10–30 lines. No prose paragraphs.
@@ -29,19 +40,18 @@ Compile fragments or structured worker returns into a target artifact when direc
 5. Do not restate fragment bullets or returned summaries verbatim; elevate them into coherent findings.
 6. Reference prior artifacts instead of re-explaining their content.
 
-## Return Summaries
-Subagents return structured summaries to the orchestrator — not file contents.
-
-Required fields:
+## Result Summaries
+When one workflow stage hands off to another, keep the summary brief:
 - **Status:** success / partial / blocked
-- **Summary:** 2–3 sentences covering key findings or actions taken.
-- **Blockers/Flags:** Any issues requiring orchestrator decision.
-- **Routing Hints:** Next-step info the orchestrator needs (e.g., which step to execute next, dependency discovered).
+- **Summary:** 2-3 sentences covering the important findings or actions taken
+- **Blockers/Flags:** anything the next stage must know before proceeding
+- **Routing Hints:** the next recommended command or phase
 
-Keep returns ≤10 lines. Do not paste artifact sections into the return.
+Keep summaries short. Do not paste full artifact sections into them.
 
 ## Artifact Quality Rules
-- Missing artifact = **Artifact Missing** failure. Every agent that produces an artifact MUST create it.
+- Missing artifact = **Artifact Missing** failure. Every workflow that produces an artifact MUST create it.
+- Missing task workspace is a bootstrap problem, not a reason to continue without artifacts. Create the workspace first, then continue.
 - No raw code in artifacts. Small pseudocode is acceptable only when essential for clarity.
 - Artifacts are append-only by default; do not truncate prior content when adding new sections.
-- **Exception — `report.md`:** On validation retry, the assigned compiler overwrites `report.md` with updated results. Include notable prior findings (e.g., issues that were fixed) only when they add context for the reviewer. Do not accumulate full retry history.
+- **Exception — `report.md`:** On validation retry, the validation workflow overwrites `report.md` with updated results. Include notable prior findings (e.g., issues that were fixed) only when they add context for the reviewer. Do not accumulate full retry history.

@@ -2,160 +2,133 @@
 
 This document covers the coding suite authored under `suites/coding/`.
 
-The coding workflow shares the global baseline authored in `suites/copilot-instructions.md`. Coding-specific orchestration behavior is authored in `suites/coding/instructions/suite-rules.instructions.md`. Agents may link to that file as supplemental guidance, but the suite is designed to tolerate environments where referenced instructions are not loaded.
+The coding suite is now prompt-and-skill first. It keeps users on the model they already selected in VS Code, uses prompt files for guided entry, and stores reusable workflow behavior plus templates inside skills.
 
 ## Overview
 
-The coding workflow implements a repeatable multi-phase development flow:
+Use the guided prompts when you want structured intake, or invoke the skills directly when you already know which workflow phase you need.
 
 ```text
-@quick                                  ← simple tasks (single-pass)
-@discover  →  @build  →  @finalize     ← standard tasks (multi-phase)
+/align-project   -> repo context onboarding
+/new-feature    -> /discover-plan -> /execute-plan -> /finalize-task
+/bug-report     -> /discover-plan -> /execute-plan -> /finalize-task
+/quick-fix      -> single-pass path using planning support + /execute-plan + /finalize-task
+
+/discover-plan  -> planning phase prompt
+/execute-plan   -> implementation phase prompt
+/finalize-task  -> wrap-up phase prompt
 ```
 
-Each phase is an orchestrator that fans work out to focused sub-agents, enforces quality gates, and hands off structured artifacts to the next phase. Orchestrators are lean coordinators and route decisions through concise subagent summaries, while selected workers can recursively fan out to narrower helpers.
+## Customization Strategy
+
+- `.github/copilot-instructions.md` stays short and always-on.
+- `.github/instructions/**/*.instructions.md` carries scoped repo, language, framework, and domain rules.
+- `.github/prompts/` provides the guided, user-facing entry points.
+- `.github/skills/` owns reusable workflow behavior, adjacent resources, and all templates.
+- Custom agents are not required for the coding suite.
 
 ## What It Is For
 
 - source-code implementation
+- feature, enhancement, and refactor planning
 - bug investigation and repair
 - schema and migration work
-- compile/test validation
-- code review and PR-ready closure
-
-## Features
-
-- consistent multi-phase development flow
-- right-sized model usage per role
-- parallel execution for research and validation
-- structured artifacts for traceability
-- history-based doc refresh support
-- context-aware UI validation
-- nested coordinator-worker delegation with a soft cap below the platform maximum
-- standards guidance through suite rules and agent contracts
-- regression-test-first debugger flow
-
-## Nested Subagents
-
-The coding suite supports nested subagents when `chat.subagents.allowInvocationsFromSubagents` is enabled in VS Code.
-
-- **Soft cap:** three nested layers beneath the entry agent. In practice: `entry agent -> worker -> specialist -> helper`. This stays below VS Code's hard maximum depth of 5.
-- **Top-level ownership stays intact:** `@discover`, `@build`, and `@finalize` remain the phase owners.
-- **Primary nested coordinators:** `@requirements-builder`, `@researcher`, `@planner`, `@reviewer`, and `@validator`.
-- **Leaf-by-default workers:** implementers, `@migrator`, debugger tiers, `@documenter`, and `@deferred-tracker`.
+- compile, test, and browser validation
+- documentation refresh and PR-ready closure
 
 ## Getting Started
 
 ### 1. Run `/align-project`
 
-Use the coding suite setup prompt to gather project facts and align the active instruction files to the current repo state. The prompt now ends with an exact reminder block for enabling nested subagents.
+Use `/align-project` to gather project facts and create or refresh the repo-local context files that VS Code loads automatically.
 
-### 2. Enable nested subagents
+### 2. Keep repo context layered correctly
 
-Nested worker orchestration is off by default in VS Code. Enable `chat.subagents.allowInvocationsFromSubagents` in either of these ways:
+`/align-project` creates or updates these from templates in `.github/skills/project-context-onboarding/templates/`:
 
-1. Settings UI: press `Ctrl+,`, search for `allow invocations from subagents`, then enable **Chat > Subagents: Allow Invocations From Subagents**.
-2. Settings JSON: open Workspace Settings JSON for this repo only, or User Settings JSON for all repos, and add `"chat.subagents.allowInvocationsFromSubagents": true`.
-
-Workspace settings are the safer default for a shared repo.
-
-### 3. Populate active instruction files
-
-`/align-project` creates or updates these in `.github/instructions/` from templates in `.github/agents/templates/`:
-
-| Priority | File | What to customize |
+| Priority | File | What it owns |
 |:---|:---|:---|
-| **Always** | `instructions/project.instructions.md` | Tech stack, build/migration commands, error handling, coding standards, data access patterns, MCP tool guidance, debugger tier scoping |
-| **If UI** | `instructions/styleguide.instructions.md` | UI library, component conventions, component data access patterns, CSS approach |
-| **If tests** | `instructions/testing.instructions.md` | Test framework, test commands, project names, assertion libraries, builders, anti-patterns |
+| **Always** | `copilot-instructions.md` | Short, always-on repo context only |
+| **Always** | `instructions/project.instructions.md` | Stack, workspace layout, commands, architecture boundaries, coding standards |
+| **If UI** | `instructions/styleguide.instructions.md` | UI framework, component conventions, styling, accessibility |
+| **If tests** | `instructions/testing.instructions.md` | Test framework, commands, fixtures, patterns, anti-patterns |
+| **As needed** | `instructions/<domain>/*.instructions.md` | Focused rules for API, data, scripts, migrations, e2e tests, or other scoped areas |
 
-### 4. Update MCP tools when needed
+### 3. Pick an entry style
 
-If your project uses different MCP tool extensions, update the `tools:` lists in the affected agent frontmatter.
+- Use prompts when you want the suite to ask for missing information first.
+- Use workflow skills when you already know the task and want to run the flow directly.
+- Use phase skills when you want manual control over planning, implementation, validation, or finalization.
+- Planning skills can start from a task title or an existing `plans/{task-slug}` path. Downstream skills should be given `plans/{task-slug}` so they stay scoped to the right artifact folder.
 
-### 5. Add suite-local instructions or skills when needed
+## User-Facing Entry Points
 
-Add focused instruction files or suite-local skills only when the coding workflow needs them.
+### Guided prompts
 
-Optional domain-specific skills that are not part of the base suite install, such as `blazor-js-interop-disposal`, are released separately in `copilot-skills-<tag>.zip`.
+| Prompt | Use when |
+|:---|:---|
+| `/align-project` | onboarding or refreshing repo context |
+| `/new-feature` | gathering structured feature details before running the workflow |
+| `/bug-report` | gathering structured bug details before running the workflow |
+| `/quick-fix` | confirming a task is small enough for the single-pass path |
+| `/discover-plan` | you already know the task and want to produce `research.md` and `plan.md` |
+| `/execute-plan` | planning is complete and the code change should be executed |
+| `/finalize-task` | implementation and validation are done and the task is ready for docs and `pr.md` |
 
-## Orchestrators
+### Reusable skills
 
-### Quick Path — `@quick`
+| Skill | Use when |
+|:---|:---|
+| `/capture-requirements` | you want to update only the intent sections of `research.md` |
+| `/analyze-codebase` | you want to update only the technical-analysis portions of `research.md` |
+| `/write-plan` | you want to regenerate or tighten `plan.md` from finished research |
+| `/bug-triage` | you want only the bug-tier classification |
+| `/apply-migration` | you want to run or verify migration work only |
+| `/record-diagnosis` | you want to refresh `diagnosis.md` for a bug fix |
+| `/validation-review` | you want to refresh `report.md` or rerun verification |
+| `/refresh-docs` | you want only the documentation pass |
+| `/prepare-pr` | you want only deferred-item handling and `pr.md` generation |
 
-Invoke with a simple task description, or a `{task-slug}` if `@discover` already produced `research.md`.
+## Supporting Skills
 
-Single-pass orchestrator for tasks that touch at most three files, require no schema changes, and need no new dependencies.
-
-### Phase 1 — `@discover`
-
-Discovery and planning orchestrator.
-
-1. `@requirements-builder` formalizes intent and returns a complexity classification.
-2. `@triage` classifies bug work to the appropriate debugger tier when needed.
-3. Simple tasks hand off to `@quick`.
-4. Standard tasks fan out parallel `@researcher` runs and then compile findings into `research.md`.
-5. `@planner` produces `plan.md` for reviewed execution.
-
-### Phase 2 — `@build`
-
-Execution and validation orchestrator.
-
-1. Uses `@researcher` for pre-flight routing.
-2. Invokes `@migrator` when schema changes are required.
-3. Routes implementation to the relevant implementer or debugger tier.
-4. Runs `@validator` and `@reviewer` in parallel, then dispatches `@researcher` to compile `report.md`.
-
-### Phase 3 — `@finalize`
-
-Closure orchestrator.
-
-1. `@documenter` updates docs when behavior changed.
-2. `@deferred-tracker` captures non-blocking follow-up work.
-3. Produces `pr.md` and supports PR creation or update.
-
-## Subagent Model Assignments
-
-| Agent | Role | Model | Rationale |
-|:---|:---|:---|:---|
-| `requirements-builder` | Discovery | Claude Opus | Ambiguity resolution, structured requirements |
-| `researcher` | Discovery / Utility | GPT-5.4 | Generic scoped analysis, parallel fact-finding, artifact compilation |
-| `triage` | Discovery | Haiku / Flash | Initial identification of issues and classification |
-| `planner` | Planning | Claude Opus | Architecture decisions, plan correctness |
-| `migrator` | Execution | GPT Codex | Precise migration generation |
-| `implementer` | Execution | Claude Sonnet | Mixed-scope code generation |
-| `implementer-ui` | Execution | Claude Sonnet | UI/component generation |
-| `implementer-service` | Execution | GPT-5.4 | Service/backend generation |
-| `debugger-medic` | Debugging | Haiku / Flash | Quick issue identification and resolution |
-| `debugger-detective` | Debugging | Gemini Pro | UI framework lifecycle/state reasoning |
-| `debugger-specialist` | Debugging | GPT-5.4 | Data/ORM/API diagnosis |
-| `debugger-forensic` | Debugging | Claude Opus | Architectural root-cause analysis |
-| `validator` | Validation | Claude Sonnet | Build, test, coverage verification |
-| `reviewer` | Validation | Claude Opus | Deep code quality judgment |
-| `deferred-tracker` | Finalization | Haiku / Flash | Low-cost classification and tracking |
-| `documenter` | Finalization | GPT-5.4 | Lightweight documentation, proportional to change size |
-
-## Bug Debugging Tiers
-
-| Tier | Agent | Scope | Budget |
-|:---|:---|:---|:---|
-| 1 | `@debugger-medic` | Compiler/syntax/null | 2 passes |
-| 2 | `@debugger-detective` | UI framework state/lifecycle/race | 3 passes |
-| 3 | `@debugger-specialist` | Data/ORM/API routing | 3 passes |
-| 4 | `@debugger-forensic` | DI/architecture/memory-leak | 5 passes |
+| Skill | Purpose |
+|:---|:---|
+| `artifact-management` | task workspace bootstrap, fragments, and artifact conventions |
+| `capture-requirements` | requirement and acceptance-criteria capture inside planning |
+| `analyze-codebase` | technical analysis, findings, risks, and build baseline inside planning |
+| `write-plan` | durable plan generation from completed research |
+| `bug-triage` | bug investigation tiering |
+| `apply-migration` | migration execution and verification |
+| `record-diagnosis` | durable bug-fix diagnosis artifact generation |
+| `dependency-audit` | deciding whether a new package is justified |
+| `refresh-docs` | proportional documentation updates during finalization |
+| `prepare-pr` | deferred issue handling plus `pr.md` generation |
+| `project-context-onboarding` | repo context file generation |
+| `update-docs-from-history` | syncing docs from recent git history when needed |
+| `blazor-js-interop-disposal` | optional framework-specific disposal guidance |
 
 ## Artifact Protocol
 
 All coding workflow artifacts live under `plans/{task-slug}/`.
 
-| File | Produced by | Consumed by |
+`artifact-management` bootstraps the task workspace first: it normalizes the slug, ensures `plans/{task-slug}/` exists, and creates `fragments/` only when a workflow actually fans out. The skill that owns a template creates the corresponding missing file.
+
+| File | Created by | Template owner |
 |:---|:---|:---|
-| `research.md` | `@discover` or `@quick` | `@build`, `@finalize` |
-| `fragments/*.md` | `@researcher` instances | `@researcher` compile pass |
-| `plan.md` | `@discover` | `@build`, `@finalize` |
-| `report.md` | `@build` | `@finalize` |
-| `diagnosis.md` | debugger tiers | `@build` |
-| `pr.md` | `@finalize` or `@quick` | pull request |
+| `research.md` | planning prompts using `capture-requirements` and `analyze-codebase` | `capture-requirements` |
+| `plan.md` | planning prompts using `write-plan` | `write-plan` |
+| `fragments/*.md` | research-heavy planning flows when useful | `artifact-management` (no template) |
+| `diagnosis.md` | execution prompts using `record-diagnosis` for bug fixes | `record-diagnosis` |
+| `report.md` | `validation-review` | `validation-review` |
+| `pr.md` | `prepare-pr` via `finalize-task` | `prepare-pr` |
+
+## Workflow Notes
+
+- Non-trivial tasks should pause after planning so the user can approve the plan before implementation continues.
+- Simple tasks can go through `/quick-fix` when they stay within the quick-path guardrails.
+- Bug work should prefer a failing regression test before the fix whenever the environment supports one.
+- Validation is a first-class step. `report.md` should exist before finalization.
+- If `report.md` is missing at finalization time, run `validation-review` before documentation and `pr.md` generation.
 
 ## Coding Suite Structure
 
@@ -163,11 +136,18 @@ All coding workflow artifacts live under `plans/{task-slug}/`.
 suites/
 ├── copilot-instructions.md
 └── coding/
-    ├── agents/
-    │   ├── *.agent.md
-    │   ├── shared/
-    │   └── templates/
     ├── instructions/
     ├── prompts/
     └── skills/
+        ├── analyze-codebase/
+        ├── apply-migration/
+        ├── artifact-management/
+        ├── bug-triage/
+        ├── capture-requirements/
+        ├── prepare-pr/
+        ├── project-context-onboarding/
+        ├── record-diagnosis/
+        ├── refresh-docs/
+        ├── write-plan/
+        └── validation-review/
 ```
