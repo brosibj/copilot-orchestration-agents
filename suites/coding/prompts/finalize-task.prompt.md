@@ -14,9 +14,10 @@ Use this prompt after implementation when the task is ready for closure. Ensure 
 1. Read `plans/{task-slug}/research.md`, `plan.md` when present, and `diagnosis.md` when present.
 2. If `plans/{task-slug}/report.md` is missing, run [validation review](../skills/validation-review/SKILL.md) to create it before documentation or PR work. If validation cannot proceed because implementation artifacts are missing, redirect to `/execute-plan`.
 3. Read `plans/{task-slug}/report.md`.
-4. Run the documentation pass from [refresh docs](../skills/refresh-docs/SKILL.md).
-5. Run the PR and deferred-item pass from [prepare pr](../skills/prepare-pr/SKILL.md).
-6. End by asking whether to create a new PR, update an existing PR, or stop after artifact generation.
+4. Keep the entry agent on closure routing and synthesis. Use subagents for doc-surface scans or PR/deferred-item reconnaissance when those checks are independent, but keep conflicting writes serialized.
+5. Run the documentation pass from [refresh docs](../skills/refresh-docs/SKILL.md).
+6. Run the PR and deferred-item pass from [prepare pr](../skills/prepare-pr/SKILL.md).
+7. End by asking whether to create a new PR, update an existing PR, or stop after artifact generation.
 
 ## Constraints
 

@@ -17,13 +17,14 @@ Use this skill inside the planning flow to own the intent-capture part of `resea
 ## Workflow
 1. Resolve or derive `{task-slug}`, ensure `plans/{task-slug}/` exists, and create `research.md` from the owned template when it is missing.
 2. Search the nearest relevant code paths and existing behavior so clarifying questions are grounded in the repo.
-3. Use `vscode/askQuestions` for missing or ambiguous requirements. Batch questions.
-4. Write or refresh these sections in `plans/{task-slug}/research.md`:
+3. If more than one code surface needs grounding, prefer read-only subagents per surface and keep only their concise findings in the parent context.
+4. Use `vscode/askQuestions` for missing or ambiguous requirements. Batch questions.
+5. Write or refresh these sections in `plans/{task-slug}/research.md`:
    - `Summary`
    - `Requirements`
    - `Acceptance Criteria`
-5. Keep the artifact concise and durable. Reference existing patterns instead of restating large amounts of code behavior.
-6. Leave `Technical Analysis`, `Findings`, `Risks`, and `Build Baseline` for the supporting analysis flow.
+6. Keep the artifact concise and durable. Reference existing patterns instead of restating large amounts of code behavior.
+7. Leave `Technical Analysis`, `Findings`, `Risks`, and `Build Baseline` for the supporting analysis flow.
 
 ## Constraints
 - No production source edits.

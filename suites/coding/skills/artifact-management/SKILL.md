@@ -25,6 +25,7 @@ user-invocable: false
 ## Fragment Writing
 Write fragments when a planning or analysis workflow benefits from parallel research collection.
 
+- Prefer one scoped subagent per fragment when the work fans out cleanly. The parent or designated artifact owner compiles the fragment set afterward.
 - **Format:** Bullet points only — what was found, what was not found, concerns/caveats.
 - **Length:** 10–30 lines. No prose paragraphs.
 - **Scope discipline:** One fragment per assigned scope. Do not bleed into adjacent scopes.
@@ -39,6 +40,7 @@ Compile fragments or structured worker returns into a target artifact when direc
 4. Maintain the template's structure and section headings.
 5. Do not restate fragment bullets or returned summaries verbatim; elevate them into coherent findings.
 6. Reference prior artifacts instead of re-explaining their content.
+7. Keep exactly one compiler/writer for the target artifact during compilation.
 
 ## Result Summaries
 When one workflow stage hands off to another, keep the summary brief:
@@ -48,6 +50,7 @@ When one workflow stage hands off to another, keep the summary brief:
 - **Routing Hints:** the next recommended command or phase
 
 Keep summaries short. Do not paste full artifact sections into them.
+Prefer summaries over raw logs so the parent workflow can stay context-light.
 
 ## Artifact Quality Rules
 - Missing artifact = **Artifact Missing** failure. Every workflow that produces an artifact MUST create it.

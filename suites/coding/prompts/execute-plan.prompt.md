@@ -21,11 +21,12 @@ Use this prompt when `research.md` already exists and the task is ready for impl
    - then use [record diagnosis](../skills/record-diagnosis/SKILL.md) to write `plans/{task-slug}/diagnosis.md` from its owned template.
 4. If schema changes are required, use [apply migration](../skills/apply-migration/SKILL.md).
 5. Before adding a new package, follow [dependency audit](../skills/dependency-audit/SKILL.md) and obtain explicit user approval.
-6. Implement the code changes directly in the workspace, following the active project, testing, and styleguide instructions.
-7. Update or add tests with the same scope as the code change.
-8. Run the narrowest useful validation immediately after the first substantive edit and continue iterating locally until the touched slice is stable.
-9. Use [validation review](../skills/validation-review/SKILL.md) to refresh `plans/{task-slug}/report.md` before concluding the implementation phase.
-10. End with the files changed, build/test status, report status, and the recommended next prompt: `/finalize-task {task-slug}`.
+6. Keep the entry agent focused on orchestration, scope control, and integration. When the plan has independent `[P]` scopes or other clearly non-overlapping file sets, delegate those slices to parallel subagents instead of carrying all implementation detail in the parent context.
+7. Implement the code changes directly in the workspace, following the active project, testing, and styleguide instructions.
+8. Update or add tests with the same scope as the code change.
+9. Run the narrowest useful validation immediately after the first substantive edit and continue iterating locally until the touched slice is stable.
+10. Use [validation review](../skills/validation-review/SKILL.md) to refresh `plans/{task-slug}/report.md` before concluding the implementation phase.
+11. End with the files changed, build/test status, report status, whether subagent fan-out was used, and the recommended next prompt: `/finalize-task {task-slug}`.
 
 ## Constraints
 

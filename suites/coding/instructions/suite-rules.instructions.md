@@ -28,16 +28,33 @@ These rules apply to the coding suite prompts and skills in this package when th
 
 - Use prompts to collect structured inputs and then continue with the referenced skill workflow.
 - Use skills for durable procedures, artifact generation, and repeatable execution rules.
+- The agent directly invoked by the user remains the loop owner for the active prompt or skill. Keep that parent context lean and route deep detail work to subagents whenever the work can be scoped cleanly.
 - If a workflow needs more than one skill, reference the supporting skills instead of duplicating their instructions.
 - Do not require a custom agent unless tool gating or handoff behavior cannot be expressed cleanly with prompts and skills.
 - When multiple procedures touch the same artifact, keep template ownership in exactly one creating skill and have other skills reference that template.
 - Prefer smaller support skills for requirement capture, codebase analysis, plan writing, docs refresh, and PR prep; let broader user-facing skills compose them.
+
+## Subagent Dispatch
+
+- The user-invoked agent owns routing, clarification, scope control, artifact ownership decisions, and final synthesis.
+- Delegate deep repo exploration, isolated implementation slices, independent validation lanes, doc-surface scans, and issue/PR lookups to focused subagents when those tasks can be bounded cleanly.
+- Keep parent context lean: subagents should return concise summaries covering status, evidence, changed files, blockers, and the next recommendation. Do not paste raw logs or long code excerpts into the parent context unless they are required for a decision.
+- Prefer support-only or return-only subagents by default. Only let a subagent write files when its ownership is explicit and it does not conflict with another active branch.
+- Do not let subagents compete for loop ownership. The parent agent remains responsible for the overall workflow and user communication.
+
+## Parallel Dispatch
+
+- Run subagents in parallel only when they do not write the same file or artifact and the underlying commands are safe to execute concurrently.
+- Prefer one writer per artifact at a time. `research.md`, `plan.md`, `report.md`, `pr.md`, and `diagnosis.md` each need a single owning branch during a given phase.
+- When planning or analysis fans out, use fragments or structured subagent returns so the parent can compile the accepted results without carrying all raw detail in context.
+- When implementation fans out, parallelize only `[P]` scopes or other clearly non-overlapping file sets. Serialize shared-file edits, migrations, and any validation step that depends on another branch's output.
 
 ## Research Pattern
 
 - Use targeted search and nearby reads before broad exploration.
 - Before reading or writing task artifacts, ensure `plans/{task-slug}/` exists.
 - Direct skill invocation may accept `plans/{task-slug}` explicitly or derive the slug from the provided task title or context before continuing.
+- For broad or multi-area research, prefer scoped read-only subagents and keep only their distilled findings in the parent context.
 - When a task spans multiple distinct areas, you may use fragment files under `plans/{task-slug}/fragments/` and then compile them into the owning artifact.
 - Never let two concurrent procedures write the same artifact.
 

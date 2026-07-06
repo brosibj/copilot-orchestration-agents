@@ -35,7 +35,7 @@
 > Document any known limitations or gaps in test coverage, including justifications. Omit if none.
 
 ## Execution Steps
-> `[P]` = parallel-ok, `[S]` = sequential. `[SCOPE]` = file boundaries for fan-out.
+> `[P]` = parallel-ok candidate for subagent fan-out, `[S]` = sequential. `[SCOPE]` = file boundaries for fan-out.
 
 1. `[S] [SCOPE: Models/Entity.cs]` {description}
 2. `[S] [SCOPE: Services/EntityService.cs]` {description}

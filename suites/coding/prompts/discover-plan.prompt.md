@@ -15,16 +15,17 @@ Use this prompt when the task needs durable planning artifacts before code edits
 2. Determine task type: `Feature`, `Enhancement`, `Refactor`, or `Bug-Fix`.
 3. Read existing `research.md` or `plan.md` first when they already exist. Update incrementally instead of overwriting valid user content.
 4. Create or refresh `plans/{task-slug}/research.md` from the template owned by [capture requirements](../skills/capture-requirements/templates/research.template.md).
-5. Use [capture requirements](../skills/capture-requirements/SKILL.md) to own `Summary`, `Requirements`, and `Acceptance Criteria`.
-6. Use [analyze codebase](../skills/analyze-codebase/SKILL.md) to populate `Technical Analysis`, `Findings`, `Build Baseline`, and bug-only root-cause details when justified.
-7. If a new package may be needed, follow [dependency audit](../skills/dependency-audit/SKILL.md) before the plan depends on it. New packages require explicit user approval.
-8. Classify complexity:
+5. Keep the entry agent focused on routing, clarification, and artifact synthesis. Delegate broad requirement-grounding or technical investigation to scoped subagents when the work spans distinct areas.
+6. Use [capture requirements](../skills/capture-requirements/SKILL.md) to own `Summary`, `Requirements`, and `Acceptance Criteria`.
+7. Use [analyze codebase](../skills/analyze-codebase/SKILL.md) to populate `Technical Analysis`, `Findings`, `Build Baseline`, and bug-only root-cause details when justified.
+8. If a new package may be needed, follow [dependency audit](../skills/dependency-audit/SKILL.md) before the plan depends on it. New packages require explicit user approval.
+9. Classify complexity:
    - `Simple`: all true -> touches at most 3 non-test files, no schema or migration changes, no new dependency, requirements are unambiguous.
    - `Standard`: anything else.
-9. For bug tasks, use [bug triage](../skills/bug-triage/SKILL.md) and record the result in `research.md`.
-10. For `Standard` work, use [write plan](../skills/write-plan/SKILL.md) to create or refresh `plans/{task-slug}/plan.md` from the template it owns.
-11. For `Simple` work, either create a concise `plan.md` when the user explicitly wants one or recommend `/quick-fix {task-slug}`.
-12. End with `{task-slug}`, task type, complexity, whether workspace bootstrap was needed, artifacts created, major risks, and the recommended next prompt.
+10. For bug tasks, use [bug triage](../skills/bug-triage/SKILL.md) and record the result in `research.md`.
+11. For `Standard` work, use [write plan](../skills/write-plan/SKILL.md) to create or refresh `plans/{task-slug}/plan.md` from the template it owns.
+12. For `Simple` work, either create a concise `plan.md` when the user explicitly wants one or recommend `/quick-fix {task-slug}`.
+13. End with `{task-slug}`, task type, complexity, whether workspace bootstrap was needed, whether subagent fan-out was used, artifacts created, major risks, and the recommended next prompt.
 
 ## Constraints
 

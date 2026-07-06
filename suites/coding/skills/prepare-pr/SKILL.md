@@ -19,13 +19,14 @@ Use this skill inside finalization to own PR artifact generation and approved de
 2. Read `plans/{task-slug}/report.md`. If it is missing, stop and route to `/validation-review {task-slug}` before generating `pr.md`.
 3. Review `Deferred Issues` in `report.md`, `Known Test Limitations` in `plan.md`, and any relevant TODOs.
 4. Ask the user which deferred items, if any, should become GitHub issues before creating them.
-5. Search for an existing PR by branch or task slug and note its URL if found.
-6. Write or refresh `plans/{task-slug}/pr.md` from the [PR template](./templates/pr.template.md):
+5. Use support-only subagents for PR lookup, deferred-item triage, or changed-file summarization when that keeps the parent context smaller.
+6. Search for an existing PR by branch or task slug and note its URL if found.
+7. Write or refresh `plans/{task-slug}/pr.md` from the [PR template](./templates/pr.template.md):
    - summarize what changed
    - list modified files
    - include testing or migration sections only when they apply
    - include linked issues and deferred items
-7. End by asking whether to create a new PR, update an existing PR, or stop after artifact generation.
+8. End by asking whether to create a new PR, update an existing PR, or stop after artifact generation.
 
 ## Constraints
 - Do not reopen code changes here.

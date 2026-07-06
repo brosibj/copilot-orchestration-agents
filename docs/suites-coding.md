@@ -26,6 +26,7 @@ Use the guided prompts when you want structured intake, or invoke the skills dir
 - `.github/prompts/` provides the guided, user-facing entry points.
 - `.github/skills/` owns reusable workflow behavior, adjacent resources, and all templates.
 - Custom agents are not required for the coding suite.
+- Prompt and skill workflows should use subagents for bounded deep work so the user-invoked agent can stay focused on routing, clarification, and artifact synthesis.
 
 ## What It Is For
 
@@ -60,6 +61,15 @@ Use `/align-project` to gather project facts and create or refresh the repo-loca
 - Use workflow skills when you already know the task and want to run the flow directly.
 - Use phase skills when you want manual control over planning, implementation, validation, or finalization.
 - Planning skills can start from a task title or an existing `plans/{task-slug}` path. Downstream skills should be given `plans/{task-slug}` so they stay scoped to the right artifact folder.
+- Direct skill invocation follows the same model as prompt entry: the user-invoked agent stays the loop owner and delegates heavy details to subagents when the work can be isolated cleanly.
+
+## Subagent Model
+
+- The user-invoked prompt or skill stays responsible for routing, questions, artifact ownership, and final synthesis.
+- Use subagents for deep repo exploration, isolated implementation slices, validation lanes, doc-surface scans, and PR or issue lookups.
+- Run subagents in parallel only when they do not write the same file or artifact and their commands are safe to run concurrently.
+- Keep `research.md`, `plan.md`, `report.md`, `pr.md`, and `diagnosis.md` single-writer artifacts during a phase.
+- Use fragments or concise subagent returns to keep the parent context lean.
 
 ## User-Facing Entry Points
 
@@ -113,6 +123,8 @@ All coding workflow artifacts live under `plans/{task-slug}/`.
 
 `artifact-management` bootstraps the task workspace first: it normalizes the slug, ensures `plans/{task-slug}/` exists, and creates `fragments/` only when a workflow actually fans out. The skill that owns a template creates the corresponding missing file.
 
+When a workflow fans out into subagents, the artifact owner compiles fragment files or concise worker returns back into the durable artifact. Do not let multiple active branches write the same artifact.
+
 | File | Created by | Template owner |
 |:---|:---|:---|
 | `research.md` | planning prompts using `capture-requirements` and `analyze-codebase` | `capture-requirements` |
@@ -129,6 +141,7 @@ All coding workflow artifacts live under `plans/{task-slug}/`.
 - Bug work should prefer a failing regression test before the fix whenever the environment supports one.
 - Validation is a first-class step. `report.md` should exist before finalization.
 - If `report.md` is missing at finalization time, run `validation-review` before documentation and `pr.md` generation.
+- For multi-scope work, prefer subagent fan-out plus concise returns over carrying raw exploration detail in the parent chat context.
 
 ## Coding Suite Structure
 
